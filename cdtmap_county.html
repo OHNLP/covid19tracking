@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>COVID-19 County-level Case Doubling Time Map</title>
+
+<link rel="icon" href="./static/img/favicon.ico">
+<script src="https://kit.fontawesome.com/cb45cc91b0.js" crossorigin="anonymous"></script>
+<style>
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+body {
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+a {
+    color: #333333;
+    text-decoration: none;
+}
+.flex-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.box {
+    display: flex;
+    flex-direction: column;
+}
+.box-header {
+    width: 100%;
+    padding: 3px 0;
+    display: flex;
+    flex-direction: row;
+}
+.box-header a {
+    font-size: .8em;
+}
+.box-header h4 {
+    padding: 0;
+    margin: 0;
+    font-size: .95em;
+    height: 1.6em;
+    line-height: 1.6em;
+    margin: 3px 0;
+}
+.box-header button, 
+.box-body button, 
+.box-footer button {
+    height: 1.6em;
+    line-height: 1em;
+    font-size: .8em;
+    margin: 4px;
+}
+.box-header input,
+.box-body input {
+    height: 1.2em;
+    line-height: 1.2em;
+    font-size: .9em;
+    margin: 4px 4px 0 4px;
+}
+.box-header select {
+    height: 1.6em;
+    line-height: 1.2em;
+    font-size: .8em;
+    margin: 4px;
+}
+.box-header p {
+    height: 1.6em;
+    line-height: 1.2em;
+    font-size: .8em;
+    margin: 8px 0 0 2px;
+}
+.box-header span {
+    font-size: .9em;
+}
+.box-header-right {
+    font-size: .95em;
+    height: 1.6em;
+    line-height: 1.6em;
+    margin: 3px 0;
+    text-align: right;
+}
+.box-header a {
+    padding: 1px 3px;
+    margin: 0 5px;
+    height: 1.6em;
+    line-height: 1.6em;
+}
+.box-header a:hover {
+    text-decoration: underline;
+}
+.box-body {
+    width: 100%;
+}
+.box-body-item {
+    padding: 5px 0 5px 0;
+    display: flex;
+    flex-direction: column;
+    /* border-bottom: 1px dotted #cccccc; */
+}
+.box-body-item-left {
+    width: 73%;
+}
+.box-body-item-right {
+    width: 24%;
+    display: flex;
+    flex-direction: row;
+}
+.box-body-item-label {
+    width: 54%;
+    font-size: .9em;
+    line-height: 1.8em;
+}
+.box-body-item-value {
+    width: 45%;
+}
+.box-body-item select {
+    width: 100%;
+}
+.box-body h5 {
+    padding: 0;
+    margin: 0;
+    font-size: .95em;
+    height: 1.6em;
+    line-height: 1.6em;
+    margin: 3px 0;
+}
+.box-p {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-size: .9em;
+}
+.box-p-fixlen {
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+.box-footer {
+    width: 100%;
+    min-height: 20px;
+    padding: 5px 0 5px 0;
+}
+/* this page  */
+#wrapper {
+    flex-direction: row;
+}
+
+#start-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#ss-msg {
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+}
+/* for this page */
+#fg_usamap {
+    min-width: 800px;
+    min-height: 600px;
+}
+#svg_usamap {
+    width: 1000px;
+    height: 600px;
+}
+.counties {
+  fill: none;
+}
+.county {
+    stroke: dimgray;
+    stroke-width: 1px;
+}
+.county:hover {
+    z-index: 999;
+    stroke: gold;
+    opacity: .8;
+}
+.states {
+  fill: none;
+  stroke: #333333;
+  stroke-linejoin: round;
+}
+.d3-tip {
+    line-height: 1;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+}
+#header-note {
+    position: absolute;
+    left: 26px;
+    top: 22px;
+    color: #555555;
+}
+.event-item {
+    padding: 3px 0 3px 10px;
+}
+</style>
+</head>
+<body>
+<div id="start-screen" style="background-color: white;">
+    <h1>
+        <i class="fa fa-globe-americas"></i>
+        COVID-19 County-level Case Doubling Time Map
+    </h1>
+    <div id="ss-msg">Loading data ...</div>
+</div>
+
+<div id="wrapper" class="flex-container">
+
+<div id="middle-panel" style="width: 950px; margin: 5px 5px 0 10px; height: 100%;">
+    <div class="box">
+        <div class="box-header">
+            <h4>
+                <i class="far fa-map"></i>
+                County-level Case Doubling Time Map |
+            </h4>
+            <div>
+                <button onclick="fig_ani_heatmap_uscnty.play();">
+                    <i class="fa fa-play"></i>
+                    Play
+                </button>
+                <button onclick="fig_ani_heatmap_uscnty.stop();">
+                    <i class="fa fa-stop"></i>
+                    Stop
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div>
+                <svg id="fig_ani_heatmap_uscnty" style="width:100%; height: 600px; background: white;"></svg>
+            </div>
+            <div>
+                <div id="fig_ani_heatmap_uscnty_cal" style="width: 100%; height: 160px;"></div>
+            </div>
+        </div>
+    </div>
+    
+</div><!-- /#middle-panel -->
+
+</div>
+
+<!-- use third party libs -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js" integrity="sha256-DCW2G+HXRTaX80n/cuqXdLtWpE59kVHmSBzwPRBHe/o=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha256-tHoAPGoNdhIR28YHl9DWLzeRfdwigkH7OCBXMrHXhoM=" crossorigin="anonymous"></script>
+<script src="./static/lib/echarts/echarts.js"></script>
+
+<script>
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+if (isIE) {
+    document.getElementById('ss-msg').innerHTML = 'The visualization used in this website require advanced web technologies, which are <b>NOT</b> supported by Internet Explorer.<br>Try using Google Chrome, Apple Safari, Mozilla Firefox or other modern browsers to access:<br><span style="font-size:1.2em;">' + location.href + '</span>';
+}
+</script>
+
+<script>
+
+var fig_ani_heatmap_uscnty = {
+    plot_id: 'fig_ani_heatmap_uscnty',
+    cal_id: 'fig_ani_heatmap_uscnty_cal',
+    plot_elm: null,
+    plot_dict: null,
+    plot_type: 'd3',
+    geojson_file: 'us-10m.v2.json',
+    // data_file: 'uscounty-data-latest.json',
+    data_file: 'uscounty-data-history.json',
+
+    // for d3.js
+    num_max: 30,
+    color_range: [
+        'rgba(255, 0, 0, 0.6)',
+        'rgba(255, 255, 0, 0.6)',
+        'rgba(144, 238, 144, 0.6)'
+    ],
+    draw: {
+        counties: [],
+        states: []
+    },
+    proc_play: null,
+    date_idx: 0,
+    frame_duration: 300,
+    mdy_str2date: d3.timeParse('%m/%d/%y'),
+    date2Ymd_str: d3.timeFormat('%Y-%m-%d'),
+
+    load: function() {
+        $.when(
+            $.get("./static/data/" + this.geojson_file),
+            $.get("./covid_data/" + this.data_file, {ver: Math.random() }),
+        ).done(function(data0, data1) {
+            fig_ani_heatmap_uscnty.init(data0[0], data1[0]);
+        })
+    },
+
+    init: function(usmap, data) {
+        // bind data
+        this.usmap = usmap;
+        this.data = data;
+
+        // init the us map data
+        this.draw.counties = topojson.feature(usmap, usmap.objects.counties).features;
+        // bind county data to map
+        for (let i = 0; i < this.draw.counties.length; i++) {
+            const geo_county = this.draw.counties[i];
+            var fips = geo_county.id;
+            if (this.data.data.hasOwnProperty(fips)) {
+                geo_county.data = this.data.data[fips];
+                geo_county.data.date = this.data.date;
+                geo_county.data.dates = this.data.dates;
+                
+                // set current date
+                geo_county.has_data = true;
+                geo_county.date = this.data.date;
+                geo_county.val = geo_county.data.cdts[geo_county.data.cdts.length - 1];
+            } else {
+                geo_county.has_data = false;
+                geo_county.date = this.data.date;
+                geo_county.val = this.num_max;
+            }
+        }
+
+        // init the svg
+        this.svg = d3.select("svg#" + this.plot_id);
+        this.width = +this.svg.attr("width");
+        this.height = +this.svg.attr("height");
+
+        this.geo_path = d3.geoPath();
+        // color scale
+        this.color_scale = d3.scaleLinear()
+            .domain([0, this.num_max/2, this.num_max])
+            .range(this.color_range);
+        this.color_scale2 = d3.scaleSequential(d3.interpolatePuRd)
+            .domain([0, this.num_max]);
+        
+        // the tip tool
+        this.tip = d3.tip().attr('class', 'd3-tip').direction('e').offset([0,5])
+            .html(function(d) {
+                var dt = d.date;
+                var dt_idx = d.data.dates.indexOf(dt);
+                var cdt = d.val;
+                var ncc = d.data.nccs[dt_idx];
+                var dth = d.data.dths[dt_idx];
+                var content = "<span style='margin-left: 2.5px;'><b>" + d.data.countyName + ", " + d.data.state + " (" + d.id + ")</b> on " + dt + "</span><br>";
+                content +=`
+                    <table style="margin-top: 2.5px;">
+                        <tr><td>Case Doubling Time: </td><td style="text-align: right">` + cdt.toFixed(2) + ` days</td></tr>
+                        <tr><td>Total Cases: </td><td style="text-align: right">` + ncc.toFixed(0) + `</td></tr>
+                        <tr><td>Total Deaths: </td><td style="text-align: right">` + dth.toFixed(0) + `</td></tr>
+                    </table>
+                    `;
+                return content;
+            });
+        this.svg.call(this.tip);
+
+        // the zooming
+        this.zoom = d3.zoom()
+            .scaleExtent([1, 8])
+            .on('zoom', function() {
+                fig_ani_heatmap_uscnty.svg.selectAll('path')
+                .attr('transform', d3.event.transform);
+            });
+        
+        this.svg.call(this.zoom);
+
+        // draw the basic map
+        this.g_counties = this.svg.append("g")
+            .attr("class", "counties");
+        this.g_counties.selectAll("path")
+            .data(this.draw.counties)
+            .enter().append("path")
+            .attr("class", "county")
+            .attr("fill", function(d) { 
+                return fig_ani_heatmap_uscnty.color_scale(d.val); 
+            })
+            .attr("d", this.geo_path)
+            // .on('click', this.county_on_click)
+            .on('mouseover', this.tip.show)
+            .on('mouseout', this.tip.hide);
+
+        // draw the state boundary
+        this.svg.append("path")
+            .datum(topojson.mesh(this.usmap, this.usmap.objects.states, function(a, b) { return a !== b; }))
+            .attr("class", "states")
+            .attr("d", this.geo_path);
+        
+        // draw the date
+        this.g_info = this.svg.append("text")
+            .attr('id', 'g-info')
+            .attr("transform", "translate(0, 40)")
+            .attr('x', 520)
+            .attr('y', -5)
+            .attr('fill', 'black')
+            .attr("font-size", "16")
+            .attr("font-weight", "bold")
+            .text("");
+        this.show_date_on_map(this.data.date);
+
+        // init the calendar
+        this.us_cal_data = this.data.dates.map(function(d, i) {
+            var dt = fig_ani_heatmap_uscnty.mdy_str2date(d);
+            var cdt = fig_ani_heatmap_uscnty.data.data['99999'].cdts[i];
+            return [
+                fig_ani_heatmap_uscnty.date2Ymd_str(dt),
+                cdt
+            ];
+        })
+        this.us_cal_data_label = [{
+            value: JSON.parse(JSON.stringify(this.us_cal_data[this.us_cal_data.length - 1])),
+            visualMap: false
+        }];
+
+        // create the option for echarts
+        this.cal_option = {
+            tooltip: {
+                formatter: function(params) {
+                    // console.log(params);
+                    return params.value[0] + "<br>" +
+                        'US CDT: ' + params.value[1].toFixed(2) + ' days';
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 30,
+                right: 0,
+                top: 0,
+                itemHeight: 80,
+                text: ['30 days', '0'],
+                inRange: {
+                    color: this.color_range
+                },
+            },
+            calendar: {
+                top: 20,
+                left: 50,
+                cellSize: 15,
+                range: '2020',
+                itemStyle: {
+                    borderWidth: 1
+                }
+            },
+            series: [
+            {
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                data: this.us_cal_data
+            },
+            {
+                type: 'scatter',
+                coordinateSystem: 'calendar',
+                data: this.us_cal_data_label,
+                symbolSize: 9,
+                itemStyle: {
+                    color: 'black'
+                }
+            }]
+        };
+        this.cal_chart = echarts.init(document.getElementById(this.cal_id));
+        this.cal_chart.setOption(this.cal_option);
+
+        // bind click event
+        this.cal_chart.on('click', function(params) {
+            // console.log(params);
+            var date_Ymd = params.data[0];
+            var date_mdy = d3.timeFormat('%-m/%-d/%y')(d3.timeParse('%Y-%m-%d')(date_Ymd));
+            fig_ani_heatmap_uscnty.update_by_date(date_mdy);
+        });
+    },
+
+    update_by_date: function(date) {
+        var idx = this.data.dates.indexOf(date);
+        this.date_idx = idx;
+        // update the val
+        for (let i = 0; i < this.draw.counties.length; i++) {
+            const geo_county = this.draw.counties[i];
+            if (geo_county.has_data) {
+                // update the value
+                geo_county.date = date;
+                geo_county.val = geo_county.data.cdts[idx];
+            } else {
+                // do nothing here
+            }
+        }
+
+        // update the date indicator
+        this.us_cal_data_label = [{
+            value: JSON.parse(JSON.stringify(this.us_cal_data[idx])),
+            visualMap: false
+        }];
+        this.cal_option.series[1].data = this.us_cal_data_label;
+        this.cal_chart.setOption(this.cal_option, true);
+
+        // update the graph
+        this.g_counties.selectAll("path")
+            .data(this.draw.counties)
+            .transition()
+            .attr("fill", function(d) {
+                return fig_ani_heatmap_uscnty.color_scale(d.val); 
+            });
+        
+        // update the info
+        this.show_date_on_map(date);
+    },
+
+    show_date_on_map: function(date) {
+        $('#g-info').html(
+            "U.S. Case Doubling Time Map on " + 
+            this.date2Ymd_str(this.mdy_str2date(date))
+        );
+    },
+
+    stop: function() {
+        if (this.proc_play == null) {
+    
+        } else {
+            clearInterval(this.proc_play);
+            this.proc_play = null;
+        }
+    },
+
+    play: function() {
+        if (this.proc_play == null) {
+            this.proc_play = setInterval('fig_ani_heatmap_uscnty.autoplay();', this.frame_duration);
+        } else {
+    
+        } 
+    },
+
+    autoplay: function() {
+        if (this.date_idx >= this.data.dates.length - 1) {
+            this.date_idx = 0;
+            this.stop();
+        } else {
+            this.date_idx += 1;
+            var next_date = this.data.dates[this.date_idx];
+            this.update_by_date(next_date);
+        }
+    }
+};
+
+
+// bind this to the global plots object
+if (typeof(plots) == 'undefined') {
+
+} else {
+    plots[fig_ani_heatmap_uscnty.plot_id] = fig_ani_heatmap_uscnty;
+}
+
+var jarvis = {
+
+    getUrlParameter: function(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    },
+
+    ssmsg: function(msg) {
+        $('#ss-msg').html(msg);
+    },
+
+    ssclose: function() {
+        $('#start-screen').hide();
+    },
+
+    init: function() {
+        
+        $.when(
+            $.get("./static/data/" + fig_ani_heatmap_uscnty.geojson_file),
+            $.get("./covid_data/" + fig_ani_heatmap_uscnty.data_file, {ver: Math.random() }),
+        ).done(function(data0, data1) {
+            fig_ani_heatmap_uscnty.init(data0[0], data1[0]);
+            jarvis.ssmsg('Data loaded!');
+            setTimeout('jarvis.ssclose();', 400);
+        })
+    }
+};
+
+
+$(document).ready(function() {
+    jarvis.init();
+})
+</script>
+</body>
+</html>
