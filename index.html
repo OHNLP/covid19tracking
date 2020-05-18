@@ -1392,21 +1392,24 @@ var fig_heatmap_uscntycdt = {
             if (ncc == 0) {
                 continue;
             }
-            
             r.val = r.cdts[r.cdts.length-1].toFixed(2);
-            
-            var death_rate = (r.sdrs[r.sdrs.length-1] * 100).toFixed(2)
+
+            var cdt = r.cdts[r.cdts.length-1];
+            var dth = r.dths[r.dths.length-1];
+            var sdr = r.sdrs[r.sdrs.length-1] * 100;
+            var cdr = dth / ncc * 100;
 
             // ok, when we build the txt
             r.txt = r.countyName + ', ' + r.state + ' on ' + date + '<br>' +
                 'CDT: <b>' + r.val + '</b> days ' +
                     '(<span class="txt-'+this.get_color(r.d_cdt)+'">'+ this.get_sign(r.d_cdt) + 
                     r.d_cdt.toFixed(1) +'</span>)<br>' +
-                'Total Cases:  <b>' + r.nccs[r.nccs.length-1].toFixed(0) + 
+                'Total Cases:  <b>' + ncc.toFixed(0) + 
                     ' (' + this.get_sign(r.d_ncc) + r.d_ncc.toFixed(0) + ')</b><br>' + 
-                'Total Deaths:  <b>' + r.dths[r.dths.length-1].toFixed(0) + 
+                'Total Deaths:  <b>' + dth.toFixed(0) + 
                     ' (' + this.get_sign(r.d_dth) + r.d_dth.toFixed(0) + ')</b><br>' +
-                'Death Rate:  <b>' + death_rate + '</b>';
+                'Death Rate:  <b>' + cdr.toFixed(1) + '%</b><br>' +
+                'Death Rate(4-day Smoothed):  <b>' + sdr.toFixed(1) + '%</b>';
 
             mydata.regions.push(r);
 
@@ -1575,6 +1578,8 @@ var fig_heatmap_usstatecdt = {
     plot_elm: null,
     plot_dict: null,
     plot_type: 'plotly',
+    data: null,
+    data_file: 'usstate-data-latest.json',
     mapbox: {
         accesstoken: 'pk.eyJ1IjoiaGVodWFuMjExMiIsImEiOiJjazhudzg2ODgweWJ1M2Zremxub2VoY3MxIn0.JEycE3z3q8b7JX8f2XCw3Q',
         style: 'light'
@@ -1588,9 +1593,6 @@ var fig_heatmap_usstatecdt = {
             [1, 'rgba(144, 238, 144, 0.7)']
         ],
     },
-    data: null,
-    // data_file: 'usstate-data-dict-latest.json',
-    data_file: 'usstate-data-latest.json',
     fmt_comma: d3.format(","),
 
     area: {
@@ -1685,7 +1687,8 @@ var fig_heatmap_usstatecdt = {
                 var cdt = obj.cdts[obj.cdts.length - 1];
                 var ncc = obj.nccs[obj.nccs.length - 1];
                 var dth = obj.dths[obj.dths.length - 1];
-                var sdr = obj.dths[obj.dths.length - 1];
+                var sdr = obj.sdrs[obj.dths.length - 1] * 100;
+                var cdr = dth / ncc * 100;
                 var r = {
                     state: state,
                     val: cdt,
@@ -1693,7 +1696,8 @@ var fig_heatmap_usstatecdt = {
                         'CDT: ' + cdt.toFixed(1) + ' days (' + obj.d_cdt.toFixed(1) +')<br>' +
                         'Total Cases: ' + this.fmt_comma(ncc) + ' (' + obj.d_ncc.toFixed(0) + ')<br>' + 
                         'Total Death: ' + this.fmt_comma(dth) + ' (' + obj.d_dth.toFixed(0) + ')<br>' + 
-                        'Death Rate: ' + this.fmt_comma(sdr) + '<br>'
+                        'Death Rate: ' + cdr.toFixed(1) + '%<br>' + 
+                        'Death Rate(4-day Smoothed): ' + sdr.toFixed(1) + '%<br>'
                 };
                 mydata.regions.push(r);
             }
@@ -1801,21 +1805,28 @@ var fig_heatmap_worldcdt = {
                 const obj = rows[country];
                 // console.log('* country: ' + country);
                 
-                var motality_rate = '--';
-                if (obj.cases[obj.cases.length - 1] > 0) {
-                    motality_rate = obj.deaths[obj.deaths.length - 1] / obj.cases[obj.cases.length - 1] * 100;
-                    motality_rate = motality_rate.toFixed(1) + '%';
+                var cdt = obj.cdts[obj.cdts.length - 1];
+                var ncc = obj.cases[obj.cases.length - 1];
+                var d_ncc = obj.newcases[obj.newcases.length - 1];
+                var dth = obj.deaths[obj.deaths.length - 1];
+                var d_dth = dth - obj.deaths[obj.deaths.length - 2];
+                var sdr = obj.sdrs[obj.sdrs.length - 1] * 100;
+                var cdr = '--';
+                if (ncc > 0) {
+                    cdr = dth / ncc * 100;
+                    cdr = cdr.toFixed(1) + '%';
                 }
                 var r = {
                     country: country,
                     cdt: obj.cdts[obj.cdts.length - 1],
                     txt: "<b>" + country + '</b> on ' + date + '<br>' + 
-                        'CDT: <b>' + obj.cdts[obj.cdts.length - 1].toFixed(1) + '</b> days <br>' +
-                        'Total Cases:  <b>' + this.fmt_comma(obj.cases[obj.cases.length - 1]) + 
-                            ' (' + this.get_sign(obj.newcases[obj.newcases.length - 1]) + this.fmt_comma(obj.newcases[obj.newcases.length - 1]) + ')</b><br>' + 
-                        'Total Deaths:  <b>' + this.fmt_comma(obj.deaths[obj.deaths.length - 1]) + 
-                            '</b><br>' +
-                        'Mortality Rate:  <b>' + motality_rate + '</b>'
+                        'CDT: <b>' + cdt.toFixed(1) + '</b> days <br>' +
+                        'Total Cases:  <b>' + this.fmt_comma(ncc) + 
+                            ' (' + this.get_sign(d_ncc) + this.fmt_comma(d_ncc) + ')</b><br>' + 
+                        'Total Deaths:  <b>' + this.fmt_comma(dth) + 
+                            ' (' + this.get_sign(d_dth) + this.fmt_comma(d_dth) + ')</b><br>' + 
+                        'Death Rate:  <b>' + cdr + '</b><br>' + 
+                        'Death Rate(4-day Smoothed): <b>'+ sdr.toFixed(1) + '%</b>'
                 }
                 mydata.push(r);
             }
@@ -1984,10 +1995,13 @@ var fig_casedeathline_cntys = {
             }
         };
         this.add_series(data);
+
+        var cdrs = cnty.dths.map((v, i)=> (v/cnty.nccs[i] * 100).toFixed(1));
+        var sdrs = cnty.sdrs.map((v)=>(v*100).toFixed(1));
         var data2 = {
             name: cnty.countyName + ',' + cnty.state + ' Death Rate',
             yAxisIndex: 1,
-            data: cnty.sdrs.map((v)=>(v*100).toFixed(1)),
+            data: cdrs,
             symbol: 'rect',
             itemStyle: {
                 color: this.colors[Math.floor(this.series.length/2) % 10]
@@ -2053,14 +2067,14 @@ var fig_casedeathline_cntys = {
             },
             grid: {
                 top: 40,
-                right: 40,
+                right: 50,
                 bottom: 20,
                 left: 50
             },
             legend: {
                 data: this.items,
-                left: 65,
-                right: 40,
+                left: 85,
+                right: 70,
                 itemWidth: 20,
                 textStyle: {
                     fontSize: 9
@@ -2071,11 +2085,11 @@ var fig_casedeathline_cntys = {
                 data: this.dates
             },
             yAxis: [{
-                name: 'Total',
+                name: 'Cum.Cases',
                 type: 'log',
                 min: 1
             }, {
-                name: 'Death.Rate(%)',
+                name: 'Cum. Death Rate',
                 type: 'value',
                 splitLine: {
                     show: false
@@ -2228,7 +2242,7 @@ var fig_caseline_states = {
                 data: this.dates
             },
             yAxis: {
-                name: 'Total',
+                name: 'Cum.Cases',
                 type: 'log'
             },
             series: this.series
@@ -2649,12 +2663,24 @@ var fig_testline_states = {
     add_series: function(data) {
         data.symbol = 'rect';
         data.symbolSize = 2;
-        data['type'] = 'line';
-        data['smooth'] = true;
-        data['lineStyle'] = {
+        data.type = 'line';
+        data.smooth = true;
+        data.lineStyle = {
             width: 1,
             type: 'solid'
         };
+        data.markPoint = {
+            label: {
+                fontSize: 10,
+                color: 'white'
+            },
+            data: [
+                {
+                    type: 'max', name: 'Max',
+                    symbolSize: 45,
+                }
+            ]
+        }
         // update option
         this.series.push(data);
         this.option.series = this.series;
