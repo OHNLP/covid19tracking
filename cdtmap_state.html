@@ -284,7 +284,7 @@ var fig_ani_heatmap_usstate = {
     // data_file: 'usstate-data-latest.json',
 
     // for d3.js
-    num_max: 30,
+    num_max: 50,
     color_range: [
         'rgba(255, 0, 0, 0.6)',
         'rgba(255, 255, 0, 0.6)',
@@ -520,11 +520,11 @@ var fig_ani_heatmap_usstate = {
             },
             visualMap: {
                 min: 0,
-                max: 30,
+                max: this.num_max,
                 right: 0,
                 top: 0,
                 itemHeight: 80,
-                text: ['30 days', '0'],
+                text: [this.num_max + ' days', '0'],
                 inRange: {
                     color: this.color_range
                 }
