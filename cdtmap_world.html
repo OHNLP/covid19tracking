@@ -387,12 +387,14 @@ var fig_ani_heatmap_world = {
                 if (d.data == null) {
                     return "<span style='margin-left: 2.5px;'><b>" + d.properties.name + "</b> on " + dt + "<br> &nbsp;No Data</span>";
                 }
+                var nnc = d.data.news[dt_idx];
                 var ncc = d.data.nccs[dt_idx];
                 var dth = d.data.dths[dt_idx];
                 var content = "<span style='margin-left: 2.5px;'><b>" + d.name + "</b> on " + dt + "</span><br>";
                 content +=`
                     <table style="margin-top: 2.5px;">
                         <tr><td>Case Doubling Time: </td><td style="text-align: right">` + cdt.toFixed(2) + ` days</td></tr>
+                        <tr><td>New Cases: </td><td style="text-align: right">` + fig_ani_heatmap_world.fmt_comma(nnc) + `</td></tr>
                         <tr><td>Total Cases: </td><td style="text-align: right">` + fig_ani_heatmap_world.fmt_comma(ncc) + `</td></tr>
                         <tr><td>Total Deaths: </td><td style="text-align: right">` + fig_ani_heatmap_world.fmt_comma(dth) + `</td></tr>
                     </table>
