@@ -1833,6 +1833,7 @@ var fig_heatmap_worldcdt = {
                     cdr = dth / ncc * 100;
                     cdr = cdr.toFixed(1) + '%';
                 }
+                if (cdt == null) { cdt = this.cdt_max; }
                 var r = {
                     country: country,
                     cdt: obj.cdts[obj.cdts.length - 1],
