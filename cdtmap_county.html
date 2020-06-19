@@ -290,7 +290,7 @@ var fig_ani_heatmap_uscnty = {
     data_file: 'uscounty-data-history.json',
 
     // for d3.js
-    num_max: 50,
+    num_max: 100,
     color_range: [
         'rgba(255, 0, 0, 0.6)',
         'rgba(255, 255, 0, 0.6)',
@@ -360,15 +360,29 @@ var fig_ani_heatmap_uscnty = {
             .html(function(d) {
                 var dt = d.date;
                 var dt_idx = d.data.dates.indexOf(dt);
+                var dt_idx_ystdy = dt_idx==0? 0:dt_idx-1;
+
                 var cdt = d.val;
+                var sdr = d.data.sdrs[dt_idx] * 100;
                 var ncc = d.data.nccs[dt_idx];
                 var dth = d.data.dths[dt_idx];
+                
+                var cdr = ncc == 0? 0:dth / ncc * 100;
+                var sdr = d.data.sdrs[dt_idx] * 100;
+                var fmt_comma = d3.format(',');
+
+                var d_cdt = cdt - d.data.cdts[dt_idx_ystdy];
+                var d_ncc = ncc - d.data.nccs[dt_idx_ystdy];
+                var d_dth = dth - d.data.dths[dt_idx_ystdy];
+
                 var content = "<span style='margin-left: 2.5px;'><b>" + d.data.countyName + ", " + d.data.state + " (" + d.id + ")</b> on " + dt + "</span><br>";
                 content +=`
                     <table style="margin-top: 2.5px;">
-                        <tr><td>Case Doubling Time: </td><td style="text-align: right">` + cdt.toFixed(2) + ` days</td></tr>
-                        <tr><td>Total Cases: </td><td style="text-align: right">` + ncc.toFixed(0) + `</td></tr>
-                        <tr><td>Total Deaths: </td><td style="text-align: right">` + dth.toFixed(0) + `</td></tr>
+                        <tr><td>Case Doubling Time: </td><td style="text-align: right">${cdt.toFixed(2)} days (${d_cdt.toFixed(2)})</td></tr>
+                        <tr><td>Total Cases: </td><td style="text-align: right">${fmt_comma(ncc.toFixed(0))} (${fmt_comma(d_ncc)})</td></tr>
+                        <tr><td>Total Deaths: </td><td style="text-align: right">${fmt_comma(dth.toFixed(0))} (${fmt_comma(d_dth)})</td></tr>
+                        <tr><td>Death Rate: </td><td style="text-align: right">${cdr.toFixed(1)} %</td></tr>
+                        <tr><td>Death Rate(4-day Smoothed): </td><td style="text-align: right">${sdr.toFixed(1)}%</td></tr>
                     </table>
                     `;
                 return content;
@@ -569,6 +583,10 @@ if (typeof(plots) == 'undefined') {
 }
 
 var jarvis = {
+    // due to the large size of this vis
+    // we separate the data files
+    data_geo: null,
+    data_vis: null,
 
     getUrlParameter: function(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -586,15 +604,48 @@ var jarvis = {
     },
 
     init: function() {
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+        if (isIE) {
+            return;
+        }
+
+        $.get(
+            "./static/data/" + fig_ani_heatmap_uscnty.geojson_file,
+            {},
+            function(data) {
+                jarvis.data_geo = data;
+                $.ajax({
+                    // show the progress!
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        // Download progress
+                        xhr.addEventListener("progress", function(evt){
+                            if (evt.lengthComputable) {
+                                var percentComplete = evt.loaded / evt.total * 100;
+                                // Do something with download progress
+                                // console.log(percentComplete);
+                                jarvis.ssmsg(`Loaded ${percentComplete.toFixed(2)} %`);
+                            }
+                        }, false);
+
+                        return xhr;
+                    },
+                    type: 'get',
+                    url: "./covid_data/" + fig_ani_heatmap_uscnty.data_file,
+                    data: {ver: Math.random()},
+                    dataType: 'json',
+                    success: function(data){
+                        jarvis.data_vis = data;
+                        fig_ani_heatmap_uscnty.init(jarvis.data_geo, jarvis.data_vis);
+                        jarvis.ssmsg('Loaded all data!');
+                        setTimeout('jarvis.ssclose();', 400);
+                    }
+                });
+                
+            }, 'json'
+        )
+
         
-        $.when(
-            $.get("./static/data/" + fig_ani_heatmap_uscnty.geojson_file),
-            $.get("./covid_data/" + fig_ani_heatmap_uscnty.data_file, {ver: Math.random() }),
-        ).done(function(data0, data1) {
-            fig_ani_heatmap_uscnty.init(data0[0], data1[0]);
-            jarvis.ssmsg('Data loaded!');
-            setTimeout('jarvis.ssclose();', 400);
-        })
     }
 };
 

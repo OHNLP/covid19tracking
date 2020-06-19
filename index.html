@@ -1823,10 +1823,10 @@ var fig_heatmap_worldcdt = {
                 // console.log('* country: ' + country);
                 
                 var cdt = obj.cdts[obj.cdts.length - 1];
-                var ncc = obj.cases[obj.cases.length - 1];
-                var d_ncc = obj.newcases[obj.newcases.length - 1];
-                var dth = obj.deaths[obj.deaths.length - 1];
-                var d_dth = dth - obj.deaths[obj.deaths.length - 2];
+                var ncc = obj.nccs[obj.nccs.length - 1];
+                var dth = obj.dths[obj.dths.length - 1];
+                var d_ncc = obj.news[obj.news.length - 1];
+                var d_dth = dth - obj.dths[obj.dths.length - 2];
                 var sdr = obj.sdrs[obj.sdrs.length - 1] * 100;
                 var cdr = '--';
                 if (ncc > 0) {
@@ -1879,6 +1879,7 @@ var fig_heatmap_worldcdt = {
                 height: this.get_height(),
                 margin: { t: 10 , b: 10, l: 12, r: 12},
                 geo: {
+                    resolution: 50,
                     projection: {
                         type: 'equirectangular'
                     }
@@ -2326,11 +2327,11 @@ var fig_caseline_nations = {
         }
         var data = {
             name: nation,
-            data: this.data.data[nation].cases.map(function(v, idx) {
+            data: this.data.data[nation].nccs.map(function(v, idx) {
                 // return [idx+1, v];
                 return [
                     v, 
-                    fig_caseline_nations.data.data[nation].newcases[idx], 
+                    fig_caseline_nations.data.data[nation].news[idx], 
                     fig_caseline_nations.data.data[nation].dates[idx]
                 ];
             })
@@ -2838,11 +2839,11 @@ var fig_deathline_nations = {
         }
         var data = {
             name: nation,
-            data: this.data.data[nation].cases.map(function(v, idx) {
+            data: this.data.data[nation].nccs.map(function(v, idx) {
                 // return [idx+1, v];
                 return [
                     v, 
-                    fig_deathline_nations.data.data[nation].deaths[idx], 
+                    fig_deathline_nations.data.data[nation].dths[idx], 
                     fig_deathline_nations.data.data[nation].dates[idx]
                 ];
             })
@@ -2911,8 +2912,8 @@ var fig_deathline_nations = {
                     for (let i = 0; i < params.length; i++) {
                         const param = params[i];
                         str += param.seriesName + ' on ' + param.value[2] + '<br>' +
-                            'Total cases: ' + fig_caseline_nations.fmt_comma(param.value[0]) + '<br>' + 
-                            'Deaths: ' + fig_caseline_nations.fmt_comma(param.value[1]) + '<br>';
+                            'Total cases: ' + fig_deathline_nations.fmt_comma(param.value[0]) + '<br>' + 
+                            'Deaths: ' + fig_deathline_nations.fmt_comma(param.value[1]) + '<br>';
                     }
                     return str;
                 }
