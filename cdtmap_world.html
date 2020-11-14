@@ -675,7 +675,7 @@ var jarvis = {
         
         $.when(
             $.get("./static/data/" + fig_ani_heatmap_world.geojson_file),
-            $.get("./covid_data/" + fig_ani_heatmap_world.data_file, {ver: Math.random() }),
+            $.get("./covid_data/dsvm/" + fig_ani_heatmap_world.data_file, {ver: Math.random() }),
         ).done(function(data0, data1) {
             fig_ani_heatmap_world.init(data0[0], data1[0]);
             jarvis.ssmsg('Data loaded!');

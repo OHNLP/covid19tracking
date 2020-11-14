@@ -10,153 +10,22 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <link rel="icon" href="./static/img/favicon.ico">
-
+<title>COVID-19 Dashboard</title>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/cb45cc91b0.js" crossorigin="anonymous"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css" />
 <style>
 html, body {
-    background-color: whitesmoke;
     overflow: hidden;
+    font-size: 12px;
 }
-
 p {
     margin-bottom: .5rem;
 }
-
-.wrapper {
+.box-header-nav {
+    padding: 0 0 0 15px;
 }
-
-/* fix for bootstrap template */
-.bg-dark {
-    background-color: #3d6b9c !important;
-}
-
-.tab-content {
-    border: 1px solid #dee2e6;
-    border-bottom: 0;
-    padding: 10px 3px;
-    background: white;
-}
-.nav-link {
-    padding: .2rem .8rem;
-}
-.nav-tabs {
-    border-top: 1px solid #dee2e6;
-    border-bottom: 0;
-    margin-bottom: 10px;
-}
-.nav-tabs .nav-link {
-    font-size: .85rem;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: .25rem;
-    border-bottom-right-radius: .25rem;
-}
-.nav-tabs .nav-item.show .nav-link,
-.nav-tabs .nav-link.active {
-    border-bottom: 3px solid #3d6b9c;
-    border-top: 0;
-    margin-top: -1px;
-}
-.tab-content {
-    padding: 0;
-}
-.card {
-    margin: 0 0 0.4rem 0;
-}
-.tab-pane .card {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-.card-body {
-    padding: .5rem;
-}
-
-.card-title {
-    font-size: 1rem;
-    margin-bottom: .2rem;
-}
-
-.card-text {
-    font-size: .75rem;
-}
-.nav-tabs a {
-    color: #666666;
-}
-.btn-group-sm>.btn, .btn-sm {
-    padding: .15rem .8rem;
-}
-/****************************************
-* Styles for this page
-****************************************/
-.txt-lg {
-    font-size: 2rem !important;
-    line-height: 1.9rem;
-}
-.txt-md {
-    font-size: 1.5rem !important;
-    line-height: 1.45rem;
-}
-.txt-sm {
-    font-size: 1rem !important;
-    line-height: 0.95rem;
-}
-.txt-mn {
-    font-size: .75rem !important;
-    line-height: .71rem;
-}
-.txt-xm {
-    font-size: .55rem !important;
-    line-height: .5rem;
-}
-.txt-red {
-    color: red;
-}
-.txt-green {
-    color: green;
-}
-.txt-blue {
-    color: blue;
-}
-.txt-orange {
-    color: orange;
-}
-.txt-num-label {
-    margin-right: .5rem; 
-    text-align: center;
-}
-/****************************************
-* Styles for the us county map!!!
-****************************************/
-.counties {
-  fill: none;
-}
-.county {
-    stroke: #FFFFFF;
-    stroke-width: 1px;
-    opacity: .7;
-}
-.county:hover {
-    z-index: 999;
-    opacity: 1;
-}
-.states {
-  fill: none;
-  stroke: #fff;
-  stroke-linejoin: round;
-}
-.d3-tip {
-    line-height: 1;
-    padding: 6px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
 /* a start screen for IE and hiding init */
 #start-screen {
     position: absolute;
@@ -185,423 +54,501 @@ p {
     overflow-y: auto;
     overflow-x: hidden;
 }
-@media screen and (max-width: 1600px){
-    .txt-lg {
-        font-size: 1.8rem !important;
-        line-height: 1.7rem;
-    }
-    .txt-md {
-        font-size: 1.1rem !important;
-        line-height: 1.05rem;
-    }
-    .txt-sm {
-        font-size: 0.9rem !important;
-        line-height: 0.9rem;
-    }
-    .txt-mn {
-        font-size: .7rem !important;
-        line-height: .68rem;
-    }
-    .txt-xm {
-        font-size: .5rem !important;
-        line-height: .5rem;
-    }
-    .btn-group-sm>.btn {
-        padding: .1rem .15rem;
-        font-size: .8rem;
-    }
-    .card-title {
-        font-size: .875rem;
-    }
+.d3-tip {
+    line-height: 1;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
 }
-
-@media screen and (min-width: 1200px) and (max-width: 1400px){
-    .txt-lg {
-        font-size: 1.4rem !important;
-        line-height: 1.3rem;
-    }
-    .txt-md {
-        font-size: 0.9rem !important;
-        line-height: 1.05rem;
-    }
-    .txt-sm {
-        font-size: 0.8rem !important;
-        line-height: 0.9rem;
-    }
-    .txt-mn {
-        font-size: .65rem !important;
-        line-height: .68rem;
-    }
-    .txt-xm {
-        font-size: .5rem !important;
-        line-height: .5rem;
-    }
-    .btn-group-sm>.btn {
-        padding: .1rem .15rem;
-        font-size: .8rem;
-    }
-    .card-title {
-        font-size: .85rem;
-    }
+/* for the calendar chart */
+.fig-crrw-calendar {
+    width: 100%;
+    height: 95px;
+}
+.fig-crrw-calendar .crrw-day-label {
+    display: inline-block;
+    width: 80px;
+    margin: 0 5px 1px 0 ;
+    font-size: 10px;
+}
+.fig-crrw-calendar .crrw-day-chart {
+    width: calc(100% - 80px);
+    height: 95px;
+}
+/* for the 1-d calendar chart */
+.fig-crrw-1dcal {
+    height: 12px;
+    width: 100%;
+    padding: 0 0 0 5px;
+}
+.fig-crrw-1dcal:hover {
+    background: whitesmoke;
+}
+.fig-crrw-1dcal .crrw-day-label {
+    display: inline-block;
+    width: 80px;
+    height: 12px;
+    margin: 0 5px 1px 0 ;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 10px;
+    line-height: 12px;
+}
+.fig-crrw-1dcal .crrw-day {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 1px 1px 0 ;
+}
+/* for the trend chart */
+.fig-crrw-trend {
+    width: 100%;
+    height: 165px;
+    margin: 0 0 3px 0;
+    background: white;
+}
+.crrw-trend-info {
+    display: inline-block;
+    width: 80px;
+    padding: 0 0 0 5px;
+}
+.crrw-trend-bar {
+    display: block;
+    width: 100%;
+    padding: 2px 0;
+}
+.crrw-trend-label {
+    display: inline-block;
+    width: 100%;
+}
+.crrw-trend-label:hover {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    background: whitesmoke;
+}
+.crrw-trend-label:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    background: whitesmoke;
+}
+.crrw-trend-chart {
+    width: 100%;
+    min-width: 600px;
+    height: 150px;
+}
+.crrw-day-R {
+    background: red;
+}
+.crrw-day-G {
+    background: green;
+}
+.crrw-day-Y {
+    background: gold;
+}
+.crrw-day-badge {
+    padding: 1px 5px;
+    border-radius: 5px;
+}
+#header {
+    background: whitesmoke;
+}
+#header a {
+    color: #555555;
+}
+.modal-dialog {
+    max-width: 900px !important;
+}
+.attr-color-legend {
+    display: inline-block;
+    width: 50px;
+    height: 16px;
+}
+.region-detail-box {
+    width: 100%;
+    max-height: 150px;
+    border-top: 1px dotted #eeeeee;
+    padding: 5px;
+}
+.region-detail-item {
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+.region-detail-name {
+    background: #ececec;
+    padding: 0 3px;
+    border-bottom: 1px solid #ececec;
+}
+.region-detail-value {
+    font-weight: bold;
+    margin-left: -3px;
+    padding: 0 3px;
+    border-bottom: 1px solid #ececec;
 }
 </style>
-<title>COVID-19 Tracking</title>
 </head>
 
 <body>
+
     
 <div id="start-screen">
     <h1>
         <i class="fa fa-globe-americas"></i>
-        COVID-19 Tracking
+        COVID-19 Dashboard
     </h1>
-    <div id="ss-msg">Initializing plots ...</div>
+    <div id="ss-msg">Loading data and initializing plots ...</div>
 </div>
 
 <div class="container-fluid wrapper">
-
-    <div class="row">
-        <div class="col"  style="padding-left:8px; padding-right:8px;">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-globe-americas"></i>
-                        COVID-19 Tracking | 
-                        <div class="btn-group btn-group-sm" role="group">
-                            <a href="./cdtmap_county.html" class="btn btn-light">
-                                <i class="far fa-map"></i> Animated County-Level CDT Map
-                            </a>
-                        </div> |
-                        <div class="btn-group btn-group-sm" role="group">
-                            <a href="./cdtmap_state.html" class="btn btn-light">
-                                <i class="far fa-map"></i> Animated State-Level CDT Map
-                            </a>
-                        </div> |
-                        <div class="btn-group btn-group-sm" role="group">
-                            <a href="./cdtmap_world.html" class="btn btn-light">
-                                <i class="far fa-map"></i> Animated Globe-Level CDT Map
-                            </a>
-                        </div> |
-                        <!-- <i class="far fa-map"></i> <a href="./cdtmap_state.html">Animated State-Level CDT Map</a> | -->
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span id="pnl_last_update" class="last_update">mm/dd HH:MM</span>
-                        </span>
-                    </h5>
-                </div>
-            </div><!-- /.card -->
+    <div id="header" class="row mb-3">
+        <div class="col">
+            <div class="mt-2 mb-2">
+                <i class="fa fa-globe-americas"></i> <b>COVID-19 Dashboard</b> |
+                <a href="/"><i class="fa fa-home"></i> Home</a> |
+                <a target="_blank" href="/cdtmap_county.html"><i class="fa fa-map"></i> U.S. County CDT Animated Map</a> |
+                <a target="_blank" href="/cdtmap_state.html"><i class="fa fa-map"></i> U.S. State CDT Animated Map</a> |
+                <a target="_blank" href="/cdtmap_world.html"><i class="fa fa-map"></i> World CDT Animated Map</a> |
+                <a href="javascript:void(0);" 
+                    onclick="jarvis.modal('About CrRW and how to use this website',$('#about-text').html());">
+                    <i class="fa fa-question-circle"></i>
+                    About
+                </a>
+            </div>
         </div>
     </div>
 
-    <div id="vue_rgpanels">
+    <div class="row">
+        <div class="col d-flex flex-row">
 
-    <div class="row"
-        v-for="region in regions">
-        <div class="col-lg-6 col-xl-4" style="padding-left:8px; padding-right:8px;">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-user"></i>
-                        {{ region.name }} Case Doubling Time |  
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-                    </h5>
-                    <div v-bind:id="'fig_cdtmap_' + region.name" style="width: 100%; min-width: 200px; min-height: 220px;">
-
+            <div id="fig_crrw_worldmap_vpp" class="box" style="max-width: 600px;">
+                <h5>
+                    <i class="fa fa-globe-americas"></i>
+                    World Status for <span id="fig_crrw_worldmap_last_update">&nbsp;</span>
+                </h5>
+                <div>
+                    <div class="btn-group">
+                        <button id="fig_crrw_worldmap_select_colorscale"
+                            class="btn btn-light btn-sm dropdown-toggle" 
+                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Color: {{ attr_colorscales[current.attr].name }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" 
+                                href="javascript:void(0);"
+                                v-for="attr_colorscale, attr in attr_colorscales"
+                                v-on:click="update_color(attr)">
+                                <span class="attr-color-legend" 
+                                    v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
+                                    &nbsp;
+                                </span>
+                                {{ attr_colorscale.name }}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div><!-- /.card -->
+                <div id="fig_crrw_worldmap" style="width: 560px; height: 300px;"></div>
 
-        </div><!-- /.col-lg-6 .col-xl-4 -->
-
-
-        <div class="col-lg-6 col-xl-4" style="padding-left:8px; padding-right:8px;">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        {{ region.name }} Cases Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-                    </h5>
-                    <div v-bind:id="'fig_caseline_' + region.name" style="width: 100%; min-width: 200px; height: 220px;">
-
+                <div class="region-detail-box" v-if="country.country == null"></div>
+                <div class="region-detail-box" v-else>
+                    <p>For {{ date }}, {{ country.data.name }}, (Population: {{ fmt_comma(country.data.pop) }}). </p>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Cr7d100k:</span>
+                        <span class="region-detail-value">{{ get_detail().crp }} cases per 100k capita</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">RW_Cr7d100k:</span>
+                        <span class="region-detail-value">{{ get_detail().crt }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">New cases:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total cases:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Case Doubling Time:</span>
+                        <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total death:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Death rate:</span>
+                        <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total Cases / Population:</span>
+                        <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
                     </div>
                 </div>
-            </div><!-- /.card -->
-        </div><!-- /.col-lg-6 .col-xl-4 -->
+            </div>
+            
+            <div id="fig_crrw_usmap_vpp" class="box" style="max-width: 500px;">
 
-
-        <div class="col-lg-6 col-xl-4" style="padding-left:8px; padding-right:8px;">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        {{ region.name }} Mortality Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-                    </h5>
-                    <div v-bind:id="'fig_deathline_' + region.name" style="width: 100%; min-width: 200px; height: 220px;">
-
+                <h5>
+                    <i class="fa fa-globe-americas"></i>
+                    U.S. Status for <span id="fig_crrw_usmap_last_update">&nbsp;</span>
+                </h5>
+                <div>
+                    <div class="btn-group">
+                        <button id="fig_crrw_usmap_select_colorscale"
+                            class="btn btn-light btn-sm dropdown-toggle" 
+                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Color: {{ attr_colorscales[current.attr].name }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" 
+                                href="javascript:void(0);"
+                                v-for="attr_colorscale, attr in attr_colorscales"
+                                v-on:click="update_color(attr)">
+                                <span class="attr-color-legend" 
+                                    v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
+                                    &nbsp;
+                                </span>
+                                {{ attr_colorscale.name }}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div><!-- /.card -->
-        </div><!-- /.col-lg-6 .col-xl-4 -->
 
-    </div><!-- /.row for region -->
+                <div id="fig_crrw_usmap" style="width: 460px; height: 300px;"></div>
 
-    </div><!-- /#vue_rgpanels -->
+                <div class="region-detail-box" v-if="state.state == null"></div>
+                <div class="region-detail-box" v-else>
+                    <p>For {{ date }}, {{ state.data.name }}, (Population: {{ fmt_comma(state.data.pop) }}). </p>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Cr7d100k:</span>
+                        <span class="region-detail-value">{{ get_detail().crp }} cases per 100k capita</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">RW_Cr7d100k:</span>
+                        <span class="region-detail-value">{{ get_detail().crt }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Pandemic Vulnerability Index:</span>
+                        <span class="region-detail-value">{{ get_detail().pvi.toFixed(2) }} (Median)</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">New cases:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total cases:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Case Doubling Time:</span>
+                        <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total death:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Death rate:</span>
+                        <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total Cases / Population:</span>
+                        <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
+                    </div>
+                </div>
+            </div>
 
+
+            <div id="fig_crrw_stmap_vpp" class="box" style="max-width: 500px;">
+                <h5>
+                    <i class="fa fa-map"></i>
+                    <span id="fig_crrw_stmap_state_name">&nbsp;</span>
+                    State Status 
+                    for <span id="fig_crrw_stmap_last_update">&nbsp;</span>
+                </h5>
+                <div>
+                    <div class="btn-group">
+                        <button id="fig_crrw_stmap_select_colorscale"
+                            class="btn btn-light btn-sm dropdown-toggle" 
+                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Color: {{ attr_colorscales[current.attr].name }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" 
+                                href="javascript:void(0);"
+                                v-for="attr_colorscale, attr in attr_colorscales"
+                                v-on:click="update_color(attr)">
+                                <span class="attr-color-legend" 
+                                    v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
+                                    &nbsp;
+                                </span>
+                                {{ attr_colorscale.name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="fig_crrw_stmap" style="width: 330px; height: 300px;"></div>
+
+                <div class="region-detail-box" v-if="county.fips == null"></div>
+                <div class="region-detail-box" v-else>
+                    <p>For {{ date }}, {{ county.data.name }}, {{ county.data.state }} (Population: {{ fmt_comma(county.data.pop) }}). </p>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Cr7d100k:</span>
+                        <span class="region-detail-value">{{ get_detail().crp }} cases per 100k capita</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">RW_Cr7d100k:</span>
+                        <span class="region-detail-value">{{ get_detail().crt }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Pandemic Vulnerability Index:</span>
+                        <span class="region-detail-value">{{ get_detail().pvi.toFixed(2) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">New cases:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total cases:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Case Doubling Time:</span>
+                        <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total death:</span>
+                        <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Death rate:</span>
+                        <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
+                    </div>
+                    <div class="region-detail-item" >
+                        <span class="region-detail-name">Total Cases / Population:</span>
+                        <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <div class="row">
+        <div class="col">
+            <div class="box">
+                <h5>
+                    <i class="fa fa-calendar-alt"></i>
+                    CrRW Status Calendar
+                </h5>
+                <div id="fig_crrw_calendars" style="width: 100%;">
+
+                </div>
+            </div>
+        </div>
+    </div> -->
 
     <div class="row">
-        <div class="col-lg-8" style="padding-left:8px; padding-right:8px;">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-hourglass-half"></i>
-                        Case Doubling Time | U.S. Counties | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                style="font-weight: bold;" onclick="fig_heatmap_uscntycdt.filter_by_cdt(0, 0)">
-                                <i class="fa fa-globe-americas"></i> All Counties
+        <div class="col">
+            <div class="box">
+                <div class="box-header d-flex">
+                    <h5>
+                        <i class="fa fa-line-chart"></i>
+                        CrRW Status Trend
+                    </h5>
+                    <div class="box-header-nav d-flex">
+                        <div class="form-inline">
+                            <button type="button" class="btn btn-light btn-sm mr-2 "
+                                onclick="jarvis.reset_fig_crrw_trends();">
+                                <i class="fa fa-undo"></i>
+                                Reset
                             </button>
                         </div>
 
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button type="button" class="btn btn-light"
-                                onclick="fig_heatmap_uscntycdt.filter_by_cdt(0, 3)">CDT&le;3</button>
-                            <button type="button" class="btn btn-light"
-                                onclick="fig_heatmap_uscntycdt.filter_by_cdt(0, 5)">CDT&le;5</button>
-                            <button type="button" class="btn btn-light"
-                                onclick="fig_heatmap_uscntycdt.filter_by_cdt(0, 7)">CDT&le;7</button>
-                            <button type="button" class="btn btn-light"
-                                onclick="fig_heatmap_uscntycdt.filter_by_cdt(0, 10)">CDT&le;10</button>
-                            <button type="button" class="btn btn-light"
-                                onclick="fig_heatmap_uscntycdt.filter_by_cdt(0, 14)">CDT&le;14</button>
-                            <button type="button" class="btn btn-light"
-                                onclick="fig_heatmap_uscntycdt.filter_by_cdt(14, 100)">CDT&gt;14</button>
-                            
-                        </div>
-                    </h5>
-                    <div id="fig_heatmap_uscntycdt" style="width: 100%; min-width: 470px; min-height: 300px; height: 600px;">
-
+                        <!-- <div class="form-inline">
+                            <input id="input_fips" type="text" 
+                                class="form-control mr-2 mr-sm-2" 
+                                placeholder="FIPS or State">
+                            <button type="button" class="btn btn-primary btn-sm"
+                                onclick="jarvis.add_trend();">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </button>
+                        </div> -->
                     </div>
                 </div>
-            </div><!-- /.card -->
+                <div id="fig_crrw_trends" style="width: 100%;">
+
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="col-lg-4" style="padding-left:8px; padding-right:8px;">
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        County Cases Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                onclick="fig_casedeathline_cntys.reset_series();fig_cdtline_cntys.reset_series();">
-                                RESET
-                            </button>
-                        </div>
-                    </h5>
-                    <div id="fig_casedeathline_cntys" style="width: 100%; min-width: 200px; height: 312px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        County Case Doubling Time Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                onclick="fig_caseline_cntys.reset_series();fig_cdtline_cntys.reset_series();">
-                                RESET
-                            </button>
-                        </div>
-                    </h5>
-                    <div id="fig_cdtline_cntys" style="width: 100%; min-width: 200px; height: 232px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
+    <div id="toast" class="toast" style="position: absolute; top: 10px; right: 10px;">
+        <div class="toast-header">
+            <svg class="bd-placeholder-img rounded mr-2" width="15" height="15" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect id="toast_rect" width="100%" height="100%" fill="#007aff"></rect></svg>
+            <strong class="mr-auto">Bootstrap</strong>
+            <small>&nbsp;</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    </div><!-- /.row -->
-
-
-    <div class="row">
-
-        <div class="col-lg-8" style="padding-left:8px; padding-right:8px;">
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-hourglass-half"></i>
-                        Case Doubling Time | States | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-                    </h5>
-                    <div id="fig_heatmap_usstatecdt" style="width: 100%; min-width: 470px; min-height: 300px; height: 500px;">
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
+        <div id="toast_body" class="toast-body">
+            &nbsp;
         </div>
+    </div>
 
-        <div class="col-lg-4" style="padding-left:8px; padding-right:8px;">
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        State Cases Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                onclick="fig_caseline_states.reset_series();fig_testline_states.reset_series();">
-                                RESET
-                            </button>
-                        </div>
-                    </h5>
-                    <div id="fig_caseline_states" style="width: 100%; min-width: 200px; height: 220px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        State Test Positive Rate Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                onclick="fig_caseline_states.reset_series();fig_testline_states.reset_series();">
-                                RESET
-                            </button>
-                        </div>
-                    </h5>
-                    <div id="fig_testline_states" style="width: 100%; min-width: 200px; height: 220px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div id="modal-body" class="modal-body">
+            
+            </div>
         </div>
-
-    </div><!-- /.row -->
-
-
-    <div class="row">
-
-        <div class="col-8" style="padding-left:8px; padding-right:8px;">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-hourglass-half"></i>
-                        Case Doubling Time | Worldwide | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-                    </h5>
-                    <div id="fig_heatmap_worldcdt" style="width: 100%; min-width: 470px; min-height: 300px; height: 500px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
         </div>
+    </div>
 
-        <div class="col-lg-4" style="padding-left:8px; padding-right:8px;">
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        Country Cases Trend | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                onclick="fig_caseline_nations.reset_series();fig_deathline_nations.reset_series();">
-                                RESET
-                            </button>
-                        </div>
-                    </h5>
-                    <div id="fig_caseline_nations" style="width: 100%; min-width: 200px; height: 220px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa fa-chart-line"></i>
-                        Country Mortality | 
-                        <span class="txt-mn">
-                            <i class="far fa-calendar-alt"></i>
-                            <span class="last_update_date">mm/dd</span>
-                        </span>
-
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Sites">
-                            <button id="btn-toggle-us-mayo" type="button" class="btn btn-light"
-                                onclick="fig_caseline_nations.reset_series();fig_deathline_nations.reset_series();">
-                                RESET
-                            </button>
-                        </div>
-                    </h5>
-                    <div id="fig_deathline_nations" style="width: 100%; min-width: 200px; height: 220px;">
-
-                    </div>
-                </div>
-            </div><!-- /.card -->
-
-        </div>
-
-    </div><!-- /.row -->
-
-</div><!-- /.wrapper -->
+    <div id="about-text" style="display: none;">
+        <style>
+        .rcf-em1 {
+            font-weight: bold;
+            background-color: whitesmoke;
+            border-radius: 5px;
+            padding: 0 3px;
+        }
+        </style>
+        <h5>CrRW: Cr7d100k and RW_Cr7d100k</h5>
+        <p>CrRW is a novel method to measure the trends in COVID-19 or other infectious diseases, which includes two indicators: </p>
+        <p>1. <b>Cr7d100k</b>: 7-day smoothed average daily case rate per 100k capita;</p>
+        <p>2. <b>RW_Cr7d100k</b>: the ratio of this week’s Cr7d100k comparing to the week before.</p>
+        <p>The data for calculating CrRW are from USAFacts and COVIDTracking.</p>
+        <p>By using these two indicators in combination, we can depict the current status of the epidemic as well as recent trends with following thresholds:</p>
+        <p>1. The <b class="badge badge-success">GREEN</b> status: There are two cases. First, if <span class="rcf-em1">Cr7d100k <= 1</span> for the past seven days, it would be safe. Second, if <span class="rcf-em1">Cr7d100k < 15 and RW_Cr7d100k < 1</span> for the past seven days, it would be relative safe; </p>
+        <p>2. The <b class="badge badge-danger">RED</b> status: There are two cases. First, if <span class="rcf-em1">Cr7d100k > 30</span> for the past seven days, the pandemic is extremely serious. Second, if <span class="rcf-em1">Cr7d100k > 1 and RW_Cr7d100k > 1</span> and for the past seven days, the current pandemic situation is bad or the trend is bad;</p>
+        <p>3. The <b class="badge badge-warning">ORANGE</b> status: Everything else is orange status as we cannot say much – it can go either way.</p>
+        <hr>
+        <h5>Pandemic Vulnerability Index</h5>
+        <p>The Pandemic Vulnerability Index (PVI) is an indicator which integrates baseline data on relevant community vulnerabilities with dynamic data on local infection rates and interventions <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7430608/">PMID: 32817964</a>. The data of PVI model are from <a target="_blank" href="https://covid.cdc.gov/covid-data-tracker/#pandemic-vulnerability-index">CDC COVID Data Tracker</a>.</p>
+        <hr>
+        <h5>How to use this website?</h5>
+        <p>Click on the states and counties to see the CrRW status trend.</p>
+        <p><img src="./static/img/crrw-demo.gif" alt="Demonstrating how to use this website"></p>
+    </div>
+</div>
 
 <script>
 var isIE = /*@cc_on!@*/false || !!document.documentMode;
@@ -609,1118 +556,607 @@ if (isIE) {
     document.getElementById('ss-msg').innerHTML = 'The visualization used in this website require advanced web technologies, which are <b>NOT</b> supported by Internet Explorer.<br>Try using Google Chrome, Apple Safari, Mozilla Firefox or other modern browsers to access:<br><span style="font-size:1.2em;">' + location.href + '</span>';
 }
 </script>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- JavaScript packages -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://unpkg.com/d3-simple-slider"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.5.0/dist/echarts.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
-<script src="./static/lib/echarts/echarts.js"></script>
-
-<!-- include other plots -->
 <script>
-// the figure js
-var plots = {};
 
-var vue_rgpanels = {
-    plot_id: 'vue_rgpanels',
-    plot_type: 'vue',
-    vpp_id: '#vue_rgpanels',
+var fig_crrw_worldmap = {
+    plot_id: 'fig_crrw_worldmap',
     vpp: null,
-    vpp_data: {},
+    vpp_id: '#fig_crrw_worldmap_vpp',
+
     data: null,
-    data_file: 'uscounty-data-latest.json',
-
-    load: function() {
-        $.get(
-            './covid_data/' + this.data_file,
-            {ver: Math.random()},
-            function(data) {
-                vue_rgpanels.init(data);
-            }, 'json'
-        );
-    },
-
-    init: function(data, regions) {
-        this.data = data;
-        // init the vue
-        if (typeof(regions) == 'undefined') {
-            regions = [{
-                name: 'RST', fips: ['27099', '27109', '27139', '27169']
-            }];
-        }
-        this.vpp_data = {
-            regions: regions
-        };
-        this.vpp = new Vue({
-            el: this.vpp_id,
-            data: this.vpp_data,
-            methods: {
-                get_sign: function(v) {
-                    if (v>0) {
-                        return '+';
-                    } else if (v<0) {
-                        return ''
-                    } else {
-                        return '';
-                    }
-                },
-
-                get_color: function(v) {
-                    if (v>=0) { return 'green'; }
-                    else { return 'red'; }
-                },
-
-                reg2disp: function(reg) {
-                    if (reg == 'RST') {
-                        return 'RST/SEMN';
-                    }
-                    return reg;
-                }
-            }
-        });
-    }
-};
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
-
-} else {
-    plots[vue_rgpanels.plot_id] = vue_rgpanels;
-}
-
-var figmker_cdtmap = {
-    colorbar_title: 'Days',
-    data_file: 'uscounty-data-latest.json',
-    data: null,
-    mapbox: {
-        accesstoken: 'pk.eyJ1IjoiaGVodWFuMjExMiIsImEiOiJjazhudzg2ODgweWJ1M2Zremxub2VoY3MxIn0.JEycE3z3q8b7JX8f2XCw3Q',
-        style: 'light'
-    },
-    valuescale: {
-        TPT: [0, 1000],
-        CDT: [0, 30],
-    },
+    data_file: 'world-fc-history.json',
     colorscale: {
-        TPT: [
-            [0, 'rgba(255, 255, 255, 0.7)'],
-            [1, 'rgba(240, 0, 0, 0.7']
-        ],
-        CDT: [
-            [0, 'rgba(255, 0, 0, 0.5)'],
-            [0.5, 'rgba(255, 255, 0, 0.5)'],
-            [1, 'rgba(144, 238, 144, 0.5)']
-        ],
-    },
-
-    init: function(data) {
-        this.data = data;
-    },
-
-    make_fig: function(region, plot_id, data) {
-        var fig = {
-            plot_id: plot_id,
-            get_view: this.get_view
-        };
-        var plot_dict = this.create_plot_data(
-            region.fips_list,
-            [32.84906395662327, -100.32481276712122, 3.187872300973526],
-            data
-        );
-        fig.plot_dict = plot_dict;
-        Plotly.newPlot(
-            fig.plot_id, 
-            fig.plot_dict.data,
-            fig.plot_dict.layout,
-            {responsive: true}
-        );
-        // update the last update
-        $('#' + plot_id + '_last_update').html(data.last_update);
-        return fig;
-    },
-
-    create_plot_data: function(countyFIPSList, view3, data) {
-        var date = data.date;
-        var rows = data.data;
-
-        var mydata = {
-            regions: []
-        };
-
-        var view = [0, 0, 6];
-        for (let i = 0; i < countyFIPSList.length; i++) {
-            const fips = countyFIPSList[i];
-            if (rows.hasOwnProperty(fips)) {
-                var d = rows[fips];
-                view[0] += d.lat;
-                view[1] += d.lon;
-                var cdt = d.cdts[d.cdts.length - 1];
-                var ncc = d.nccs[d.nccs.length - 1];
-                var dth = d.dths[d.dths.length - 1];
-                var sdr = d.sdrs[d.sdrs.length - 1];
-                var new_cc = d.news[d.news.length - 1];
-                var r = {
-                    FIPS: fips,
-                    val: cdt,
-                    txt: d.countyName + ' on ' + date + '<br>' +
-                        'CDT: <b>' + cdt.toFixed(1) + '</b> days<br>' +
-                        'Total Cases:  <b>' + ncc.toFixed(0) + 
-                            ' (' + new_cc.toFixed(0) + ')</b><br>' + 
-                        'Total Deaths:  <b>' + dth.toFixed(0) + '</b><br>' +
-                        'Mortality Rate:  <b>' + (sdr*100).toFixed(1) + '%</b>'
-                }
-                mydata.regions.push(r);
-            }
-        }
-        view[0] = view[0] / countyFIPSList.length;
-        view[1] = view[1] / countyFIPSList.length;
-
-        var plot_data = [];
-        plot_data.push({
-            name: 'County<br>Detail',
-            type: 'choroplethmapbox',
-            locations: this.unpack(mydata.regions, 'FIPS'),
-            text: this.unpack(mydata.regions, 'txt'),
-            z: this.unpack(mydata.regions, 'val'),
-            zmin: this.valuescale.CDT[0],
-            zmax: this.valuescale.CDT[1],
-            hovertemplate: '%{text}',
-            geojson: './static/data/us-countymap-5m.json',
-            colorscale: this.colorscale.CDT,
-            showlegend: false,
-            colorbar: {
-                title: this.colorbar_title,
-                thickness: 15,
-                len: .5,
-                x: 0.02,
-                y: 0.75
-            }
-        });
-
-        var plot_layout = {
-            margin: { t: 0 , b: 0, l: 0, r: 0},
-            mapbox: {
-                accesstoken: this.mapbox.accesstoken,
-                center: {
-                    lat: view[0],
-                    lon: view[1]
-                },
-                style: this.mapbox.style,
-                zoom: view[2],
-                gridshape: 'linear'
-            }
-        };
-
-        return {
-            data: plot_data, 
-            layout: plot_layout
-        };
-    },
-
-
-    get_color: function(v) {
-        if (v>=0) { return 'green'; }
-        else { return 'red'; }
-    },
-
-    get_sign: function(v) {
-        if (v>0) {
-            return '+';
-        } else {
-            return '';
-        }
-    },
-
-    get_view: function() {
-        return [
-            this.plot_dict.layout.mapbox.center.lat,
-            this.plot_dict.layout.mapbox.center.lon,
-            this.plot_dict.layout.mapbox.zoom
-        ];
-    },
-
-    unpack: function(rows, key) {
-        return rows.map(function(row) {
-            return row[key];
-        });
-    },
-};
-var figmker_caseline = {
-    data_file: 'uscounty-data-latest.json',
-    make_fig: function(region, plot_id, data) {
-        var dates = data.dates;
-        var rows = data.data;
-        var fig = {
-            plot_id: plot_id,
-            data: data
-        };
-        fig.series = [];
-
-        var data_case = Array(data.dates.length).fill(0);
-        var data_newcase = Array(data.dates.length).fill(0);
-        for (let i = 0; i < region.fips_list.length; i++) {
-            const fips = region.fips_list[i];
-            if (rows.hasOwnProperty(fips)) {
-                var d = rows[fips];
-                
-                for (let j = 0; j < dates.length; j++) {
-                    data_case[j] += d.nccs[j];
-                    data_newcase[j] += d.news[j];
-                }
-            }
-        }
-
-        // add the cum cases
-        fig.series.push({
-            name: 'Cumulative Cases',
-            data: data_case,
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-                width: 1.5,
-                type: 'solid',
-                color: 'darkred'
-            },
-            itemStyle: {
-                color: 'darkred'
-            },
-            markPoint: {
-                symbolSize: 40,
-                label: {
-                    fontSize: 10,
-                    color: 'white'
-                },
-                data: [
-                    {type: 'max', name: 'Max'}
-                ]
-            },
-        });
-        // add the new cases
-        var value_last = data_newcase[data_newcase.length-1];
-        fig.series.push({
-            name: 'New Cases',
-            data: data_newcase,
-            type: 'line',
-            smooth: true,
-            yAxisIndex: 1,
-            symbol: 'rect',
-            symbolSize: 4,
-            lineStyle: {
-                width: 1.5,
-                type: 'dotted',
-                color: 'darkorange'
-            },
-            itemStyle: {
-                color: 'darkorange'
-            },
-            markPoint: {
-                symbolSize: 30,
-                label: {
-                    fontSize: 10,
-                    color: 'white'
-                },
-                data: [
-                    {type: 'max', name: 'Max'},
-                    {
-                        name: 'coordinate',
-                        symbolSize: 35,
-                        coord: [data.last_update, value_last],
-                        value: value_last
-                    }
-                ]
-            },
-        });
-        // config the plots
-        var max_new_cases = Math.max.apply(null, data_newcase);
-        var f_get_y1_max = function(value) {
-            if (value.max < 100) {
-                return 100;
-            } else if (value.max < 1000) {
-                return 1000;
-            } else if (value.max < 10000) {
-                return 10000;
-            } else if (value.max < 100000) {
-                return 100000;
-            } else {
-                return 300000;
-            }
-        };
-        var f_get_y2_max = function(value) {
-            if (value.max < 50) {
-                return 50;
-            } else if (value.max < 100) {
-                return 100;
-            } else if (value.max < 500) {
-                return 500;
-            } else if (value.max < 1000) {
-                return 1000;
-            } else if (value.max < 5000) {
-                return 5000;
-            } else if (value.max < 10000) {
-                return 10000;
-            }
-        };
-        fig.option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            grid: {
-                top: 30,
-                right: 40,
-                bottom: 20,
-                left: 45
-            },
-            legend: {
-                data: ['New Cases', 'Cumulative Cases'],
-                symbolKeepAspect: false,
-                // left: 30,
-                // right: 0,
-                // itemWidth: 20,
-                textStyle: {
-                    fontSize: 10
-                }
-            },
-            xAxis: {
-                type: 'category',
-                name: '',
-                data: data.dates
-            },
-            yAxis: [{
-                name: 'Total Cases',
-                type: 'log',
-                max: f_get_y1_max,
-                min: 1
-            }, {
-                name: 'New Cases',
-                type: 'value',
-                splitLine: {
-                    show: false
-                },
-                max: f_get_y2_max,
-                min: 0
-            }],
-            series: fig.series
-        };
-
-        fig.plot_chart = echarts.init(document.getElementById(fig.plot_id));
-        fig.plot_chart.setOption(fig.option);
-
-        // resize!
-        fig.resize = function() {
-            if (this.plot_chart == null) {
-    
-            } else {
-                this.plot_chart.resize();
-            }
-        }
-
-        // update the last update
-        $('#' + plot_id + '_last_update').html(data.last_update);
-
-        return fig;
-    }
-};
-var figmker_deathline = {
-    data_file: 'uscounty-data-latest.json',
-    make_fig: function(region, plot_id, data) {
-        var dates = data.dates;
-        var rows = data.data;
-        var fig = {
-            plot_id: plot_id,
-            data: data
-        };
-        fig.series = [];
-
-        var data_case = Array(data.dates.length).fill(0);
-        var data_death = Array(data.dates.length).fill(0);
-        for (let i = 0; i < region.fips_list.length; i++) {
-            const fips = region.fips_list[i];
-            if (rows.hasOwnProperty(fips)) {
-                var d = rows[fips];
-                
-                for (let j = 0; j < dates.length; j++) {
-                    data_case[j] += d.nccs[j];
-                    data_death[j] += d.dths[j];
-                }
-            }
-        }
-        var data_dthr = [];
-        for (let i = 0; i < data.dates.length; i++) {
-            if (i<4) { data_dthr.push(null); }
-            var sdr = ((data_death[i] - data_death[i-4]) / (data_case[i] - data_case[i-4] + 1 ));
-            if (sdr > 0.15) { sdr = 0.15}
-            data_dthr.push(
-                (sdr * 100).toFixed(1)
-            );
-        }
-
-        // add the cum deaths
-        fig.series.push({
-            name: 'Total Deaths',
-            data: data_case,
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-                width: 1.5,
-                type: 'solid',
-                color: 'black'
-            },
-            itemStyle: {
-                color: 'black'
-            },
-            markPoint: {
-                symbolSize: 40,
-                label: {
-                    fontSize: 10,
-                    color: 'white'
-                },
-                data: [
-                    {type: 'max', name: 'Max'}
-                ]
-            },
-        });
-        // add the death rate
-        var value_last = data_dthr[data_dthr.length-1];
-        fig.series.push({
-            name: 'Death Rate',
-            data: data_dthr,
-            type: 'line',
-            smooth: true,
-            yAxisIndex: 1,
-            symbol: 'rect',
-            symbolSize: 4,
-            lineStyle: {
-                width: 1.5,
-                type: 'dotted',
-                color: 'grey'
-            },
-            itemStyle: {
-                color: 'dimgrey'
-            },
-            markPoint: {
-                symbolSize: 30,
-                label: {
-                    fontSize: 10,
-                    color: 'white'
-                },
-                data: [
-                    {type: 'max', name: 'Max'},
-                    {
-                        name: 'coordinate',
-                        symbolSize: 35,
-                        coord: [data.date, value_last],
-                        value: value_last
-                    }
-                ]
-            },
-        });
-        // config the plots
-        var f_get_y1_max = function(value) {
-            if (value.max < 500) {
-                return 500;
-            } else if (value.max < 1000) {
-                return 1000;
-            } else if (value.max < 5000) {
-                return 5000;
-            } else if (value.max < 10000) {
-                return 10000;
-            }
-        };
-        fig.option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            grid: {
-                top: 30,
-                right: 40,
-                bottom: 20,
-                left: 45
-            },
-            legend: {
-                data: ['Total Deaths', 'Death Rate'],
-                symbolKeepAspect: false,
-                // left: 30,
-                // right: 0,
-                // itemWidth: 20,
-                textStyle: {
-                    fontSize: 10
-                }
-            },
-            xAxis: {
-                type: 'category',
-                name: '',
-                data: data.dates
-            },
-            yAxis: [{
-                name: 'Total Deaths',
-                type: 'value',
-                max: f_get_y1_max
-            }, {
-                name: 'Death Rate',
-                type: 'value',
-                splitLine: {
-                    show: false
-                },
-                axisLabel: {
-                    formatter: function (val) {
-                        return val + '%';
-                    }
-                },
-                max: 20
-            }],
-            series: fig.series
-        };
-
-        fig.plot_chart = echarts.init(document.getElementById(fig.plot_id));
-        fig.plot_chart.setOption(fig.option);
-
-        // resize!
-        fig.resize = function() {
-            if (this.plot_chart == null) {
-    
-            } else {
-                this.plot_chart.resize();
-            }
-        }
-
-        // update the last update
-        $('#' + plot_id + '_last_update').html(data.last_update);
-
-        return fig;
-    }
-};
-
-var fig_heatmap_uscntycdt = {
-    plot_id: 'fig_heatmap_uscntycdt',
-    plot_elm: null,
-    plot_dict: null,
-    plot_type: 'plotly',
-    mapbox: {
-        accesstoken: 'pk.eyJ1IjoiaGVodWFuMjExMiIsImEiOiJjazhudzg2ODgweWJ1M2Zremxub2VoY3MxIn0.JEycE3z3q8b7JX8f2XCw3Q',
-        style: 'light'
-    },
-    colorbar_title: 'Days',
-    cdt_max: 50,
-    colorscale: {
-        CDT: [
-            [0, 'rgba(255, 0, 0, 0.5)'],
-            [0.5, 'rgba(255, 255, 0, 0.5)'],
-            [1, 'rgba(144, 238, 144, 0.5)']
-        ],
-    },
-    data: null,
-    data_file: 'uscounty-data-latest.json',
-
-    FIPS2State: {
-        '01': { name: 'Alabama', code: 'AL' },
-        '02': { name: 'Alaska', code: 'AK' },
-        '04': { name: 'Arizona', code: 'AZ' },
-        '05': { name: 'Arkansas', code: 'AR' },
-        '06': { name: 'California', code: 'CA' },
-        '08': { name: 'Colorado', code: 'CO' },
-        '09': { name: 'Connecticut', code: 'CT' },
-        '10': { name: 'Delaware', code: 'DE' },
-        '11': { name: 'District Of Columbia', code: 'DC' },
-        '12': { name: 'Florida', code: 'FL' },
-        '13': { name: 'Georgia', code: 'GA' },
-        '15': { name: 'Hawaii', code: 'HI' },
-        '16': { name: 'Idaho', code: 'ID' },
-        '17': { name: 'Illinois', code: 'IL' },
-        '18': { name: 'Indiana', code: 'IN' },
-        '19': { name: 'Iowa', code: 'IA' },
-        '20': { name: 'Kansas', code: 'KS' },
-        '21': { name: 'Kentucky', code: 'KY' },
-        '22': { name: 'Louisiana', code: 'LA' },
-        '23': { name: 'Maine', code: 'ME' },
-        '24': { name: 'Maryland', code: 'MD' },
-        '25': { name: 'Massachusetts', code: 'MA' },
-        '26': { name: 'Michigan', code: 'MI' },
-        '27': { name: 'Minnesota', code: 'MN' },
-        '28': { name: 'Mississippi', code: 'MS' },
-        '29': { name: 'Missouri', code: 'MO' },
-        '30': { name: 'Montana', code: 'MT' },
-        '31': { name: 'Nebraska', code: 'NE' },
-        '32': { name: 'Nevada', code: 'NV' },
-        '33': { name: 'New Hampshire', code: 'NH' },
-        '34': { name: 'New Jersey', code: 'NJ' },
-        '35': { name: 'New Mexico', code: 'NM' },
-        '36': { name: 'New York', code: 'NY' },
-        '37': { name: 'North Carolina', code: 'NC' },
-        '38': { name: 'North Dakota', code: 'ND' },
-        '39': { name: 'Ohio', code: 'OH' },
-        '40': { name: 'Oklahoma', code: 'OK' },
-        '41': { name: 'Oregon', code: 'OR' },
-        '42': { name: 'Pennsylvania', code: 'PA' },
-        '44': { name: 'Rhode Island', code: 'RI' },
-        '45': { name: 'South Carolina', code: 'SC' },
-        '46': { name: 'South Dakota', code: 'SD' },
-        '47': { name: 'Tennessee', code: 'TN' },
-        '48': { name: 'Texas', code: 'TX' },
-        '49': { name: 'Utah', code: 'UT' },
-        '50': { name: 'Vermont', code: 'VT' },
-        '51': { name: 'Virginia', code: 'VA' },
-        '53': { name: 'Washington', code: 'WA' },
-        '54': { name: 'West Virginia', code: 'WV' },
-        '55': { name: 'Wisconsin', code: 'WI' },
-        '56': { name: 'Wyoming', code: 'WY' },
-        '60': { name: 'American Samoa', code: 'AS' },
-        '66': { name: 'Guam', code: 'GU' },
-        '69': { name: 'Northern Mariana Islands', code: 'MP' },
-        '72': { name: 'Puerto Rico', code: 'PR' },
-        '78': { name: 'Virgin Islands', code: 'VI' },
-    },
-
-    area: {
-        SWMN: [44.02907899472882, -94.3890149890982, 6.504512558724205],
-        SWWI: [44.02850002190516, -91.14599583630508, 6.436584781196458],
-        NWWI: [45.05152269286285, -91.42584363926721, 6.229056098694206],
-        PHX:  [34.544938344671905, -111.95353291577072, 4.506340326068152],
-        JAX:  [30.736528159343408, -81.94074851482583, 5.858222918792623],
-        RST:  [44.18972577500327, -92.52786083477628, 6.134125167316714],
-        default: [37.99494712856239, -95.91207942023868, 3.359274942537943]
-    },
-
-    load: function() {
-        $.when(
-            $.get('./static/data/us-countymap-5m.json', {}),
-            $.get('./read_data_file', {fn: this.data_file, ver: Math.random()})
-        ).done(function(data1, data2) {
-            fig_heatmap_uscntycdt.set_all_counties(data1[0]);
-            fig_heatmap_uscntycdt.init(data2[0]);
-        });
-    },
-
-    set_all_counties: function(data) {
-        this.data_geo = data;
-        this.all_counties = d3.map();
-        for (let i = 0; i < data.features.length; i++) {
-            const f = data.features[i];
-            // create a new county obj
-            var county = {
-                FIPS: f.id,
-                countyName: f.properties.NAME,
-                state: this.FIPS2State[f.properties.STATE].name,
-                has_case: false,
-                data: null
-            };
-            
-            this.all_counties.set(f.id, county);
-        }
-    },
-
-    convert_data_to_dict: function() {
-        this.data_dict = d3.map();
-        for (const FIPS in this.data.data) {
-            if (this.data.data.hasOwnProperty(FIPS)) {
-                const cnty = this.data.data[FIPS];
-                this.data_dict.set(FIPS, cnty);
-            }
-        }
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.create_plot_dict();
-        this.convert_data_to_dict();
-
-        Plotly.newPlot(
-            this.plot_id, 
-            this.plot_dict.data,
-            this.plot_dict.layout,
-            {responsive: true}
-        );
-
-        $('#' + this.plot_id + '_last_update').html(data.date);
-
-        this.bind_click_event();
-    },
-
-    bind_click_event: function() {
-        // bind click events
-        this.plot_elm = document.getElementById(this.plot_id);
-        this.plot_elm.on('plotly_click', function(data) {
-            console.log(data);
-            var FIPS = data.points[0].properties.STATE + data.points[0].properties.COUNTY;
-            // hope jarvis has this ablity!
-            console.log("* clicked on " + FIPS);
-            jarvis.add_county_series(FIPS);
-        });
-
-        this.plot_elm.on('plotly_selected', function(data) {
-            data.points.forEach(function(p) {
-                var FIPS = p.properties.STATE + p.properties.COUNTY;
-                jarvis.add_county_series(FIPS);
-            });
-
-        });
-    },
-
-    _update: function() {
-        Plotly.update(this.plot_id, this.plot_dict);
-    },
-
-    _relayout: function(update) {
-        Plotly.relayout(this.plot_id, update);
-    },
-
-    get_color: function(v) {
-        if (v>=0) { return 'green'; }
-        else { return 'red'; }
-    },
-
-    get_sign: function(v) {
-        if (v>0) {
-            return '+';
-        } else {
-            return '';
-        }
-    },
-
-    create_plot_dict: function(filter) {
-        var date = this.data.date;
-        var rows = this.data.data;
-        var mydata = {
-            regions: []
-        };
-        var mydata_0case = {
-            regions: []
-        };
-
-        // get all the counties with cases
-        for (const FIPS in this.data.data) {
-            const r = this.data.data[FIPS];
-
-            if (typeof(filter) != 'undefined') {
-                var cdt = r.cdts[r.cdts.length-1];
-                if (filter(cdt)) {
-                    // keep those comply the filter condition
-                } else {
-                    continue;
-                }
-            }
-            var ncc = r.nccs[r.nccs.length-1];
-            if (ncc == 0) {
-                continue;
-            }
-            r.val = r.cdts[r.cdts.length-1].toFixed(2);
-
-            var cdt = r.cdts[r.cdts.length-1];
-            var dth = r.dths[r.dths.length-1];
-            var sdr = r.sdrs[r.sdrs.length-1] * 100;
-            var cdr = dth / ncc * 100;
-
-            // ok, when we build the txt
-            r.txt = r.countyName + ', ' + r.state + ' on ' + date + '<br>' +
-                'CDT: <b>' + r.val + '</b> days ' +
-                    '(<span class="txt-'+this.get_color(r.d_cdt)+'">'+ this.get_sign(r.d_cdt) + 
-                    r.d_cdt.toFixed(1) +'</span>)<br>' +
-                'Total Cases:  <b>' + ncc.toFixed(0) + 
-                    ' (' + this.get_sign(r.d_ncc) + r.d_ncc.toFixed(0) + ')</b><br>' + 
-                'Total Deaths:  <b>' + dth.toFixed(0) + 
-                    ' (' + this.get_sign(r.d_dth) + r.d_dth.toFixed(0) + ')</b><br>' +
-                'Death Rate:  <b>' + cdr.toFixed(1) + '%</b><br>' +
-                'Death Rate(4-day Smoothed):  <b>' + sdr.toFixed(1) + '%</b>';
-
-            mydata.regions.push(r);
-
-            // update the all counties
-            var cnty = this.all_counties.get(r.FIPS);
-            if (cnty == null) {
-                // pass, we don't have data for this area
-                console.log('* missing geo data for', r.FIPS, r.countyName + ', ' + r.state)
-            } else {
-                cnty['has_case'] = true;
-                cnty['data'] = r;
-            }
-        }
-
-        // get those counties without case
-        var all_cnty = this.all_counties.values();
-        for (let i = 0; i < all_cnty.length; i++) {
-            const cnty = all_cnty[i];
-            if (cnty.has_case) {
-                continue;
-            }
-            var r = {
-                FIPS: cnty.FIPS,
-                val: this.cdt_max,
-                txt: cnty.countyName + ', ' + cnty.State + ' on ' + date + '<br>' +
-                    'No confirmed COVID-19 case'
-            }
-            if (typeof(filter) != 'undefined') {
-                if (filter(r.val)) {
-                    // keep those comply the filter condition
-                } else {
-                    continue;
-                }
-            }
-            mydata_0case.regions.push(r);
-        }
-        
-        var plot_data = [];
-
-        // those counties with case
-        plot_data.push({
-            name: 'County<br>Data',
-            type: 'choroplethmapbox',
-            locations: this.unpack(mydata.regions, 'FIPS'),
-            text: this.unpack(mydata.regions, 'txt'),
-            z: this.unpack(mydata.regions, 'val'),
-            hovertemplate: '%{text}',
-            zmin: 0,
-            zmid: this.cdt_max / 2,
-            zmax: this.cdt_max,
-            geojson: './static/data/us-countymap-5m.json',
-            colorscale: this.colorscale.CDT,
-            colorbar: {
-                title: this.colorbar_title,
-                thickness: 15,
-                len: .3,
-                x: 0.02,
-                y: 0.23,
-                nticks: 6
-            }
-        });
-
-        // those counties with 0 case
-        plot_data.push({
-            name: '0 Case<br>County',
-            type: 'choroplethmapbox',
-            locations: this.unpack(mydata_0case.regions, 'FIPS'),
-            text: this.unpack(mydata_0case.regions, 'txt'),
-            z: this.unpack(mydata_0case.regions, 'val'),
-            hovertemplate: '%{text}',
-            zmin: 0,
-            zmid: this.cdt_max / 2,
-            zmax: this.cdt_max,
-            geojson: './static/data/us-countymap-5m.json',
-            colorscale: this.colorscale.CDT,
-            showscale: false
-        });
-        
-        this.plot_dict = {
-            data: plot_data,
-            layout: {
-                margin: { t: 0 , b: 0, l: 0, r: 0},
-                mapbox: {
-                    accesstoken: this.mapbox.accesstoken,
-                    center: {
-                        lat: this.area.default[0],
-                        lon: this.area.default[1]
-                    },
-                    style: this.mapbox.style,
-                    zoom: this.area.default[2]
-                }
-            }
-        };
-    },
-
-    set_view_to(name) {
-        var update = {
-            mapbox: {
-                accesstoken: this.mapbox.accesstoken,
-                style: this.mapbox.style,
-                center: {
-                    lat: this.area[name][0],
-                    lon: this.area[name][1]
-                },
-                zoom: this.area[name][2]
-            }
-        }
-        this._relayout(update);
-    },
-
-    set_view: function(view) {
-        var update = {
-            mapbox: {
-                accesstoken: this.mapbox.accesstoken,
-                style: this.mapbox.style,
-                center: {
-                    lat: view[0],
-                    lon: view[1]
-                },
-                zoom: view[2]
-            }
-        }
-        this._relayout(update);
-    },
-
-    get_view: function() {
-        return [
-            this.plot_dict.layout.mapbox.center.lat,
-            this.plot_dict.layout.mapbox.center.lon,
-            this.plot_dict.layout.mapbox.zoom
-        ];
-    },
-
-    filter_by_cdt: function(a, b) {
-        if (b > 0) {
-            var f = function(v) {
-                if (v > a && v <= b) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-            this.create_plot_dict(f);
-        } else {
-            this.create_plot_dict();
-        }
-        Plotly.purge(this.plot_id);
-        Plotly.newPlot(this.plot_id, this.plot_dict);
-
-        this.bind_click_event();
-    },
-
-    unpack: function(rows, key) {
-        return rows.map(function(row) {
-            return row[key];
-        });
-    }
-};
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
-
-} else {
-    plots[fig_heatmap_uscntycdt.plot_id] = fig_heatmap_uscntycdt;
-}
-var fig_heatmap_usstatecdt = {
-    plot_id: 'fig_heatmap_usstatecdt',
-    plot_elm: null,
-    plot_dict: null,
-    plot_type: 'plotly',
-    data: null,
-    data_file: 'usstate-data-latest.json',
-    mapbox: {
-        accesstoken: 'pk.eyJ1IjoiaGVodWFuMjExMiIsImEiOiJjazhudzg2ODgweWJ1M2Zremxub2VoY3MxIn0.JEycE3z3q8b7JX8f2XCw3Q',
-        style: 'light'
-    },
-    colorbar_title: 'Days',
-    cdt_max: 50,
-    colorscale: {
-        CDT: [
-            [0, 'rgba(255, 0, 0, 0.7)'],
-            [0.5, 'rgba(255, 255, 0, 0.7)'],
-            [1, 'rgba(144, 238, 144, 0.7)']
-        ],
+        cdts: {
+            name: 'Case Doubling Time',
+            min: 0,
+            mid: 50,
+            max: 100,
+            schema: [
+                [0, 'rgba(255, 0, 0, 1)'],
+                [0.5, 'rgba(255, 255, 0, 1)'],
+                [1, 'rgba(144, 238, 144, 1)']
+            ]
+        },
+        crcs: {
+            name: 'CrRW Status',
+            min: 0,
+            mid: 1,
+            max: 2,
+            schema: [
+                [0, 'green'],
+                [0.5, 'gold'],
+                [1, 'red']
+            ]
+        },
+        tcps: {
+            name: 'Total Cases / Population',
+            min: 0,
+            mid: 0.03,
+            max: 0.06,
+            schema: [
+                [0,   'rgba(254, 240, 206, 1)'],
+                [0.5, 'rgba(253, 164, 93, 1)'],
+                [1, 'rgba(255, 30, 2, 1)']
+            ]
+        },
+        // pvis: {
+        //     name: 'Pandemic Vulnerability Index',
+        //     min: 0,
+        //     mid: 0.5,
+        //     max: 1,
+        //     schema: [
+        //         [0,   'rgba(253, 231, 228, 1)'],
+        //         [0.5, 'rgba(240, 90, 158, 1)'],
+        //         [1, 'rgba(71, 1, 103, 1)']
+        //     ]
+        // }
     },
     fmt_comma: d3.format(","),
 
-    area: {
-        default: {
-            center: [38, -96],
-            zoom: 3.4
-        }
+    plot_config: {
+        responsive: true,
+        // displayModeBar: false,
+        scrollZoom: false,
+    },
+
+    current: {
+        date: null,
+        attr: 'crcs'
     },
 
     load: function() {
         $.get(
-            './covid_data/' + this.data_file,
+            './covid_data/state/' + this.data_file,
             {ver: Math.random()},
             function(data) {
-                fig_heatmap_usstatecdt.init(data);
+                fig_crrw_worldmap.init(data);
             }, 'json'
         );
     },
 
-    init: function(data) {
-        this.data = data;
-        var mydata = this.create_plot_data();
+    init: function() {
+        // init the vpp part
+        this.vpp = new Vue({
+            el: this.vpp_id,
+            data: {
+                attr_colorscales: this.colorscale,
+                current: this.current,
+                date: null,
+                dates: [],
+                country: {
+                    country: null,
+                    data: {}
+                }
+            },
+            methods: {
+                get_attr_colorscale_legend: function(attr_colorscale) {
+                    var style = "background: linear-gradient(90deg";
+                    for (var i = 0; i < attr_colorscale.schema.length; i++) {
+                        var schema_item = attr_colorscale.schema[i];
+                        style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
+                    } 
+                    style += ');'
+                    return style;
+                },
 
-        var plot_data = [];
+                update_color: function(attr) {
+                    this.current.attr = attr;
+                    fig_crrw_worldmap.update(fig_crrw_worldmap.data);
+                },
 
-        plot_data.push({
-            name: 'State<br>Data',
-            type: 'choropleth',
-            locationmode: 'USA-states',
-            locations: this.unpack(mydata.regions, 'state'),
-            text: this.unpack(mydata.regions, 'txt'),
-            z: this.unpack(mydata.regions, 'val'),
-            hovertemplate: '%{text}',
-            zmin: 0,
-            zmid: this.cdt_max/2,
-            zmax: this.cdt_max,
-            colorscale: this.colorscale.CDT,
-            colorbar: {
-                title: this.colorbar_title,
-                thickness: 15,
-                len: .3,
-                x: 0.9,
-                y: 0.83,
-                nticks: 6
-            }
-        });
+                get_detail: function() {
+                    var date_idx = this.dates.indexOf(this.date);
+                    return {
+                        country: this.country.data.country,
+                        name: this.country.data.name,
+                        state: this.country.data.state,
+                        pop: this.country.data.pop,
+                        cdt: this.country.data.cdts[date_idx],
+                        crp: this.country.data.crps[date_idx],
+                        crt: this.country.data.crts[date_idx],
+                        ncc: this.country.data.nccs[date_idx],
+                        dnc: this.country.data.dncs[date_idx],
+                        dth: this.country.data.dths[date_idx],
+                        dtr: this.country.data.dtrs[date_idx],
+                        crc: this.country.data.crcs[date_idx],
+                        tcp: this.country.data.nccs[date_idx] / this.country.data.pop
+                    }
+                },
 
-        this.plot_dict = {
-            data: plot_data,
-            layout: {
-                height: this.get_height(),
-                margin: { t: 10 , b: 10, l: 12, r: 12},
-                geo: {
-                    scope: 'usa',
-                    showlakes: true,
-                    lakecolor: 'rgb(255,255,255)'
+                fmt_comma: function(v) {
+                    return fig_crrw_worldmap.fmt_comma(v);
                 }
             }
+        });
+    },
+
+    update: function(data) {
+        this.data = data;
+    
+        // update the vpp
+        this.vpp.date = data.date;
+        this.vpp.dates = data.dates;
+        
+        this._create_plot_data();
+        this.plot_layout = {
+            margin: { t: 0 , b: 0, l: 0, r: 0},
+            geo: {
+                scope: 'world',
+                resolution: 50,
+                showframe: false,
+                showlakes: false
+            },
+            width: this.get_width(),
+            height: this.get_height()
         };
 
+        Plotly.purge(this.plot_id);
         Plotly.newPlot(
             this.plot_id, 
-            this.plot_dict.data,
-            this.plot_dict.layout,
-            {responsive: true}
+            this.plot_data,
+            this.plot_layout,
+            this.plot_config
         );
         // update the last update
         $('#' + this.plot_id + '_last_update').html(data.date);
 
-        this.bind_click_event();
+        // re-bind click event
+        this._bind_click_event();
+
+        // re-bind hover event
+        this._bind_hover_event();
     },
 
-    bind_click_event: function() {
+    _bind_click_event: function() {
+        // bind click events
+        this.plot_elm = document.getElementById(this.plot_id);
+        this.plot_elm.on('plotly_click', function(data) {
+            var country = data.points[0].location;
+            jarvis.show_country(country);
+            fig_crrw_worldmap.show_detail(country)
+        });
+    },
+
+    _bind_hover_event: function() {
+        // bind hover events
+        this.plot_elm = document.getElementById(this.plot_id);
+        this.plot_elm.on('plotly_hover', function(data) {
+            var country = data.points[0].location;
+        });
+    },
+
+
+    show_detail: function(country) {
+        this.vpp.country.country = country;
+        this.vpp.country.data = this.data.world_data[country];
+        // this.vpp.$forceUpdate();
+    },
+    
+    _create_plot_data: function() {
+        var date = this.data.date;
+        var rows = this.data.world_data;
+        var mydata = [];
+
+        for (var country in rows) {
+            if (rows.hasOwnProperty(country)) {
+                var obj = rows[country];
+                var country_name = obj.name;
+                var cdt = obj.cdts[obj.cdts.length - 1];
+                var dnc = obj.dncs[obj.dncs.length - 1];
+                var ncc = obj.nccs[obj.nccs.length - 1];
+                var crp = obj.crps[obj.crps.length - 1];
+                var crt = obj.crts[obj.crts.length - 1];
+                var dth = obj.dths[obj.dths.length - 1];
+                var dtr = obj.dtrs[obj.dtrs.length - 1];
+                var crc = obj.crcs[obj.crcs.length - 1];
+                var crc_v = {R:2, Y:1, G:0}[crc];
+                var tcp = ncc / obj.pop;
+
+                // decide show which value as default
+                var val = null;
+                if (this.current.attr == 'crcs') {
+                    val = crc_v;
+                } else if (this.current.attr == 'tcps') {
+                    val = tcp;
+                } else {
+                    val = obj[this.current.attr][obj[this.current.attr].length - 1];
+                }
+                var r = {
+                    country: country,
+                    val: val,
+                    txt: country_name + '<br>' +
+                        // ' (Population: ' + this.fmt_comma(obj.pop) + ')     <br>' +
+                        // 'For ' + date + ' <br>' +
+                        // 'Cr7d100k: <b>' + crp.toFixed(1) + ' cases per 100k </b><br>' +
+                        // 'RW_Cr7d100k: <b>' + crt.toFixed(2) + ' </b><br>' +
+                        // 'CDT: <b>' + cdt.toFixed(1) + ' days </b><br>' +
+                        // 'New Cases: <b>' + this.fmt_comma(dnc) + ' </b><br>' + 
+                        'Total Cases: <b>' + this.fmt_comma(ncc) + ' </b><br>' + 
+                        // 'Total Cases/Population: <b>' + (tcp*100).toFixed(4) + '% </b><br>' + 
+                        // 'Total Death: <b>' + this.fmt_comma(dth) + ' </b><br>' + 
+                        // 'Death Rate: <b>' + (dtr*100).toFixed(2) + '%</b><br>' +
+                        ''
+                };
+                mydata.push(r);
+            }
+        }
+
+        this.plot_data = [];
+        this.plot_data.push({
+            name: '',
+            type: 'choropleth',
+            locationmode: 'world',
+
+            locations: this.unpack(mydata, 'country'),
+            text: this.unpack(mydata, 'txt'),
+            z: this.unpack(mydata, 'val'),
+
+            showlegend: false,
+            showscale: false,
+
+            hovertemplate: '%{text}',
+            zmin: this.colorscale[this.current.attr].min,
+            zmax: this.colorscale[this.current.attr].max,
+
+            colorscale: this.colorscale[this.current.attr].schema,
+
+            hoverlabel: {
+                font: {
+                    size: 12
+                },
+                align: 'left'
+            }
+        });
+    },
+
+    unpack: function(rows, key) {
+        return rows.map(function(row) {
+            return row[key];
+        });
+    },
+
+
+    get_width: function() {
+        var w = $('#' + this.plot_id).css('width');
+        w = parseFloat(w.substring(0, w.length-2));
+        console.log('* ' + this.plot_id + ' width: ' + w);
+        
+        var widths = [];
+        if (w < 100) {
+            // ask help !!!
+            // 40 is the padding of the container
+            w = jarvis.guess_width(this.plot_id) - 40;
+            if (w == 0) {
+                w = this.default_width;
+            }
+        }
+
+        return w;
+    },
+
+    get_height: function() {
+        var h = $('#' + this.plot_id).css('height');
+        h = parseFloat(h.substring(0, h.length-2));
+        console.log('* ' + this.plot_id + ' height: ' + h);
+
+        if (h < 200) {
+            var width = this.get_width();
+            return width * 0.5;
+        } else {
+            return h;
+        }
+
+    },
+
+};
+// bind this to the global plots object
+if (typeof(plots) == 'undefined') {
+
+} else {
+    plots[fig_crrw_worldmap.plot_id] = fig_crrw_worldmap;
+}
+var fig_crrw_usmap = {
+    plot_id: 'fig_crrw_usmap',
+    vpp: null,
+    vpp_id: '#fig_crrw_usmap_vpp',
+
+    data: null,
+    data_file: 'US-latest.json',
+    colorscale: {
+        cdts: {
+            name: 'Case Doubling Time',
+            min: 0,
+            mid: 50,
+            max: 100,
+            schema: [
+                [0, 'rgba(255, 0, 0, 1)'],
+                [0.5, 'rgba(255, 255, 0, 1)'],
+                [1, 'rgba(144, 238, 144, 1)']
+            ]
+        },
+        crcs: {
+            name: 'CrRW Status',
+            min: 0,
+            mid: 1,
+            max: 2,
+            schema: [
+                [0, 'green'],
+                [0.5, 'gold'],
+                [1, 'red']
+            ]
+        },
+        tcps: {
+            name: 'Total Cases / Population',
+            min: 0,
+            mid: 0.03,
+            max: 0.06,
+            schema: [
+                [0,   'rgba(254, 240, 206, 1)'],
+                [0.5, 'rgba(253, 164, 93, 1)'],
+                [1, 'rgba(255, 30, 2, 1)']
+            ]
+        },
+        pvis: {
+            name: 'Pandemic Vulnerability Index',
+            min: 0.3,
+            mid: 0.5,
+            max: 0.7,
+            schema: [
+                [0,   'rgba(253, 231, 228, 1)'],
+                [0.5, 'rgba(240, 90, 158, 1)'],
+                [1, 'rgba(71, 1, 103, 1)']
+            ]
+        }
+    },
+    fmt_comma: d3.format(","),
+
+    current: {
+        date: null,
+        attr: 'crcs'
+    },
+
+    plot_config: {
+        responsive: true,
+        // displayModeBar: false,
+        scrollZoom: false,
+    },
+
+    load: function() {
+        $.get(
+            './covid_data/state/' + this.data_file,
+            {ver: Math.random()},
+            function(data) {
+                fig_crrw_usmap.init(data);
+            }, 'json'
+        );
+    },
+
+    init: function() {
+        // init the vpp part
+        this.vpp = new Vue({
+            el: this.vpp_id,
+            data: {
+                attr_colorscales: this.colorscale,
+                current: this.current,
+                date: null,
+                dates: [],
+                state: {
+                    state: null,
+                    data: {}
+                }
+            },
+            methods: {
+                get_attr_colorscale_legend: function(attr_colorscale) {
+                    var style = "background: linear-gradient(90deg";
+                    for (var i = 0; i < attr_colorscale.schema.length; i++) {
+                        var schema_item = attr_colorscale.schema[i];
+                        style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
+                    } 
+                    style += ');'
+                    return style;
+                },
+
+                update_color: function(attr) {
+                    this.current.attr = attr;
+                    fig_crrw_usmap.update(fig_crrw_usmap.data);
+                },
+
+                get_detail: function() {
+                    var date_idx = this.dates.indexOf(this.date);
+                    return {
+                        state: this.state.data.state,
+                        name: this.state.data.name,
+                        state: this.state.data,
+                        pop: this.state.data.pop,
+                        cdt: this.state.data.cdts[date_idx],
+                        crp: this.state.data.crps[date_idx],
+                        crt: this.state.data.crts[date_idx],
+                        ncc: this.state.data.nccs[date_idx],
+                        dnc: this.state.data.dncs[date_idx],
+                        dth: this.state.data.dths[date_idx],
+                        dtr: this.state.data.dtrs[date_idx],
+                        crc: this.state.data.crcs[date_idx],
+                        pvi: this.state.data.pvis[date_idx],
+                        tcp: this.state.data.nccs[date_idx] / this.state.data.pop
+                    }
+                },
+
+                fmt_comma: function(v) {
+                    return fig_crrw_usmap.fmt_comma(v);
+                }
+            }
+        });
+    },
+
+    update: function(data) {
+        this.data = data;
+        this.current.date = data.date;
+
+        // update the vpp
+        this.vpp.date = data.date;
+        this.vpp.dates = data.dates;
+
+        this._create_plot_data();
+        this.plot_layout = {
+            margin: { t: 0 , b: 0, l: 0, r: 0},
+            geo: {
+                scope: 'usa',
+                showlakes: true,
+                lakecolor: 'rgb(255,255,255)'
+            }
+        };
+
+        Plotly.purge(this.plot_id);
+        Plotly.newPlot(
+            this.plot_id, 
+            this.plot_data,
+            this.plot_layout,
+            this.plot_config
+        );
+
+        // re-bind click event
+        this._bind_click_event();
+
+        // re-bind hover event
+        this._bind_hover_event();
+
+        // update the last update
+        $('#' + this.plot_id + '_last_update').html(data.date);
+    },
+
+    _bind_click_event: function() {
         // bind click events
         this.plot_elm = document.getElementById(this.plot_id);
         this.plot_elm.on('plotly_click', function(data) {
             var state = data.points[0].location;
-            jarvis.add_state_series(state);
+            jarvis.show_state(state);
+            fig_crrw_usmap.show_detail(state)
         });
     },
-    
-    create_plot_data: function() {
-        var date = this.data.date;
-        var dates = this.data.dates;
-        var rows = this.data.data;
-        var mydata = {
-            regions: []
-        };
 
-        for (const state in rows) {
+    _bind_hover_event: function() {
+        // bind hover events
+        this.plot_elm = document.getElementById(this.plot_id);
+        this.plot_elm.on('plotly_hover', function(data) {
+            var state = data.points[0].location;
+            // jarvis.show_state(state);
+        });
+    },
+
+
+    show_detail: function(state) {
+        // console.log('* show detail: ' + county_fips);
+        this.vpp.state.state = state;
+        this.vpp.state.data = this.data.state_data[state];
+        // this.vpp.$forceUpdate();
+    },
+    
+    _create_plot_data: function() {
+        var date = this.data.date;
+        var rows = this.data.state_data;
+        var mydata = [];
+
+        for (var state in rows) {
             if (rows.hasOwnProperty(state)) {
-                const obj = rows[state];
+                var obj = rows[state];
                 var cdt = obj.cdts[obj.cdts.length - 1];
                 var ncc = obj.nccs[obj.nccs.length - 1];
+                var dnc = obj.dncs[obj.dncs.length - 1];
+                var crp = obj.crps[obj.crps.length - 1];
+                var crt = obj.crts[obj.crts.length - 1];
                 var dth = obj.dths[obj.dths.length - 1];
-                var sdr = obj.sdrs[obj.dths.length - 1] * 100;
-                var cdr = dth / ncc * 100;
+                var dtr = obj.dtrs[obj.dtrs.length - 1];
+                var pvi = obj.pvis[obj.pvis.length - 1];
+                var crc = obj.crcs[obj.crcs.length - 1];
+                var crc_v = {R:2, Y:1, G:0}[crc];
+                var tcp = ncc / obj.pop;
+
+                // decide show which value as default
+                var val = null;
+                if (this.current.attr == 'crcs') {
+                    val = crc_v;
+                } else if (this.current.attr == 'tcps') {
+                    val = tcp;
+                } else {
+                    val = obj[this.current.attr][obj[this.current.attr].length - 1];
+                }
+
                 var r = {
                     state: state,
-                    val: cdt,
-                    txt: state + ' on ' + date + ' <br>' +
-                        'CDT: ' + cdt.toFixed(1) + ' days (' + obj.d_cdt.toFixed(1) +')<br>' +
-                        'Total Cases: ' + this.fmt_comma(ncc) + ' (' + obj.d_ncc.toFixed(0) + ')<br>' + 
-                        'Total Death: ' + this.fmt_comma(dth) + ' (' + obj.d_dth.toFixed(0) + ')<br>' + 
-                        'Death Rate: ' + cdr.toFixed(1) + '%<br>' + 
-                        'Death Rate(4-day Smoothed): ' + sdr.toFixed(1) + '%<br>'
+                    val: val,
+                    txt: obj.name + '<br>' +
+                        // ' (Population: ' + this.fmt_comma(obj.pop) + ') <br>'+
+                        // 'For ' + date + ' <br>' +
+                        // 'Cr7d100k: <b>' + crp.toFixed(1) + ' cases per 100k </b><br>' +
+                        // 'RW_Cr7d100k: <b>' + crt.toFixed(2) + ' </b><br>' +
+                        // 'CDT: <b>' + cdt.toFixed(1) + ' days </b><br>' +
+                        // 'New Cases: <b>' + this.fmt_comma(dnc) + '</b><br>' +
+                        'Total Cases: <b>' + this.fmt_comma(ncc) + ' </b><br>' + 
+                        // 'Total Cases/Population: <b>' + (tcp*100).toFixed(4) + '% </b><br>' + 
+                        // 'Total Death: <b>' + this.fmt_comma(dth) + ' </b><br>' + 
+                        // 'Death Rate: <b>' + (dtr*100).toFixed(2) + '%</b><br>'
+                        ''
                 };
-                mydata.regions.push(r);
+                mydata.push(r);
             }
         }
 
-        return mydata;
+        this.plot_data = [];
+        this.plot_data.push({
+            name: '',
+            type: 'choropleth',
+            locationmode: 'USA-states',
+
+            locations: this.unpack(mydata, 'state'),
+            text: this.unpack(mydata, 'txt'),
+            z: this.unpack(mydata, 'val'),
+
+            showlegend: false,
+            showscale: false,
+
+            hovertemplate: '%{text}',
+            zmin: this.colorscale[this.current.attr].min,
+            zmax: this.colorscale[this.current.attr].max,
+
+            colorscale: this.colorscale[this.current.attr].schema,
+
+            hoverlabel: {
+                font: {
+                    size: 12
+                },
+                align: 'left'
+            }
+        });
     },
 
     unpack: function(rows, key) {
@@ -1767,1249 +1203,1028 @@ var fig_heatmap_usstatecdt = {
 if (typeof(plots) == 'undefined') {
 
 } else {
-    plots[fig_heatmap_usstatecdt.plot_id] = fig_heatmap_usstatecdt;
+    plots[fig_crrw_usmap.plot_id] = fig_crrw_usmap;
 }
-var fig_heatmap_worldcdt = {
-    plot_id: 'fig_heatmap_worldcdt',
-    plot_dict: null,
-    plot_type: 'plotly',
-    
-    colorbar_title: 'Days',
-    cdt_max: 50,
+var fig_crrw_stmap = {
+    plot_id: 'fig_crrw_stmap',
+    data_file: 'US-latest.json',
+    vpp: null,
+    vpp_id: '#fig_crrw_stmap_vpp',
+
     colorscale: {
-        CDT: [
-            [0, 'rgba(255, 0, 0, 0.6)'],
-            [0.5, 'rgba(255, 255, 0, 0.6)'],
-            [1, 'rgba(144, 238, 144, 0.6)']
-        ],
+        cdts: {
+            name: 'Case Doubling Time',
+            min: 0,
+            mid: 50,
+            max: 100,
+            schema: [
+                [0, 'rgba(255, 0, 0, 1)'],
+                [0.5, 'rgba(255, 255, 0, 1)'],
+                [1, 'rgba(144, 238, 144, 1)']
+            ]
+        },
+        crcs: {
+            name: 'CrRW Status',
+            min: 0,
+            mid: 1,
+            max: 2,
+            schema: [
+                [0, 'green'],
+                [0.5, 'gold'],
+                [1, 'red']
+            ]
+        },
+        tcps: {
+            name: 'Total Cases / Population',
+            min: 0,
+            mid: 0.03,
+            max: 0.06,
+            schema: [
+                [0,   'rgba(254, 240, 206, 1)'],
+                [0.5, 'rgba(253, 164, 93, 1)'],
+                [1, 'rgba(255, 30, 2, 1)']
+            ]
+        },
+        pvis: {
+            name: 'Pandemic Vulnerability Index',
+            min: 0.3,
+            mid: 0.5,
+            max: 0.7,
+            schema: [
+                [0,   'rgba(253, 231, 228, 1)'],
+                [0.5, 'rgba(240, 90, 158, 1)'],
+                [1, 'rgba(71, 1, 103, 1)']
+            ]
+        }
     },
-    data: null,
+    
     fmt_comma: d3.format(","),
-    data_file: 'world-data-latest.json',
+    geojson_url_base: "/static/data/map/",
 
-    get_color: function(v) {
-        if (v>=0) { return 'green'; }
-        else { return 'red'; }
-    },
-
-    get_sign: function(v) {
-        if (v>0) {
-            return '+';
+    get_geojson_url: function(state) {
+        if (state == 'US') {
+            // return this.geojson_url_base + "us-states.json?ver=" + Math.random();
+            return this.geojson_url_base + "us-states.json";
         } else {
-            return '';
+            // return this.geojson_url_base + "us-"+state+".json?ver=" + Math.random();
+            return this.geojson_url_base + "us-"+state+".json";
         }
     },
-    
 
-    load: function() {
-        $.get(
-            './covid_data/' + this.data_file, 
-            {ver: Math.random()},
-            function(data) {
-                fig_heatmap_worldcdt.init(data);
+    center_zoom: {
+        AL: [32.83094098386724, -86.72798630623657, 5.555648752272612, 6.505648752272609],
+        AK: [63.44693850362876, -152.35437607298434, 2.7821258120506602, 3.582125812050661],
+        AZ: [34.22032129272864, -111.79519254393165, 5.151412188068152, 6.151412188068149],
+        AR: [34.74154293076825, -92.27158518339274, 5.3909149325614415, 6.890914932561438],
+        CA: [37.45075663829661, -119.15385736551389, 4.203726247727388, 5.503726247727385],
+        CO: [39.031159219718006, -105.50860962020852, 4.851412188068152, 6.551412188068148],
+        CT: [41.55715657621522, -72.7299787240895, 6.636700474857865, 8.299999999999999],
+        DE: [39.15099498387974, -75.36087912973886, 7.063404857504172, 7.96340485750417],
+        DC: [38.896758078722826, -77.02494504184142, 9.863382259558914, 10.699999999999996],
+        FL: [27.887125200731163, -83.79563908145951, 4.788425024767943, 6.08842502476794],
+        GA: [32.80136845685382, -83.17089284876477, 5.194073777040557, 6.494073777040554],
+        HI: [20.60743963352357, -157.54104533361146, 5.280893574706169, 6.6808935747061655],
+        ID: [45.61980167243152, -114.16598280970521, 4.736549065241494, 5.636549065241491],
+        IL: [39.81074645701159, -88.99580463570834, 5.24346021698839, 6.1434602169883865],
+        IN: [39.799696826456255, -86.22002516386937, 5.397696781192849, 6.5976967811928455],
+        IA: [42.10491391119382, -93.41377777792462, 5.211168201429747, 6.8111682014297426],
+        KS: [38.440684985214176, -98.28074220678246, 4.808343825293441, 6.408343825293437],
+        KY: [37.564568416051415, -85.6694500400194, 5.259756013361598, 6.559756013361594],
+        LA: [30.99086613113124, -91.43518683060825, 5.380138585345384, 6.6801385853453805],
+        ME: [45.289657532234486, -68.9674969445648, 5.229988796751516, 6.329988796751513],
+        MD: [38.81535418520116, -77.12180346403989, 6.003973887409244, 7.203973887409241],
+        MA: [42.08303690793116, -71.71280982798328, 6.0390902791042025, 7.439090279104199],
+        MI: [44.5801516216078, -86.36481608559717, 4.799287957423174, 5.899287957423171],
+        MN: [46.38085826405498, -93.6717735092464, 4.8000000000000005, 5.799999999999998],
+        MS: [32.67036218623886, -89.64788757469944, 5.536594679723923, 6.43659467972392],
+        MO: [38.38745607075799, -92.45400615072117, 5.202740687503251, 6.302740687503248],
+        MT: [46.69748337383348, -109.89449604217452, 4.194267559094335, 5.694267559094331],
+        NE: [41.35954643228564, -99.749047264115, 4.882358115519469, 6.182358115519465],
+        NV: [38.61884501147105, -116.78201005530627, 4.896457889700124, 5.696457889700121],
+        NH: [44.01014312907287, -71.52454991154269, 6.222515228018716, 7.0225152280187135],
+        NJ: [40.14494695293476, -74.56351899912465, 6.266427775437659, 7.366427775437656],
+        NM: [34.200386344213044, -106.07109251748108, 5.10199102508721, 6.101991025087207],
+        NY: [42.93475020043314, -75.85682602572393, 4.851412188068152, 6.151412188068149],
+        NC: [35.212586257912264, -79.89760235349581, 4.878911947457379, 6.178911947457375],
+        ND: [47.45124418753352, -100.37322141588692, 4.833557666103269, 6.333557666103265],
+        OH: [40.244096346922646, -82.58889854466332, 5.37060940340765, 6.657060940340762],
+        OK: [35.36240917258573, -98.67768864171694, 4.4393485316272955, 6.239348531627291],
+        OR: [44.14153619035105, -120.49700768838579, 4.640168187669632, 6.240168187669628],
+        PA: [40.93561623669444, -77.63858939515887, 5.003288622967021, 6.9032886229670165],
+        RI: [41.644399559477705, -71.49968794595952, 8.093127369668101, 8.993127369668098],
+        SC: [33.57961112709421, -80.89443809845852, 5.878145529643364, 6.97814552964336],
+        SD: [44.21476029518314, -100.23875902228633, 5.184352210170486, 6.384352210170482],
+        TN: [35.83840909453255, -85.97782123718252, 5.064853245762301, 6.464853245762296],
+        TX: [31.38153766444762, -100.08651780956296, 4.440010149181202, 5.340010149181198],
+        UT: [39.57383395300832, -111.44344606283937, 5.402824376136306, 6.202824376136303],
+        VT: [43.88191442670171, -72.52570703386135, 6.430489799445501, 7.330489799445497],
+        VA: [37.48779928349346, -79.42283700816557, 5.092093635377879, 6.492093635377874],
+        WA: [47.39956277899745, -120.79115434451177, 5.500000000000008, 6.300000000000005],
+        WV: [38.9752685512272, -80.17909479124876, 5.880624334739462, 6.780624334739459],
+        WI: [44.75598451280965, -89.84999463098484, 5.402824376136305, 6.302824376136302],
+        WY: [43.00465749846177, -107.54231152504644, 5.001412188068152, 6.251412188068149],
+
+        // for the USA map
+        US: [41.341570863844055, -112.28385033630519, 1.33, 3.0333333333333408],
+
+        // for the territories
+        "AS": [-14.287319715841264, -170.6875293445853, 8.900000000000004, 9.900000000000004],
+        "GU": [13.4352408224931, 144.79330364803013, 8.999999999999982, 9.999999999999982],
+        "MP": [15.101249677795451, 145.7078289288088, 8.799999999999983, 9.799999999999983],
+        "PR": [18.19379353240403, -66.41591225952243, 6.69999999999989, 7.89999999999999],
+        "VI": [18.03447726727822, -64.79825504504345, 8.099999999999985, 9.099999999999985]
+    },
+
+    current: {
+        date: null,
+        state: null,
+        attr: 'crcs'
+    },
+
+    plot_config: {
+        responsive: true,
+        // displayModeBar: false,
+        scrollZoom: false,
+    },
+
+    init: function() {
+        this.vpp = new Vue({
+            el: this.vpp_id,
+            data: {
+                attr_colorscales: this.colorscale,
+                current: this.current,
+                date: null,
+                dates: [],
+                county: {
+                    fips: null,
+                    data: {}
+                }
             },
-            'json'
-        );
-    },
+            methods: {
+                get_attr_colorscale_legend: function(attr_colorscale) {
+                    var style = "background: linear-gradient(90deg";
+                    for (var i = 0; i < attr_colorscale.schema.length; i++) {
+                        var schema_item = attr_colorscale.schema[i];
+                        style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
+                    } 
+                    style += ');'
+                    return style;
+                },
 
-    init: function(data) {
-        this.data = data;
-        var date = data.date;
-        var rows = data.data;
-        var mydata = [];
-        for (const country in rows) {
-            if (rows.hasOwnProperty(country)) {
-                const obj = rows[country];
-                // console.log('* country: ' + country);
-                
-                var cdt = obj.cdts[obj.cdts.length - 1];
-                var ncc = obj.nccs[obj.nccs.length - 1];
-                var dth = obj.dths[obj.dths.length - 1];
-                var d_ncc = obj.news[obj.news.length - 1];
-                var d_dth = dth - obj.dths[obj.dths.length - 2];
-                var sdr = obj.sdrs[obj.sdrs.length - 1] * 100;
-                var cdr = '--';
-                if (ncc > 0) {
-                    cdr = dth / ncc * 100;
-                    cdr = cdr.toFixed(1) + '%';
-                }
-                if (cdt == null) { cdt = this.cdt_max; }
-                var r = {
-                    country: country,
-                    cdt: obj.cdts[obj.cdts.length - 1],
-                    txt: "<b>" + country + '</b> on ' + date + '<br>' + 
-                        'CDT: <b>' + cdt.toFixed(1) + '</b> days <br>' +
-                        'Total Cases:  <b>' + this.fmt_comma(ncc) + 
-                            ' (' + this.get_sign(d_ncc) + this.fmt_comma(d_ncc) + ')</b><br>' + 
-                        'Total Deaths:  <b>' + this.fmt_comma(dth) + 
-                            ' (' + this.get_sign(d_dth) + this.fmt_comma(d_dth) + ')</b><br>' + 
-                        'Death Rate:  <b>' + cdr + '</b><br>' + 
-                        'Death Rate(4-day Smoothed): <b>'+ sdr.toFixed(1) + '%</b>'
-                }
-                mydata.push(r);
-            }
-        }
-        
-        var plot_data = [{
-            name: 'Country<br>Data',
-            type: 'choropleth',
-            locationmode: 'country names',
-            locations: this.unpack(mydata, 'country'),
-            z: this.unpack(mydata, 'cdt'),
-            text: this.unpack(mydata, 'txt'),
-            hovertemplate: '%{text}',
-            
-            zmin: 0,
-            zmid: this.cdt_max / 2,
-            zmax: this.cdt_max,
-            colorscale: this.colorscale.CDT,
-            colorbar: {
-                title: this.colorbar_title,
-                thickness: 15,
-                len: .4,
-                x: 0.05,
-                y: 0.35,
-                nticks: 6
-            }
-        }];
-        
-        this.plot_dict = {
-            data: plot_data,
-            layout: {
-                height: this.get_height(),
-                margin: { t: 10 , b: 10, l: 12, r: 12},
-                geo: {
-                    resolution: 50,
-                    projection: {
-                        type: 'equirectangular'
+                update_color: function(attr) {
+                    this.current.attr = attr;
+                    fig_crrw_stmap.update(fig_crrw_stmap.data);
+                },
+
+                get_detail: function() {
+                    var date_idx = this.dates.indexOf(this.date);
+                    return {
+                        FIPS: this.county.data.FIPS,
+                        name: this.county.data.name,
+                        state: this.county.data,
+                        pop: this.county.data.pop,
+                        cdt: this.county.data.cdts[date_idx],
+                        crp: this.county.data.crps[date_idx],
+                        crt: this.county.data.crts[date_idx],
+                        ncc: this.county.data.nccs[date_idx],
+                        dnc: this.county.data.dncs[date_idx],
+                        dth: this.county.data.dths[date_idx],
+                        dtr: this.county.data.dtrs[date_idx],
+                        crc: this.county.data.crcs[date_idx],
+                        pvi: this.county.data.pvis[date_idx],
+                        tcp: this.county.data.nccs[date_idx] / this.county.data.pop
                     }
+                },
+
+                get_detail_by_date: function(date) {
+                    this.date = date;
+                    return this.get_detail();
+                },
+
+                fmt_comma: function(v) {
+                    return fig_crrw_stmap.fmt_comma(v);
                 }
             }
-        };
-
-        Plotly.newPlot(
-            this.plot_id, 
-            this.plot_dict.data,
-            this.plot_dict.layout,
-            {responsive: true}
-        );
-        // update the last update
-        $('#' + this.plot_id + '_last_update').html(data.date);
-
-        this.bind_click_event();
-    },
-    
-
-    bind_click_event: function() {
-        // bind click events
-        this.plot_elm = document.getElementById(this.plot_id);
-        this.plot_elm.on('plotly_click', function(data) {
-            var nation = data.points[0].location;
-            jarvis.add_nation_series(nation);
         });
     },
 
-    get_width: function() {
-        var w = $('#' + this.plot_id).css('width');
-        return parseFloat(w.substring(0, w.length-2));
+    update: function(data) {
+        this.data = data;
+        this.current.state = data.state;
+        this.current.date = data.date;
+    
+        // update the vpp
+        this.vpp.date = data.date;
+        this.vpp.dates = data.dates;
+
+        // create the data on this date
+        this._create_plot_data();
+
+        // update the layout
+        this._create_plot_layout();
+
+        Plotly.purge(this.plot_id);
+        Plotly.newPlot(
+            this.plot_id,
+            this.plot_data,
+            this.plot_layout,
+            this.plot_config
+        );
+        
+        // re-bind click event
+        this._bind_click_event();
+
+        // re-bind hover event
+        this._bind_hover_event();
+
+        // update the last update
+        $('#' + this.plot_id + '_last_update').html(data.date);
+        $('#' + this.plot_id + '_state_name').html(data.state);
     },
 
-    get_height: function() {
-        var h = $('#' + this.plot_id).css('height');
-        h = parseFloat(h.substring(0, h.length-2));
+    _bind_click_event: function() {
+        // bind click events
+        this.plot_elm = document.getElementById(this.plot_id);
+        this.plot_elm.on('plotly_click', function(data) {
+            var county_fips = data.points[0].location;
+            fig_crrw_stmap.show_detail(county_fips)
+            jarvis.show_county(county_fips);
+        });
+    },
 
-        if (h >= 300) {
-            return h;
-        } else {
-            var width = this.get_width();
-            if (width > 500) {
-                return width * 0.5;
-            } else {
-                return 300;
-            }
-        }
+    _bind_hover_event: function() {
+        // bind hover events
+        this.plot_elm = document.getElementById(this.plot_id);
+        this.plot_elm.on('plotly_hover', function(data) {
+            var county_fips = data.points[0].location;
+            // jarvis.show_county(state);
+            // fig_crrw_stmap.show_detail(county_fips)
+        });
+    },
+
+    show_detail: function(county_fips) {
+        // console.log('* show detail: ' + county_fips);
+        this.vpp.county.fips = county_fips;
+        this.vpp.county.data = this.data.data[county_fips];
+        // this.vpp.$forceUpdate();
     },
     
+    _create_plot_data: function() {
+        var date = this.data.date;
+        var rows = this.data.data;
+        var mydata = [];
+
+        for (var fips in rows) {
+            if (rows.hasOwnProperty(fips)) {
+                var obj = rows[fips];
+                var cdt = obj.cdts[obj.cdts.length - 1];
+                var crp = obj.crps[obj.crps.length - 1];
+                var crt = obj.crts[obj.crts.length - 1];
+                var ncc = obj.nccs[obj.nccs.length - 1];
+                var dnc = obj.dncs[obj.dncs.length - 1];
+                var dth = obj.dths[obj.dths.length - 1];
+                var dtr = obj.dtrs[obj.dtrs.length - 1];
+                var pvi = obj.pvis[obj.pvis.length - 1];
+                var crc = obj.crcs[obj.crcs.length - 1];
+                var crc_v = {R:2, Y:1, G:0}[crc];
+                var tcp = ncc / obj.pop;
+
+                // decide show which value as default
+                var val = null;
+                if (this.current.attr == 'crcs') {
+                    val = crc_v;
+                } else if (this.current.attr == 'tcps') {
+                    val = tcp;
+                } else {
+                    val = obj[this.current.attr][obj[this.current.attr].length - 1];
+                }
+                var r = {
+                    fips: fips,
+                    val: val,
+                    txt: obj.name + ', ' + obj.state + '<br>' +
+                        // ' (' + fips + ', Population: '+this.fmt_comma(obj.pop)+')<br>'+
+                        // 'For ' + date + ' <br>' +
+                        // 'Cr7d100k: <b>' + crp.toFixed(1) + ' cases per 100k </b><br>' +
+                        // 'RW_Cr7d100k: <b>' + crt.toFixed(2) + ' </b><br>' +
+                        // 'CDT: <b>' + cdt.toFixed(1) + ' days </b><br>' +
+                        'New Cases: <b>' + this.fmt_comma(dnc) + ' </b><br>' + 
+                        'Total Cases: <b>' + this.fmt_comma(ncc) + ' </b><br>' + 
+                        // 'Total Cases/Population: <b>' + (tcp*100).toFixed(4) + '% </b><br>' + 
+                        // 'Total Death: <b>' + this.fmt_comma(dth) + ' </b><br>' + 
+                        // 'Death Rate: <b>' + (dtr*100).toFixed(2) + '%</b><br>' +
+                        ''
+                };
+                mydata.push(r);
+            }
+        }
+
+        this.plot_data = [];
+
+        this.plot_data.push({
+            name: '',
+            type: 'choropleth',
+            locationmode: 'USA-states',
+            locations: this.unpack(mydata, 'fips'),
+
+            locationmode: "geojson-id",
+            geojson: this.get_geojson_url(this.current.state),
+
+            text: this.unpack(mydata, 'txt'),
+            z: this.unpack(mydata, 'val'),
+            hovertemplate: '%{text}',
+
+            zmin: this.colorscale[this.current.attr].min,
+            zmax: this.colorscale[this.current.attr].max,
+
+            colorscale: this.colorscale[this.current.attr].schema,
+
+            hoverlabel: {
+                bgcolor: '#000000',
+                font: {
+                    size: 12,
+                    color: '#ffffff'
+                },
+                align: 'left'
+            },
+
+            showlegend: false,
+            showscale: false,
+
+            marker: {
+                line: {
+                    color: "#333333",
+                    width: 1,
+                },
+            },
+        });
+
+    },
+
+    _create_plot_layout: function() {
+        var state_loc = this.center_zoom[this.current.state];
+        var lat = state_loc[0];
+        var lon = state_loc[1];
+        var zoom = state_loc[3];
+
+        this.plot_layout = {
+            margin: { t: 0 , b: 0, l: 0, r: 0},
+            geo: {
+                scope: 'world',
+                projection: {
+                    type: 'mercator'
+                },
+                center: {
+                    lat: lat,
+                    lon: lon,
+                },
+                fitbounds: 'locations',
+                zoom: zoom,
+                showframe: false,
+                showlakes: false
+            }
+        };
+    },
 
     unpack: function(rows, key) {
         return rows.map(function(row) {
             return row[key];
         });
-    }
+    },
 
-};
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
 
-} else {
-    plots[fig_heatmap_worldcdt.plot_id] = fig_heatmap_worldcdt;
-}
-
-var fig_casedeathline_cntys = {
-    plot_id: 'fig_casedeathline_cntys',
-    plot_type: 'echarts',
-    plot_chart: null,
-    
-    dates: [],
-    items: [],
-    series: [],
-
-    colors: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
-
-    data_file: 'uscounty-data-latest.json',
-
-    load: function() {
+    get_width: function() {
+        var w = $('#' + this.plot_id).css('width');
+        w = parseFloat(w.substring(0, w.length-2));
+        console.log('* ' + this.plot_id + ' width: ' + w);
         
-        $.get(
-            './read_data_file',
-            {fn:this.data_file, ver: Math.random()},
-            function(data) {
-                fig_casedeathline_cntys.init(data);
-                // use US as default
-                fig_casedeathline_cntys.reset_series();
-            }, 'json'
-        );
-    },
-
-    /*
-     data is {
-         name: 'xxx',
-         data: [1,2,3]
-     }
-     */
-    add_series: function(data) {
-        data.symbolSize = 2;
-        data['type'] = 'line';
-        data['smooth'] = true;
-        // update option
-        this.series.push(data);
-        this.option.series = this.series;
-        this.items.push(data.name);
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    add_series_by_FIPS: function(FIPS) {
-        var cnty = this.data_dict.get(FIPS);
-        var series_name = cnty.countyName + ',' + cnty.state;
-        // check if this exist
-        for (let i = 0; i < this.series.length; i++) {
-            const s = this.series[i];
-            if (s.name == series_name) {
-                // oh, this has been added!
-                return -1;
+        var widths = [];
+        if (w < 100) {
+            // ask help !!!
+            // 40 is the padding of the container
+            w = jarvis.guess_width(this.plot_id) - 40;
+            if (w == 0) {
+                w = this.default_width;
             }
         }
-        var data = {
-            name: series_name,
-            data: cnty.nccs,
-            itemStyle: {
-                color: this.colors[Math.floor(this.series.length/2) % 10]
-            },
-            lineStyle: {
-                width: 1,
-                color: this.colors[Math.floor(this.series.length/2) % 10],
-                type: 'solid'
-            }
-        };
-        this.add_series(data);
 
-        var cdrs = cnty.dths.map((v, i)=> (v/cnty.nccs[i] * 100).toFixed(1));
-        var sdrs = cnty.sdrs.map((v)=>(v*100).toFixed(1));
-        var data2 = {
-            name: cnty.countyName + ',' + cnty.state + ' Death Rate',
-            yAxisIndex: 1,
-            data: cdrs,
-            symbol: 'rect',
-            itemStyle: {
-                color: this.colors[Math.floor(this.series.length/2) % 10]
-            },
-            lineStyle: {
-                width: 1,
-                color: this.colors[Math.floor(this.series.length/2) % 10],
-                type: 'dotted'
-            }
-        };
-        this.add_series(data2);
+        return w;
     },
 
-    reset_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        this.plot_chart.setOption(this.option, true);
-        // var defaults = [
-        //     ['Maricopa,AZ', '04013'],
-        //     ['Duval,FL', '12031'],
-        //     ['Olmsted,MN', '27109'],
-        // ];
-        // for (let i = 0; i < defaults.length; i++) {
-        //     const c = defaults[i];
-        //     this.add_series_by_FIPS(c[1]);
-        // }
-    },
+    get_height: function() {
+        var h = $('#' + this.plot_id).css('height');
+        h = parseFloat(h.substring(0, h.length-2));
+        console.log('* ' + this.plot_id + ' height: ' + h);
 
-    convert_data_to_dict: function() {
-        this.data_dict = d3.map();
-        for (const FIPS in this.data.data) {
-            if (this.data.data.hasOwnProperty(FIPS)) {
-                const cnty = this.data.data[FIPS];
-                this.data_dict.set(FIPS, cnty);
-            }
-        }
-    },
-
-    clear_all_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.convert_data_to_dict();
-
-        this.dates = data.dates;
-        this.items = [];
-        this.series = [];
-
-        this.option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            grid: {
-                top: 40,
-                right: 50,
-                bottom: 20,
-                left: 50
-            },
-            legend: {
-                data: this.items,
-                left: 85,
-                right: 70,
-                itemWidth: 20,
-                textStyle: {
-                    fontSize: 9
-                }
-            },
-            xAxis: {
-                type: 'category',
-                data: this.dates
-            },
-            yAxis: [{
-                name: 'Cum.Cases',
-                type: 'log',
-                min: 1
-            }, {
-                name: 'Cum. Death Rate',
-                type: 'value',
-                splitLine: {
-                    show: false
-                },
-                axisLabel: {
-                    formatter: function (val) {
-                        return val + '%';
-                    }
-                },
-                max: 20
-            }],
-            series: this.series
-        };
-
-        this.plot_chart = echarts.init(document.getElementById(this.plot_id));
-        this.plot_chart.setOption(this.option);
-
-        // update the date
-        $('#' + this.plot_id + '_last_update').html(data.date);
-    },
-
-    resize: function() {
-        if (this.plot_chart == null) {
-
+        if (h < 200) {
+            var width = this.get_width();
+            return width * 0.6;
         } else {
-            this.plot_chart.resize();
+            return h;
         }
-    }
-};
 
+    },
+
+};
 // bind this to the global plots object
 if (typeof(plots) == 'undefined') {
 
 } else {
-    plots[fig_casedeathline_cntys.plot_id] = fig_casedeathline_cntys;
+    plots[fig_crrw_stmap.plot_id] = fig_crrw_stmap;
 }
-var fig_caseline_states = {
-    plot_id: 'fig_caseline_states',
-    plot_type: 'echarts',
-    plot_chart: null,
-    data_file: 'usstate-data-dict-latest.json',
-    
-    dates: [],
-    items: [],
-    series: [],
-
-    load: function() {
-        $.get(
-            './read_data_file',
-            {fn:this.data_file, ver: Math.random()},
-            function(data) {
-                fig_caseline_states.init(data);
-            }, 'json'
-        );
-    },
-
-    add_series_by_state: function(state) {
-        // check if this exist
-        for (let i = 0; i < this.series.length; i++) {
-            const s = this.series[i];
-            if (s.name == state) {
-                // oh, this has been added!
-                return -1;
+var figmker_crrw_trend = {
+    make_fig: function(plot_id, data, state, fips) {
+        if ($('#' + plot_id).length>0) {
+            // have already there
+            // $( "#" + plot_id ).effect( 'pulsate', {}, 200, null );
+            // move to the first
+            var parent_id = $( "#" + plot_id ).parent().attr('id');
+            $( "#" + plot_id ).prependTo('#'+parent_id);
+            return;
+        }
+        var fig = {
+            plot_id: plot_id,
+            color_range: [
+                'green',
+                'gold',
+                'red'
+            ],
+            state: state,
+            fips: fips,
+            data: data,
+            crp_threshold_1: 15,
+            crp_threshold_2: 30,
+            crp_threshold_3: 10
+        };
+        var is_cnty = false;
+        var datatmp = null;
+        if (typeof(fips)=='undefined') {
+            is_cnty = false;
+            datatmp = data.state_data[state];
+        } else if (fips == 'mchrr') {
+            is_cnty = false;
+            datatmp = data.mc_data[state];
+        } else if (fips == 'world') {
+            // the state is country code
+            is_cnty = false;
+            datatmp = data.world_data[state];
+        } else {
+            is_cnty = true;
+            if (data.data.hasOwnProperty(fips)) {
+                datatmp = data.data[fips];
             }
         }
-        var data = {
-            name: state,
-            data: this.data.dates.map((v)=>(this.data.data[state][v].test_pos).toFixed(0))
-        };
-        this.add_series(data);
-    },
-
-    /*
-     data is {
-         name: 'xxx',
-         data: [1,2,3]
-     }
-     */
-    add_series: function(data) {
-        data.symbolSize = 2;
-        data['type'] = 'line';
-        data['smooth'] = true;
-        data['lineStyle'] = {
-            width: 1,
-            type: 'solid'
-        };
-        // update option
-        this.series.push(data);
-        this.option.series = this.series;
-        this.items.push(data.name);
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    reset_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-
-        // var defaults = ['AZ', 'FL', 'MN'];
-        // for (let i = 0; i < defaults.length; i++) {
-        //     const state = defaults[i];
-        //     this.add_series_by_state(state);
-        // }
-    },
-
-    clear_all_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.dates = data.dates;
-        this.items = [];
-        this.series = [];
-
-        this.option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            grid: {
-                top: 30,
-                right: 20,
-                bottom: 20,
-                left: 50
-            },
-            legend: {
-                data: this.items,
-                left: 65,
-                right: 5,
-                itemWidth: 20,
-                textStyle: {
-                    fontSize: 9
-                }
-            },
-            xAxis: {
-                type: 'category',
-                data: this.dates
-            },
-            yAxis: {
-                name: 'Cum.Cases',
-                type: 'log'
-            },
-            series: this.series
-        };
-
-        this.plot_chart = echarts.init(document.getElementById(this.plot_id));
-        this.plot_chart.setOption(this.option);
+        if (datatmp == null) {
+            return null;
+        }
+        fig.is_cnty = is_cnty;
         
-        // update the date
-        $('#' + this.plot_id + '_last_update').html(data.date);
-    },
-
-    resize: function() {
-        if (this.plot_chart == null) {
-
-        } else {
-            this.plot_chart.resize();
-        }
-    }
-};
-
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
-
-} else {
-    plots[fig_caseline_states.plot_id] = fig_caseline_states;
-}
-var fig_caseline_nations = {
-    plot_id: 'fig_caseline_nations',
-    plot_type: 'echarts',
-    plot_chart: null,
-    data_file: 'world-data-latest.json',
-
-    fmt_comma: d3.format(","),
-    
-    dates: [],
-    items: [],
-    series: [],
-
-    load: function() {
-        $.get(
-            './read_data_file',
-            {fn:this.data_file, ver: Math.random()},
-            function(data) {
-                fig_caseline_nations.init(data);
-
-                // use US as default
-                fig_caseline_nations.add_series_by_nation('US')
-
-            }, 'json'
+        // create the DOM obj for this figure
+        var cal_lbl = is_cnty? 
+            datatmp.name + ', ' + datatmp.state : 
+            datatmp.name;
+        $('#fig_crrw_trends').prepend(
+            '<div id="'+fig.plot_id+'" class="fig-crrw-trend d-flex justify-content-start align-items-start align-items-stretch">'+
+            '<div class="crrw-trend-info">'+
+            '<div class="crrw-trend-bar"><a href="javascript:void(0);" title="Remove this chart" onclick="jarvis.remove_trend(\''+fig.plot_id+'\')"><i class="fa fa-times"></i></a></div>'+
+            '<div class="crrw-trend-label">'+cal_lbl+'</div>'+
+            '</div>'+
+            '<div id="'+fig.plot_id+'_chart" class="crrw-trend-chart"></div>' + 
+            '</div>'
         );
-    },
 
-    add_series_by_nation: function(nation) {
-        // check if this exist
-        for (let i = 0; i < this.series.length; i++) {
-            const s = this.series[i];
-            if (s.name == nation) {
-                // oh, this has been added!
-                return -1;
+        fig.cal_data = [];
+        var base_zero = 50;
+        fig.data_crps = datatmp.crps.map(function(v, i) {
+            return v + base_zero;
+        });
+        fig.data_crts = datatmp.crts.map(function(v, i) {
+            if (v>5) v = 5;
+            return -v * 10 + base_zero;
+        });
+        // get the area fill of CrRW status
+        fig.data_crrw_y = datatmp.crcs.map(function(v, i) {
+            if (v == 'Y') {
+                return fig.data_crps[i] - fig.data_crts[i];
+            } else {
+                return null;
             }
-        }
-        var data = {
-            name: nation,
-            data: this.data.data[nation].nccs.map(function(v, idx) {
-                // return [idx+1, v];
-                return [
-                    v, 
-                    fig_caseline_nations.data.data[nation].news[idx], 
-                    fig_caseline_nations.data.data[nation].dates[idx]
-                ];
-            })
-        };
-        this.add_series(data);
-    },
-
-    /*
-     data is {
-         name: 'xxx',
-         data: [1,2,3]
-     }
-     */
-    add_series: function(data) {
-        data.symbolSize = 2;
-        data['type'] = 'line';
-        data['smooth'] = true;
-        data['lineStyle'] = {
-            width: 1,
-            type: 'solid'
-        };
-        data.tooltip = {
-            formatter: function(params) {
-                console.log(params);
-
-                return 'OK'
+        });
+        fig.data_crrw_r = datatmp.crcs.map(function(v, i) {
+            if (v == 'R') {
+                return fig.data_crps[i] - fig.data_crts[i];
+            } else {
+                return null;
             }
-        };
-        // update option
-        this.series.push(data);
-        this.option.series = this.series;
-        this.items.push(data.name);
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    reset_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-
-        // leave only us
-        this.add_series_by_nation('US');
-    },
-
-    clear_all_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.dates = data.dates;
-        this.items = [];
-        this.series = [];
-
-        this.option = {
+        });
+        fig.data_crrw_g = datatmp.crcs.map(function(v, i) {
+            if (v == 'G') {
+                return fig.data_crps[i] - fig.data_crts[i];
+            } else {
+                return null;
+            }
+        });
+        // get the CrRW status bars
+        fig.data_crrw_bar = datatmp.crcs.map(function(v, i) {
+            var c = {G:'green', Y:'gold', R:'red'}[v];
+            var v2 = {G:0, Y:1, R:2}[v];
+            return { value: v, itemStyle: {color: c} };
+        });
+        
+        // put the calendar
+        fig.option = {
+            legend: {
+                data: [
+                    'Cr7d100k',
+                    'RW_Cr7d100k'
+                ],
+                top: 10,
+                left: 50,
+                backgroundColor: 'rgba(255,255,255,.5)'
+            },
+            axisPointer: {
+                type: 'line',
+                link: {xAxisIndex: 'all'}
+            },
             tooltip: {
                 trigger: 'axis',
                 formatter: function(params) {
                     // console.log(params);
-                    var str = '';
-                    for (let i = 0; i < params.length; i++) {
-                        const param = params[i];
-                        str += param.seriesName + ' on ' + param.value[2] + '<br>' +
-                            'Total cases: ' + fig_caseline_nations.fmt_comma(param.value[0]) + '<br>' + 
-                            'New cases: ' + fig_caseline_nations.fmt_comma(param.value[1]) + '<br>';
+                    // if params
+                    var tip = [params[0].axisValue + '<br>'];
+                    for (let i = 0; i < 3; i++) {
+                        var param = params[i];
+                        var val = param.value;
+                        if (i==0) {
+                            val = (val - 50).toFixed(2);
+                        } else if (i==1) {
+                            val = (- (val - 50) / 10).toFixed(2);
+                        } else {
+                            val = '<span class="crrw-day-badge crrw-day-'+val+'">'+val+'</span>';
+                        }
+                        tip.push(param.marker + ' ' + param.seriesName + ': ' + val + '<br>');
                     }
-                    return str;
-                }
-            },
-            grid: {
-                top: 30,
-                right: 25,
-                bottom: 33,
-                left: 60
-            },
-            legend: {
-                data: this.items,
-                left: 90,
-                right: 5,
-                itemWidth: 20,
-                textStyle: {
-                    fontSize: 9
-                }
-            },
-            xAxis: {
-                type: 'log',
-                name: 'Total cases',
-                nameGap: 20,
-                nameLocation: 'center'
-            },
-            yAxis: {
-                name: 'New cases',
-                type: 'log',
-                min: 1
-            },
-            series: this.series
-        };
-
-        this.plot_chart = echarts.init(document.getElementById(this.plot_id));
-        this.plot_chart.setOption(this.option);
-        
-        // update the date
-        $('#' + this.plot_id + '_last_update').html(data.date);
-    },
-
-    resize: function() {
-        if (this.plot_chart == null) {
-
-        } else {
-            this.plot_chart.resize();
-        }
-    }
-};
-
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
-
-} else {
-    plots[fig_caseline_nations.plot_id] = fig_caseline_nations;
-}
-
-var fig_cdtline_cntys = {
-    plot_id: 'fig_cdtline_cntys',
-    plot_type: 'echarts',
-    plot_chart: null,
-    
-    dates: [],
-    items: [],
-    series: [],
-
-    data_file: 'uscounty-data-latest.json',
-
-    load: function() {
-        
-        $.get(
-            './read_data_file',
-            {fn:this.data_file, ver: Math.random()},
-            function(data) {
-                fig_cdtline_cntys.init(data);
-                // use US as default
-                fig_cdtline_cntys.reset_series();
-            }, 'json'
-        );
-    },
-
-    /*
-     data is {
-         name: 'xxx',
-         data: [1,2,3]
-     }
-     */
-    add_series: function(data) {
-        data.symbolSize = 2;
-        data['type'] = 'line';
-        data['smooth'] = true;
-        data['lineStyle'] = {
-            width: 1,
-            type: 'solid'
-        };
-        // update option
-        this.series.push(data);
-        this.option.series = this.series;
-        this.items.push(data.name);
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    add_series_by_FIPS: function(FIPS) {
-        var cnty = this.data_dict.get(FIPS);
-        var series_name = cnty.countyName + ',' + cnty.state;
-        // check if this exist
-        for (let i = 0; i < this.series.length; i++) {
-            const s = this.series[i];
-            if (s.name == series_name) {
-                // oh, this has been added!
-                return -1;
-            }
-        }
-        var data = {
-            name: series_name,
-            data: cnty.cdts.map((v)=>v.toFixed(1))
-        };
-        this.add_series(data);
-    },
-
-    reset_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        this.plot_chart.setOption(this.option, true);
-        
-        // var defaults = [
-        //     ['Maricopa,AZ', '04013'],
-        //     ['Duval,FL', '12031'],
-        //     ['Olmsted,MN', '27109'],
-        // ];
-        // for (let i = 0; i < defaults.length; i++) {
-        //     const c = defaults[i];
-        //     this.add_series_by_FIPS(c[1]);
-        // }
-    },
-
-    convert_data_to_dict: function() {
-        this.data_dict = d3.map();
-        for (const FIPS in this.data.data) {
-            if (this.data.data.hasOwnProperty(FIPS)) {
-                const cnty = this.data.data[FIPS];
-                this.data_dict.set(FIPS, cnty);
-            }
-        }
-    },
-
-    clear_all_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.convert_data_to_dict();
-
-        this.dates = data.dates;
-        this.items = [];
-        this.series = [];
-
-        this.option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            grid: {
-                top: 35,
-                right: 10,
-                bottom: 20,
-                left: 50
-            },
-            legend: {
-                data: this.items,
-                left: 75,
-                right: 0,
-                itemWidth: 20,
-                textStyle: {
-                    fontSize: 9
+                    return tip.join('');
                 }
             },
             xAxis: {
                 type: 'category',
-                data: this.dates
+                data: data.dates,
+                axisLabel: {
+                    formatter: function (value, idx) {
+                        var date = new Date(value);
+                        return [date.getMonth() + 1, date.getDate()].join('-');
+                    }
+                },
+                splitLine: {
+                    show: true
+                }
             },
             yAxis: {
-                name: 'Days',
                 type: 'value',
-                max: 60
-            },
-            series: this.series
-        };
-
-        this.plot_chart = echarts.init(document.getElementById(this.plot_id));
-        this.plot_chart.setOption(this.option);
-        
-        // update the date
-        $('#' + this.plot_id + '_last_update').html(data.date);
-    },
-
-    resize: function() {
-        if (this.plot_chart == null) {
-
-        } else {
-            this.plot_chart.resize();
-        }
-    }
-};
-
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
-
-} else {
-    plots[fig_cdtline_cntys.plot_id] = fig_cdtline_cntys;
-}
-var fig_testline_states = {
-    plot_id: 'fig_testline_states',
-    plot_type: 'echarts',
-    plot_chart: null,
-    data_file: 'usstate-data-dict-latest.json',
-    
-    dates: [],
-    items: [],
-    series: [],
-
-    load: function() {
-        $.get(
-            './read_data_file',
-            {fn:this.data_file, ver: Math.random()},
-            function(data) {
-                fig_testline_states.init(data);
-            }, 'json'
-        );
-    },
-
-    add_series_by_state: function(state) {
-        // check if this exist
-        for (let i = 0; i < this.series.length; i++) {
-            const s = this.series[i];
-            if (s.name == state) {
-                // oh, this has been added!
-                return -1;
-            }
-        }
-        var data = {
-            name: state,
-            data: this.data.dates.map(function(v) {
-                var tpr = fig_testline_states.data.data[state][v].test_tpr_4dm;
-                if (tpr != null) {
-                    return (tpr * 100).toFixed(1);
-                } else {
-                    return null;
-                }
-            })
-        };
-        this.add_series(data);
-    },
-
-    /*
-     data is {
-         name: 'xxx',
-         data: [1,2,3]
-     }
-     */
-    add_series: function(data) {
-        data.symbol = 'rect';
-        data.symbolSize = 2;
-        data.type = 'line';
-        data.smooth = true;
-        data.lineStyle = {
-            width: 1,
-            type: 'solid'
-        };
-        data.markPoint = {
-            label: {
-                fontSize: 10,
-                color: 'white'
-            },
-            data: [
-                {
-                    type: 'max', name: 'Max',
-                    symbolSize: 45,
-                }
-            ]
-        }
-        // update option
-        this.series.push(data);
-        this.option.series = this.series;
-        this.items.push(data.name);
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    reset_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-
-        // var defaults = ['AZ', 'FL', 'MN'];
-        // for (let i = 0; i < defaults.length; i++) {
-        //     const state = defaults[i];
-        //     this.add_series_by_state(state);
-        // }
-    },
-
-    clear_all_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.dates = data.dates;
-        this.items = [];
-        this.series = [];
-
-        this.option = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
+                min: 20,
+                max: 110,
+                interval: 10,
+                axisLabel: {
+                    formatter: function (value, idx) {
+                        if (value <= 50) {
+                            return (5 - Math.abs(value / 10)).toFixed(0);
+                        } else {
+                            return (value - 50).toFixed(0);
+                        }
                     }
-                }
+                },
             },
             grid: {
-                top: 30,
-                right: 20,
+                top: 10,
+                right: 5,
                 bottom: 20,
                 left: 40
             },
-            legend: {
-                data: this.items,
-                left: 75,
-                right: 5,
-                itemWidth: 20,
-                textStyle: {
-                    fontSize: 9
+            graphic: [{
+                type: 'group',
+                left: '45',
+                top: '35',
+                children: [{
+                    type: 'rect',
+                    z: 90,
+                    left: 'left',
+                    top: 'middle',
+                    shape: {
+                        width: 80,
+                        height: 14
+                    },
+                    style: {
+                        fill: '#fff',
+                        lineWidth: 0
+                    }
+                }, {
+                    type: 'text',
+                    z: 100,
+                    left: 'left',
+                    top: 'middle',
+                    style: {
+                        fill: 'rgba(255, 141, 4, 0.5)',
+                        text: 'Cr7d100k=30',
+                        font: '11px'
+                    }
+                }]
+            }, {
+                type: 'group',
+                left: '45',
+                top: '55',
+                children: [{
+                    type: 'rect',
+                    z: 90,
+                    left: 'left',
+                    top: 'middle',
+                    shape: {
+                        width: 80,
+                        height: 14
+                    },
+                    style: {
+                        fill: '#fff',
+                        lineWidth: 0
+                    }
+                }, {
+                    type: 'text',
+                    z: 100,
+                    left: 'left',
+                    top: 'middle',
+                    style: {
+                        fill: 'rgba(255, 141, 4, 0.5)',
+                        text: 'Cr7d100k=15',
+                        font: '11px'
+                    }
+                }]
+            }, {
+                type: 'group',
+                left: '45',
+                top: '78',
+                children: [{
+                    type: 'rect',
+                    z: 90,
+                    left: 'left',
+                    top: 'middle',
+                    shape: {
+                        width: 80,
+                        height: 10
+                    },
+                    style: {
+                        fill: '#fff',
+                        lineWidth: 0
+                    }
+                }, {
+                    type: 'text',
+                    z: 100,
+                    left: 'left',
+                    top: 'middle',
+                    style: {
+                        fill: 'rgba(255, 141, 4, 0.5)',
+                        text: 'Cr7d100k=10',
+                        font: '9px'
+                    }
+                }]
+            }, {
+                type: 'group',
+                left: '45',
+                top: '105',
+                children: [{
+                    type: 'rect',
+                    z: 90,
+                    left: 'left',
+                    top: 'middle',
+                    shape: {
+                        width: 80,
+                        height: 14
+                    },
+                    style: {
+                        fill: '#fff',
+                        lineWidth: 0
+                    }
+                }, {
+                    type: 'text',
+                    z: 100,
+                    left: 'left',
+                    top: 'middle',
+                    style: {
+                        fill: 'rgba(255, 0, 0, 0.5)',
+                        text: 'RW_Cr7d100k=1',
+                        font: '11px'
+                    }
+                }]
+            }],
+            series: [
+            {
+                type: 'line',
+                name: 'Cr7d100k',
+                data: fig.data_crps,
+                symbolSize: 1,
+                itemStyle: {
+                    color: 'blue'
+                },
+                lineStyle: {
+                    color: 'blue'
+                },
+                markLine: {
+                    symbol: 'none',
+                    lineStyle: {
+                        color: 'orange'
+                    },
+                    data: [{ 
+                        name: 'Cr7d100k=' + fig.crp_threshold_1, 
+                        yAxis: base_zero + fig.crp_threshold_1
+                    }, 
+                    { 
+                        name: 'Cr7d100k=' + fig.crp_threshold_2, 
+                        yAxis: base_zero + fig.crp_threshold_2
+                    },
+                    { 
+                        name: 'Cr7d100k=' + fig.crp_threshold_3, 
+                        yAxis: base_zero + fig.crp_threshold_3
+                    }]
                 }
             },
-            xAxis: {
-                type: 'category',
-                data: this.dates
+            {
+                type: 'line',
+                name: 'RW_Cr7d100k',
+                data: fig.data_crts,
+                symbolSize: 1,
+                itemStyle: {
+                    color: 'purple'
+                },
+                lineStyle: {
+                    color: 'purple'
+                },
+                markLine: {
+                    symbol: 'none',
+                    lineStyle: {
+                        color: 'red'
+                    },
+                    data: [{ 
+                        name: 'RW_Cr7d100k=1', 
+                        yAxis: base_zero - 10,
+                        // label: {
+                        //     formatter: '{b}',
+                        //     position: 'insideStartBottom'
+                        // }
+                    }]
+                },
+                stack: 'crrw'
             },
-            yAxis: {
-                name: 'Pos.Rate(%)',
-                type: 'value'
+            {
+                type: 'bar',
+                name: 'CrRW Status',
+                show: false,
+                data: fig.data_crrw_bar,
             },
-            series: this.series
+            // for the area
+            {
+                type: 'line',
+                data: fig.data_crrw_r,
+                symbolSize: 0,
+                areaStyle: {
+                    color: 'red'
+                },
+                lineStyle: {
+                    width: 0
+                },
+                stack: 'crrw'
+            },
+            {
+                type: 'line',
+                data: fig.data_crrw_y,
+                symbolSize: 0,
+                areaStyle: {
+                    color: 'gold'
+                },
+                lineStyle: {
+                    width: 0
+                },
+                stack: 'crrw'
+            },
+            {
+                type: 'line',
+                data: fig.data_crrw_g,
+                symbolSize: 0,
+                areaStyle: {
+                    color: 'green'
+                },
+                lineStyle: {
+                    width: 0
+                },
+                stack: 'crrw'
+            }
+            ]
         };
+        fig.chart = echarts.init(document.getElementById(fig.plot_id + '_chart'));
+        fig.chart.setOption(fig.option);
 
-        this.plot_chart = echarts.init(document.getElementById(this.plot_id));
-        this.plot_chart.setOption(this.option);
-        
-        // update the date
-        $('#' + this.plot_id + '_last_update').html(data.date);
+        // bind click event
+        fig.chart.on('click', function(params) {
+            // console.log(params);
+            var date_Ymd = params.data[0];
+            var date_mdy = d3.timeFormat('%-m/%-d/%y')(d3.timeParse('%Y-%m-%d')(date_Ymd));
+            
+            console.log('* clicked ' + date_mdy);
+        });
+
+        fig.chart.group = 'trends';
+        echarts.connect('trends');
+
+        return fig;
+    }
+}
+
+var jarvis = {
+    plots: {},
+    us_data: {},
+    state_data: {},
+    world_data: {},
+    base_data_url: '/covid_data/',
+
+    get_state_data_file_url: function (state) {
+        return this.base_data_url + 'state/' + state + '-history.json';
     },
 
-    resize: function() {
-        if (this.plot_chart == null) {
+    init: function() {
+        // init the toast
+        $('.toast').toast({
+            delay: 10000
+        });
 
-        } else {
-            this.plot_chart.resize();
+        // bind the fips to states
+        for (var a in this.states) {
+            var fips = this.states[a].fips;
+            this.states[fips] = this.states[a];
         }
-    }
-};
 
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
+        // bind enter
+        $('#input_fips').on('keypress', function(event) {
+            if (event.which == 13) {
+                jarvis.add_trend();
+            }
+        });
 
-} else {
-    plots[fig_testline_states.plot_id] = fig_testline_states;
-}
-var fig_deathline_nations = {
-    plot_id: 'fig_deathline_nations',
-    plot_type: 'echarts',
-    plot_chart: null,
-    data_file: 'world-data-latest.json',
+        // sortable
+        $('#fig_crrw_trends').sortable({
+            handle: '.crrw-trend-label',
+            placeholder: "ui-state-highlight"
+        });
+        $('#fig_crrw_trends').disableSelection();
 
-    fmt_comma: d3.format(","),
-    
-    dates: [],
-    items: [],
-    series: [],
+        // init the components
+        fig_crrw_worldmap.init();
+        fig_crrw_usmap.init();
+        fig_crrw_stmap.init();
 
-    load: function() {
         $.get(
-            './read_data_file',
-            {fn:this.data_file, ver: Math.random()},
+            this.base_data_url + 'world-fc-history.json',
+            { ver: Math.random() },
             function(data) {
-                fig_deathline_nations.init(data);
+                jarvis.world_data = data;
+                fig_crrw_worldmap.update(data);
 
-                // use US as default
-                fig_deathline_nations.add_series_by_nation('US')
+                jarvis.ssmsg('Finished initialization.')
+                setTimeout('jarvis.ssclose();', 500);
+            }, 'json'
+        );
 
+        $.get(
+            this.get_state_data_file_url('US'),
+            { ver: Math.random() },
+            function(data) {
+                jarvis.us_data = data;
+                fig_crrw_usmap.update(data);
+
+                jarvis.show_state('MN');
+                jarvis.ssmsg('Finished initialization.')
+                setTimeout('jarvis.ssclose();', 500);
             }, 'json'
         );
     },
 
-    add_series_by_nation: function(nation) {
-        // check if this exist
-        for (let i = 0; i < this.series.length; i++) {
-            const s = this.series[i];
-            if (s.name == nation) {
-                // oh, this has been added!
-                return -1;
-            }
-        }
-        var data = {
-            name: nation,
-            data: this.data.data[nation].nccs.map(function(v, idx) {
-                // return [idx+1, v];
-                return [
-                    v, 
-                    fig_deathline_nations.data.data[nation].dths[idx], 
-                    fig_deathline_nations.data.data[nation].dates[idx]
-                ];
-            })
-        };
-        this.add_series(data);
+    show_country: function(country) {
+        this.show_country_trend(country);
     },
 
-    /*
-     data is {
-         name: 'xxx',
-         data: [1,2,3]
-     }
-     */
-    add_series: function(data) {
-        data.symbolSize = 2;
-        data['type'] = 'line';
-        data['smooth'] = true;
-        data['lineStyle'] = {
-            width: 1,
-            type: 'solid'
-        };
-        // update option
-        this.series.push(data);
-        this.option.series = this.series;
-        this.items.push(data.name);
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    reset_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-
-        // leave only us
-        this.add_series_by_nation('US');
-    },
-
-    clear_all_series: function() {
-        // update option
-        this.series = [];
-        this.items = [];
-        this.option.series = this.series;
-        this.option.legend.data = this.items;
-
-        // update chart
-        this.plot_chart.setOption(this.option, true);
-    },
-
-    init: function(data) {
-        this.data = data;
-        this.dates = data.dates;
-        this.items = [];
-        this.series = [];
-
-        this.option = {
-            tooltip: {
-                trigger: 'axis',
-                formatter: function(params) {
-                    // console.log(params);
-                    var str = '';
-                    for (let i = 0; i < params.length; i++) {
-                        const param = params[i];
-                        str += param.seriesName + ' on ' + param.value[2] + '<br>' +
-                            'Total cases: ' + fig_deathline_nations.fmt_comma(param.value[0]) + '<br>' + 
-                            'Deaths: ' + fig_deathline_nations.fmt_comma(param.value[1]) + '<br>';
-                    }
-                    return str;
-                }
-            },
-            grid: {
-                top: 30,
-                right: 25,
-                bottom: 33,
-                left: 60
-            },
-            legend: {
-                data: this.items,
-                left: 95,
-                right: 5,
-                itemWidth: 20,
-                textStyle: {
-                    fontSize: 9
-                }
-            },
-            xAxis: {
-                name: 'Total cases',
-                type: 'log',
-                nameGap: 20,
-                nameLocation: 'center'
-            },
-            yAxis: {
-                name: 'Cum.Deaths',
-                type: 'log',
-                min: 1
-            },
-            series: this.series
-        };
-
-        this.plot_chart = echarts.init(document.getElementById(this.plot_id));
-        this.plot_chart.setOption(this.option);
-        
-        // update the date
-        $('#' + this.plot_id + '_last_update').html(data.date);
-    },
-
-    resize: function() {
-        if (this.plot_chart == null) {
-
+    show_country_trend: function(country) {
+        console.log('* show country trend: ' + country);
+        var plot_id = 'fig_crrw_trend_' + country;
+        var fig = figmker_crrw_trend.make_fig(
+            plot_id, 
+            this.world_data, 
+            country,
+            'world'
+        );
+        if (fig == null) {
+            return;
         } else {
-            this.plot_chart.resize();
+            this.plots[plot_id] = fig;
         }
-    }
-};
 
-// bind this to the global plots object
-if (typeof(plots) == 'undefined') {
+    },
 
-} else {
-    plots[fig_deathline_nations.plot_id] = fig_deathline_nations;
-}
-
-
-// the data options
-var plots_options = {
-    selected: 'doubling_analysis_result',
-    filetypes: {
-        'doubling_analysis_result': {
-            type: 'doubling_analysis_result',
-            desc: '<b>Doubling Time Analysis</b> (e.g., doubling_xxxx_3_30.xlsx, for plotting the animation lines)',
-            tags: [{
-                tag: 'countylevel',
-                desc: '<b>County Level</b> (e.g., doubling_counties_3_30.xlsx, for plotting the heatmap of doubling time of counties)'
-            }, {
-                tag: 'mayosys',
-                desc: '<b>Mayo Related</b> (e.g., doubling_mayosys_03_31.xls'
-            }, {
-                tag: 'word',
-                desc: '<b>World Countries</b> (e.g., doubling_world_03_31.xls'
-            }]
-        },
-        'trendline_past7d': {
-            type: 'trendline_past7d',
-            desc: '<b>Trends lines of cases vs past7day cases</b> (e.g., trpast7d_xxxx_3_30.xlsx, for plotting the heatmaps)',
-            tags: [{
-                tag: 'countylevel',
-                desc: '<b>County Level</b> Trend Lines of Total vs Past 7 days</b>'
-            }]
+    show_state: function(state) {
+        console.log('* show state: ' + state);
+        if (this.state_data.hasOwnProperty(state)) {
+            fig_crrw_stmap.update(this.state_data[state]);
+            this.show_state_map(state);
+            this.show_state_trend(state);
+            return;
         }
-    }
-};
+        // get data if not exists
+        $.get(
+            this.get_state_data_file_url(state),
+            { ver: Math.random() },
+            function(data) {
+                jarvis.state_data[data.state] = data;
+                jarvis.show_state(data.state);
+            }, 'json'
+        );
 
+    },
 
-var jarvis = {
+    show_state_map: function(state) {
+        console.log('* show state map: ' + state);
+        fig_crrw_stmap.update(jarvis.state_data[state]);
+    },
 
-    name2color_map: d3.map(),
+    show_state_trend: function(state) {
+        console.log('* show state trend: ' + state);
+        var plot_id = 'fig_crrw_trend_' + state;
+        var fig = figmker_crrw_trend.make_fig(
+            plot_id, 
+            this.us_data, 
+            state
+        );
+        if (fig == null) {
+            return;
+        } else {
+            this.plots[plot_id] = fig;
+        }
+    },
 
-    getUrlParameter: function(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    show_county: function(fips) {
+        this.show_county_trend(fips);
+    },
+
+    show_county_trend: function(fips) {
+        console.log('* show county trend: ' + fips);
+        var state_fips = fips.substring(0, 2);
+        var state_abbr = this.states[state_fips].abbr;
+
+        if (this.state_data.hasOwnProperty(state_abbr)) {
+            this._show_county_trend(state_abbr, fips);
+        } else {
+            this.show_state_map(state_abbr);
+        }
+    },
+
+    _show_county_trend: function(state_abbr, fips) {
+        var plot_id = '';
+        var fig = null;
+        
+        plot_id = 'fig_crrw_trend_' + fips;
+        fig = figmker_crrw_trend.make_fig(
+            plot_id, 
+            this.state_data[state_abbr], 
+            this.state_data[state_abbr].state, 
+            fips);
+        if (fig == null) {
+            return;
+        } else {
+            this.plots[plot_id] = fig;
+        }
+    },
+
+    add_trend: function() {
+        var fips = $('#input_fips').val();
+        fips = fips.trim();
+        fips = fips.toUpperCase();
+        if (fips.length < 2 || fips.length > 5) {
+            jarvis.msg('The input must be state abbr or FIPS code.', 'gold');
+            return;
+        }
+        if (this.states.hasOwnProperty(fips)) {
+            // ok, I guess it's a state abbr
+            var state = fips;
+            this.show_state_map(state);
+            this.show_state_trend(state);
+        } else {
+            if (fips.length == 4) {
+                fips = '0' + fips;
+            }
+            $('#input_fips').val(fips);
+            this.show_county_trend(fips);
+        }
+    },
+
+    remove_trend: function(plot_id) {
+        $('#' + plot_id).remove();
+    },
+
+    reset_fig_crrw_trends: function() {
+        $('#fig_crrw_trends').html('');
     },
 
     ssmsg: function(msg) {
@@ -3020,221 +2235,84 @@ var jarvis = {
         $('#start-screen').hide();
     },
 
-    init: function() {
-        /*
-        rgs format:
-        region_name,FIPS,FIPS,FIPS,FIPS|region_name,FIPS,FIPS        
-        */
-        var rgs = jarvis.getUrlParameter('rgs');
-        this.regions = [];
-        if (rgs != null) {
-            var tmp = rgs.split('|');
-            for (let i = 0; i < tmp.length; i++) {
-                const reg = tmp[i];
-                tmp2 = reg.split(',');
-                var region_name = tmp2[0];
-                var r = {
-                    name: region_name,
-                    fips_list: []
-                }
-                for (let j = 1; j < tmp2.length; j++) {
-                    const fips = tmp2[j];
-                    r.fips_list.push(fips);
-                }
-                this.regions.push(r);
-            }
-        } else {
-            this.regions = [{
-                name: 'RST', fips_list: ['27099', '27109', '27139', '27169']
-            }]
+    states: {
+        AL: { fips: '01', abbr: 'AL', name: 'Alabama' }, 
+        AK: { fips: '02', abbr: 'AK', name: 'Alaska' }, 
+        AS: { fips: '60', abbr: 'AS', name: 'American Samoa' },
+        AZ: { fips: '04', abbr: 'AZ', name: 'Arizona' }, 
+        AR: { fips: '05', abbr: 'AR', name: 'Arkansas' }, 
+        CA: { fips: '06', abbr: 'CA', name: 'California' }, 
+        CO: { fips: '08', abbr: 'CO', name: 'Colorado' }, 
+        CT: { fips: '09', abbr: 'CT', name: 'Connecticut' }, 
+        DE: { fips: '08', abbr: 'DE', name: 'Delaware' }, 
+        FL: { fips: '12', abbr: 'FL', name: 'Florida' }, 
+        GA: { fips: '13', abbr: 'GA', name: 'Georgia' }, 
+        GU: { fips: '66', abbr: 'GU', name: 'Guam' },
+        HI: { fips: '15', abbr: 'HI', name: 'Hawaii' }, 
+        ID: { fips: '16', abbr: 'ID', name: 'Idaho' }, 
+        IL: { fips: '17', abbr: 'IL', name: 'Illinois' }, 
+        IN: { fips: '18', abbr: 'IN', name: 'Indiana' }, 
+        IA: { fips: '19', abbr: 'IA', name: 'Iowa' }, 
+        KS: { fips: '20', abbr: 'KS', name: 'Kansas' }, 
+        KY: { fips: '21', abbr: 'KY', name: 'Kentucky' }, 
+        LA: { fips: '22', abbr: 'LA', name: 'Louisiana' }, 
+        ME: { fips: '23', abbr: 'ME', name: 'Maine' }, 
+        MD: { fips: '24', abbr: 'MD', name: 'Maryland' }, 
+        MA: { fips: '25', abbr: 'MA', name: 'Massachusetts' }, 
+        MI: { fips: '26', abbr: 'MI', name: 'Michigan' }, 
+        MN: { fips: '27', abbr: 'MN', name: 'Minnesota' }, 
+        MS: { fips: '28', abbr: 'MS', name: 'Mississippi' }, 
+        MO: { fips: '29', abbr: 'MO', name: 'Missouri' }, 
+        MT: { fips: '39', abbr: 'MT', name: 'Montana' }, 
+        NE: { fips: '31', abbr: 'NE', name: 'Nebraska' }, 
+        NV: { fips: '32', abbr: 'NV', name: 'Nevada' }, 
+        NH: { fips: '33', abbr: 'NH', name: 'New Hampshire' }, 
+        NJ: { fips: '34', abbr: 'NJ', name: 'New Jersey' }, 
+        NM: { fips: '35', abbr: 'NM', name: 'New Mexico' }, 
+        NY: { fips: '36', abbr: 'NY', name: 'New York' }, 
+        NC: { fips: '37', abbr: 'NC', name: 'North Carolina' }, 
+        ND: { fips: '38', abbr: 'ND', name: 'North Dakota' }, 
+        MP: { fips: '69', abbr: 'MP', name: 'Northern Mariana Islands' }, 
+        OH: { fips: '39', abbr: 'OH', name: 'Ohio' }, 
+        OK: { fips: '40', abbr: 'OK', name: 'Oklahoma' }, 
+        OR: { fips: '41', abbr: 'OR', name: 'Oregon' }, 
+        PA: { fips: '42', abbr: 'PA', name: 'Pennsylvania' }, 
+        PR: { fips: '72', abbr: 'PR', name: 'Puerto Rico' }, 
+        RI: { fips: '44', abbr: 'RI', name: 'Rhode Island' }, 
+        SC: { fips: '45', abbr: 'SC', name: 'South Carolina' }, 
+        SD: { fips: '46', abbr: 'SD', name: 'South Dakota' }, 
+        TN: { fips: '47', abbr: 'TN', name: 'Tennessee' }, 
+        TX: { fips: '48', abbr: 'TX', name: 'Texas' }, 
+        VI: { fips: '78', abbr: 'VI', name: 'U.S. Virgin Islands' },
+        UT: { fips: '49', abbr: 'UT', name: 'Utah' }, 
+        VT: { fips: '50', abbr: 'VT', name: 'Vermont' }, 
+        VA: { fips: '51', abbr: 'VA', name: 'Virginia' }, 
+        WA: { fips: '53', abbr: 'WA', name: 'Washington' }, 
+        DC: { fips: '09', abbr: 'DC', name: 'Washington, D.C.' }, 
+        WV: { fips: '54', abbr: 'WV', name: 'West Virginia' }, 
+        WI: { fips: '55', abbr: 'WI', name: 'Wisconsin' }, 
+        WY: { fips: '56', abbr: 'WY', name: 'Wyoming' }
+    },
+
+    msg: function(s, color) {
+        if (typeof(color)=='undefined') {
+            color = 'blue';
         }
-
-        // load all the data needed for county level and state level
-        $.when(
-            $.get('./covid_data/' + figmker_cdtmap.data_file, {ver: Math.random()}),
-            $.get('./static/data/us-countymap-5m.json', {}),
-            $.get('./covid_data/' + fig_caseline_states.data_file, {ver: Math.random()}),
-            $.get('./covid_data/' + fig_heatmap_usstatecdt.data_file, {ver: Math.random()}),
-        ).done(function(data1, data2, data3, data4) {
-            vue_rgpanels.init(data1[0], jarvis.regions);
-            figmker_cdtmap.init(data1[0]);
-            // init each region's figures
-            for (let i = 0; i < jarvis.regions.length; i++) {
-                const region = jarvis.regions[i];
-                
-                // make map
-                var plot_id = 'fig_cdtmap_' + region.name;
-                var fig_cdtmap = figmker_cdtmap.make_fig(region, plot_id, data1[0]);
-                plots[fig_cdtmap.plot_id] = fig_cdtmap;
-
-                // make case line
-                plot_id = 'fig_caseline_' + region.name;
-                var fig_caseline = figmker_caseline.make_fig(region, plot_id, data1[0]);
-                plots[fig_caseline.plot_id] = fig_caseline;
-
-                // make death line
-                plot_id = 'fig_deathline_' + region.name;
-                var fig_deathline = figmker_deathline.make_fig(region, plot_id, data1[0]);
-                plots[fig_deathline.plot_id] = fig_deathline;
-            }
-
-            // draw the county map
-            fig_heatmap_uscntycdt.set_all_counties(data2[0]);
-            fig_heatmap_uscntycdt.init(data1[0]);
-            
-            // draw the county case death line
-            fig_casedeathline_cntys.init(data1[0]);
-            fig_casedeathline_cntys.add_series_by_FIPS('04013'); // Maricopa,AZ
-
-            // draw the county cdt line
-            fig_cdtline_cntys.init(data1[0]);
-            fig_cdtline_cntys.add_series_by_FIPS('04013'); // Maricopa,AZ
-
-            // draw the state plots
-            fig_caseline_states.init(data3[0]);
-            fig_testline_states.init(data3[0]);
-            fig_heatmap_usstatecdt.init(data4[0]);
-            
-            fig_caseline_states.add_series_by_state('MN');
-            fig_testline_states.add_series_by_state('MN');
-            
-            // hide the start screen after loading most of data
-            jarvis.ssmsg('Dashboard is initialized.')
-            setTimeout('jarvis.ssclose();', 500);
-        });
-
-        // draw world map and related plots
-        $.get(
-            './covid_data/' + fig_heatmap_worldcdt.data_file,
-            {ver: Math.random()},
-            function(data) {
-                fig_heatmap_worldcdt.init(data);
-                fig_caseline_nations.init(data);
-                fig_deathline_nations.init(data);
-
-                fig_caseline_nations.add_series_by_nation('US');
-                fig_deathline_nations.add_series_by_nation('US');
-            }
-        )
-
-        // draw the update date
-        $.get(
-            './covid_data/last_update.json?ver=' + Math.random(),
-            {},
-            function(data) {
-                jarvis.set_last_update(data);
-            }, 'json'
-        );
-
-        // add resize
-        $(window).on('resize', function(){
-            for (const plot_id in plots) {
-                if (plots.hasOwnProperty(plot_id)) {
-                    const fig = plots[plot_id];
-                    if (fig.hasOwnProperty('resize')) {
-                        fig.resize();
-                    }
-                }
-            }
-        });
-
+        $('#toast_rect').attr('fill', color);
+        $('#toast_body').html(s);
+        $('#toast').toast('show')
     },
 
-    get_color_by_name: function (name) {
-        var name_upper = name.toUpperCase();
-        if (this.sp_item_settings.hasOwnProperty(name_upper)) {
-            return this.sp_item_settings[name_upper].color;
-        } else {
-            if (this.name2color_map.has(name_upper)) {
-                return this.name2color_map.get(name_upper);
-            } else {
-                var idx = this.name2color_map.keys().length % 10;
-                var color = d3.schemeCategory10[idx];
-                this.name2color_map.set(name_upper, color);
-                return color;
-            }
-        }
-    },
-
-    guess_width: function(elem_id) {
-        for (let i = 0; i < this.page_columns.length; i++) {
-            const col_id = this.page_columns[i];
-            if (document.getElementById(col_id).contains(document.getElementById(elem_id))) {
-                var w = document.getElementById(col_id).getBoundingClientRect().width;
-                console.log('* JARVIS: I guess the width of ' + elem_id + ' is ' + w);
-                return w;
-            }
-        }
-
-        return 0;
-    },
-
-    calc_color_by_name: function (name, alpha) {
-        var name_upper = name.toUpperCase();
-        if (typeof (alpha) == 'undefined') { alpha = 1; }
-        var r = (name_upper.charCodeAt(0) - 64) / 26 * 255;
-        var g = name_upper.charCodeAt(1) / 26 * 255;
-        var b = 0;
-        if (name_upper.length > 2) {
-            for (var i = 2; i < name_upper.length; i++) {
-                b += name_upper.charCodeAt(i);
-            }
-            b = b / (name_upper.length - 2);
-        }
-        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-    },
-
-    set_last_update: function(data) {
-        $('.last_update').html(data.last_update);
-        $('.last_update_date').html(data.last_update.split(' ')[0]);
-    },
-
-    /*
-     * Where using this function, make sure fig_heatmap_uscntycdt is loaded.
-     */
-     add_county_series: function(FIPS) {
-        console.log('* add county ' + FIPS);
-        // get basic info
-        var data = fig_heatmap_uscntycdt.data_dict.get(FIPS);
-        if (data == null) {
-            // which means this FIPS didn't have case
-            return -1;
-        }
-        if (data.nccs[data.nccs.length-1] == 0) {
-            // means this county has no case
-            return -1;
-        }
-        // prepare data ?
-
-        // update chart
-        fig_casedeathline_cntys.add_series_by_FIPS(FIPS);
-        fig_cdtline_cntys.add_series_by_FIPS(FIPS);
-
-    },
-
-    add_state_series: function(state) {
-        console.log('* add state ' + state);
-        fig_caseline_states.add_series_by_state(state);
-        fig_testline_states.add_series_by_state(state);
-    },
-
-    add_nation_series: function(nation) {
-        console.log('* add nation ' + nation);
-        fig_caseline_nations.add_series_by_nation(nation);
-        fig_deathline_nations.add_series_by_nation(nation);
-    },
-
-    google_search: function(keywords) {
-        var url = 'https://www.google.com/search?q=' + keywords.join('+');
-        window.open(url);
+    modal: function(ti, ct) {
+        $('#modal-title').html(ti);
+        $('#modal-body').html(ct);
+        $('#modal').modal('show');
     }
 };
 
-
-$(document).ready(function () {
+$(document).ready(function(){
     jarvis.init();
 })
 </script>
 </body>
-
 </html>
