@@ -523,31 +523,31 @@ p {
     </div>
 
     <div id="about-text" style="display: none;">
-        <style>
-        .rcf-em1 {
-            font-weight: bold;
-            background-color: whitesmoke;
-            border-radius: 5px;
-            padding: 0 3px;
-        }
-        </style>
-        <h5>CrRW: Cr7d100k and RW_Cr7d100k</h5>
-        <p>CrRW is a novel method to measure the trends in COVID-19 or other infectious diseases, which includes two indicators: </p>
-        <p>1. <b>Cr7d100k</b>: 7-day smoothed average daily case rate per 100k capita;</p>
-        <p>2. <b>RW_Cr7d100k</b>: the ratio of this week’s Cr7d100k comparing to the week before.</p>
-        <p>The data for calculating CrRW are from USAFacts and COVIDTracking.</p>
-        <p>By using these two indicators in combination, we can depict the current status of the epidemic as well as recent trends with following thresholds:</p>
-        <p>1. The <b class="badge badge-success">GREEN</b> status: There are two cases. First, if <span class="rcf-em1">Cr7d100k <= 1</span> for the past seven days, it would be safe. Second, if <span class="rcf-em1">Cr7d100k < 15 and RW_Cr7d100k < 1</span> for the past seven days, it would be relative safe; </p>
-        <p>2. The <b class="badge badge-danger">RED</b> status: There are two cases. First, if <span class="rcf-em1">Cr7d100k > 30</span> for the past seven days, the pandemic is extremely serious. Second, if <span class="rcf-em1">Cr7d100k > 1 and RW_Cr7d100k > 1</span> and for the past seven days, the current pandemic situation is bad or the trend is bad;</p>
-        <p>3. The <b class="badge badge-warning">ORANGE</b> status: Everything else is orange status as we cannot say much – it can go either way.</p>
-        <hr>
-        <h5>Pandemic Vulnerability Index</h5>
-        <p>The Pandemic Vulnerability Index (PVI) is an indicator which integrates baseline data on relevant community vulnerabilities with dynamic data on local infection rates and interventions <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7430608/">PMID: 32817964</a>. The data of PVI model are from <a target="_blank" href="https://covid.cdc.gov/covid-data-tracker/#pandemic-vulnerability-index">CDC COVID Data Tracker</a>.</p>
-        <hr>
-        <h5>How to use this website?</h5>
-        <p>Click on the states and counties to see the CrRW status trend.</p>
-        <p><img src="./static/img/crrw-demo.gif" alt="Demonstrating how to use this website"></p>
-    </div>
+    <style>
+    .rcf-em1 {
+        font-weight: bold;
+        background-color: whitesmoke;
+        border-radius: 5px;
+        padding: 0 3px;
+    }
+    </style>
+    <h5>CrRW: Cr7d100k and RW_Cr7d100k</h5>
+    <p>CrRW is a novel method to measure the trends in COVID-19 or other infectious diseases, which includes two indicators: </p>
+    <p>1. <b>Cr7d100k</b>: 7-day smoothed average daily case rate per 100k capita;</p>
+    <p>2. <b>RW_Cr7d100k</b>: the ratio of this week’s Cr7d100k comparing to the week before.</p>
+    <p>The data for calculating CrRW are from USAFacts and COVIDTracking.</p>
+    <p>By using these two indicators in combination, we can depict the current status of the epidemic as well as recent trends with following thresholds:</p>
+    <p>1. The <b class="badge badge-success">GREEN</b> status: There are two cases. First, if <span class="rcf-em1">Cr7d100k <= 10</span> for the past seven days, it would be safe. Second, if <span class="rcf-em1">Cr7d100k < 15 and RW_Cr7d100k < 1</span> for the past seven days, it would be relative safe; </p>
+    <p>2. The <b class="badge badge-danger">RED</b> status: There are two cases. First, if <span class="rcf-em1">Cr7d100k > 30</span> for the past seven days, the pandemic is extremely serious. Second, if <span class="rcf-em1">Cr7d100k > 10 and RW_Cr7d100k > 1</span> and for the past seven days, the current pandemic situation is bad or the trend is bad;</p>
+    <p>3. The <b class="badge badge-warning">ORANGE</b> status: Everything else is orange status as we cannot say much – it can go either way.</p>
+    <hr>
+    <h5>Pandemic Vulnerability Index</h5>
+    <p>The Pandemic Vulnerability Index (PVI) is an indicator which integrates baseline data on relevant community vulnerabilities with dynamic data on local infection rates and interventions <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7430608/">PMID: 32817964</a>. The data of PVI model are from <a target="_blank" href="https://covid.cdc.gov/covid-data-tracker/#pandemic-vulnerability-index">CDC COVID Data Tracker</a>.</p>
+    <hr>
+    <h5>How to use this website?</h5>
+    <p>Click on the states and counties to see the CrRW status trend.</p>
+    <p><img src="./static/img/crrw-demo.gif" alt="Demonstrating how to use this website"></p>
+</div>
 </div>
 
 <script>
