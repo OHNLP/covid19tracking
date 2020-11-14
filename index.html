@@ -207,10 +207,10 @@ p {
         <div class="col">
             <div class="mt-2 mb-2">
                 <i class="fa fa-globe-americas"></i> <b>COVID-19 Dashboard</b> |
-                <a href="/"><i class="fa fa-home"></i> Home</a> |
-                <a target="_blank" href="/cdtmap_county.html"><i class="fa fa-map"></i> U.S. County CDT Animated Map</a> |
-                <a target="_blank" href="/cdtmap_state.html"><i class="fa fa-map"></i> U.S. State CDT Animated Map</a> |
-                <a target="_blank" href="/cdtmap_world.html"><i class="fa fa-map"></i> World CDT Animated Map</a> |
+                <a href="./"><i class="fa fa-home"></i> Home</a> |
+                <a target="_blank" href="./cdtmap_county.html"><i class="fa fa-map"></i> U.S. County CDT Animated Map</a> |
+                <a target="_blank" href="./cdtmap_state.html"><i class="fa fa-map"></i> U.S. State CDT Animated Map</a> |
+                <a target="_blank" href="./cdtmap_world.html"><i class="fa fa-map"></i> World CDT Animated Map</a> |
                 <a href="javascript:void(0);" 
                     onclick="jarvis.modal('About CrRW and how to use this website',$('#about-text').html());">
                     <i class="fa fa-question-circle"></i>
@@ -2040,7 +2040,7 @@ var jarvis = {
     us_data: {},
     state_data: {},
     world_data: {},
-    base_data_url: '/covid_data/',
+    base_data_url: './covid_data/',
 
     get_state_data_file_url: function (state) {
         return this.base_data_url + 'state/' + state + '-history.json';
