@@ -1632,6 +1632,8 @@ if (typeof(plots) == 'undefined') {
     plots[fig_crrw_stmap.plot_id] = fig_crrw_stmap;
 }
 var figmker_crrw_trend = {
+    version: '1.0.0',
+    
     make_fig: function(plot_id, data, state, fips) {
         if ($('#' + plot_id).length>0) {
             // have already there
