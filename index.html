@@ -702,23 +702,14 @@ var fig_crrw_worldmap = {
 
     update: function(data) {
         this.data = data;
+        this.current.date = data.date;
     
         // update the vpp
         this.vpp.date = data.date;
         this.vpp.dates = data.dates;
         
         this._create_plot_data();
-        this.plot_layout = {
-            margin: { t: 0 , b: 0, l: 0, r: 0},
-            geo: {
-                scope: 'world',
-                resolution: 50,
-                showframe: false,
-                showlakes: false
-            },
-            width: this.get_width(),
-            height: this.get_height()
-        };
+        this._create_plot_layout();
 
         Plotly.purge(this.plot_id);
         Plotly.newPlot(
@@ -735,6 +726,44 @@ var fig_crrw_worldmap = {
 
         // re-bind hover event
         this._bind_hover_event();
+    },
+
+    update_by_date: function(date) {
+        this.current.date = date;
+
+        // update hte vpp
+        this.vpp.date = date;
+        
+        // create the data on this date
+        var mydata = this._create_mydata();
+
+        var update_plot_data = [{
+            locations: this.unpack(mydata, 'country'),
+            text: this.unpack(mydata, 'txt'),
+            z: this.unpack(mydata, 'val'),
+        }];
+        
+        // update the figure
+        Plotly.animate(
+            this.plot_id,
+            {
+                data: update_plot_data,
+                traces: [0],
+                layout: {},
+            },
+            {
+                transition: {
+                    duration: 100,
+                    easing: "cubic-in-out",
+                },
+                frame: {
+                    duration: 100,
+                },
+            }
+        );
+
+        // update hte last update time
+        $('#' + this.plot_id + '_last_update').html(this.current.date);
     },
 
     _bind_click_event: function() {
@@ -761,9 +790,10 @@ var fig_crrw_worldmap = {
         this.vpp.country.data = this.data.world_data[country];
         // this.vpp.$forceUpdate();
     },
-    
-    _create_plot_data: function() {
-        var date = this.data.date;
+
+    _create_mydata: function() {
+        var date = this.current.date;
+        var date_idx = this.data.dates.indexOf(date);
         var rows = this.data.world_data;
         var mydata = [];
 
@@ -771,14 +801,14 @@ var fig_crrw_worldmap = {
             if (rows.hasOwnProperty(country)) {
                 var obj = rows[country];
                 var country_name = obj.name;
-                var cdt = obj.cdts[obj.cdts.length - 1];
-                var dnc = obj.dncs[obj.dncs.length - 1];
-                var ncc = obj.nccs[obj.nccs.length - 1];
-                var crp = obj.crps[obj.crps.length - 1];
-                var crt = obj.crts[obj.crts.length - 1];
-                var dth = obj.dths[obj.dths.length - 1];
-                var dtr = obj.dtrs[obj.dtrs.length - 1];
-                var crc = obj.crcs[obj.crcs.length - 1];
+                var cdt = obj.cdts[date_idx];
+                var dnc = obj.dncs[date_idx];
+                var ncc = obj.nccs[date_idx];
+                var crp = obj.crps[date_idx];
+                var crt = obj.crts[date_idx];
+                var dth = obj.dths[date_idx];
+                var dtr = obj.dtrs[date_idx];
+                var crc = obj.crcs[date_idx];
                 var crc_v = {R:2, Y:1, G:0}[crc];
                 var tcp = ncc / obj.pop;
 
@@ -811,6 +841,14 @@ var fig_crrw_worldmap = {
             }
         }
 
+        this._mydata = mydata;
+
+        return mydata;
+    },
+    
+    _create_plot_data: function() {
+        var mydata = this._create_mydata();
+
         this.plot_data = [];
         this.plot_data.push({
             name: '',
@@ -837,6 +875,20 @@ var fig_crrw_worldmap = {
                 align: 'left'
             }
         });
+    },
+
+    _create_plot_layout: function() {
+        this.plot_layout = {
+            margin: { t: 0 , b: 0, l: 0, r: 0},
+            geo: {
+                scope: 'world',
+                resolution: 50,
+                showframe: false,
+                showlakes: false
+            },
+            width: this.get_width(),
+            height: this.get_height()
+        };
     },
 
     unpack: function(rows, key) {
@@ -1054,6 +1106,43 @@ var fig_crrw_usmap = {
         $('#' + this.plot_id + '_last_update').html(data.date);
     },
 
+    update_by_date: function(date) {
+        this.current.date = date;
+
+        // update hte vpp
+        this.vpp.date = date;
+        
+        // create the data on this date
+        var mydata = this._create_mydata();
+        var update_plot_data = [{
+            locations: this.unpack(mydata, 'state'),
+            text: this.unpack(mydata, 'txt'),
+            z: this.unpack(mydata, 'val'),
+        }];
+        
+        // update the figure
+        Plotly.animate(
+            this.plot_id,
+            {
+                data: update_plot_data,
+                traces: [0],
+                layout: {},
+            },
+            {
+                transition: {
+                    duration: 100,
+                    easing: "cubic-in-out",
+                },
+                frame: {
+                    duration: 100,
+                },
+            }
+        );
+
+        // update hte last update time
+        $('#' + this.plot_id + '_last_update').html(this.current.date);
+    },
+
     _bind_click_event: function() {
         // bind click events
         this.plot_elm = document.getElementById(this.plot_id);
@@ -1080,24 +1169,25 @@ var fig_crrw_usmap = {
         this.vpp.state.data = this.data.state_data[state];
         // this.vpp.$forceUpdate();
     },
-    
-    _create_plot_data: function() {
-        var date = this.data.date;
+
+    _create_mydata: function() {
+        var date = this.current.date;
+        var date_idx = this.data.dates.indexOf(date);
         var rows = this.data.state_data;
         var mydata = [];
 
         for (var state in rows) {
             if (rows.hasOwnProperty(state)) {
                 var obj = rows[state];
-                var cdt = obj.cdts[obj.cdts.length - 1];
-                var ncc = obj.nccs[obj.nccs.length - 1];
-                var dnc = obj.dncs[obj.dncs.length - 1];
-                var crp = obj.crps[obj.crps.length - 1];
-                var crt = obj.crts[obj.crts.length - 1];
-                var dth = obj.dths[obj.dths.length - 1];
-                var dtr = obj.dtrs[obj.dtrs.length - 1];
-                var pvi = obj.pvis[obj.pvis.length - 1];
-                var crc = obj.crcs[obj.crcs.length - 1];
+                var cdt = obj.cdts[date_idx];
+                var ncc = obj.nccs[date_idx];
+                var dnc = obj.dncs[date_idx];
+                var crp = obj.crps[date_idx];
+                var crt = obj.crts[date_idx];
+                var dth = obj.dths[date_idx];
+                var dtr = obj.dtrs[date_idx];
+                var pvi = obj.pvis[date_idx];
+                var crc = obj.crcs[date_idx];
                 var crc_v = {R:2, Y:1, G:0}[crc];
                 var tcp = ncc / obj.pop;
 
@@ -1131,6 +1221,12 @@ var fig_crrw_usmap = {
             }
         }
 
+        return mydata;
+    },
+    
+    _create_plot_data: function() {
+        
+        var mydata = this._create_mydata();
         this.plot_data = [];
         this.plot_data.push({
             name: '',
@@ -1442,6 +1538,46 @@ var fig_crrw_stmap = {
         $('#' + this.plot_id + '_state_name').html(data.state);
     },
 
+    update_by_date: function(date) {
+        this.current.date = date;
+
+        // update hte vpp
+        this.vpp.date = date;
+        
+        // create the layout
+        // this._create_plot_layout();
+        
+        // create the data on this date
+        var mydata = this._create_mydata();
+        var update_plot_data = [{
+            locations: this.unpack(mydata, 'fips'),
+            text: this.unpack(mydata, 'txt'),
+            z: this.unpack(mydata, 'val'),
+        }];
+        
+        // update the figure
+        Plotly.animate(
+            this.plot_id,
+            {
+                data: update_plot_data,
+                traces: [0],
+                layout: {},
+            },
+            {
+                transition: {
+                    duration: 100,
+                    easing: "cubic-in-out",
+                },
+                frame: {
+                    duration: 100,
+                },
+            }
+        );
+
+        // update hte last update time
+        $('#' + this.plot_id + '_last_update').html(this.current.date);
+    },
+
     _bind_click_event: function() {
         // bind click events
         this.plot_elm = document.getElementById(this.plot_id);
@@ -1468,24 +1604,25 @@ var fig_crrw_stmap = {
         this.vpp.county.data = this.data.data[county_fips];
         // this.vpp.$forceUpdate();
     },
-    
-    _create_plot_data: function() {
-        var date = this.data.date;
+
+    _create_mydata: function() {
+        var date = this.current.date;
+        var date_idx = this.data.dates.indexOf(date);
         var rows = this.data.data;
         var mydata = [];
 
         for (var fips in rows) {
             if (rows.hasOwnProperty(fips)) {
                 var obj = rows[fips];
-                var cdt = obj.cdts[obj.cdts.length - 1];
-                var crp = obj.crps[obj.crps.length - 1];
-                var crt = obj.crts[obj.crts.length - 1];
-                var ncc = obj.nccs[obj.nccs.length - 1];
-                var dnc = obj.dncs[obj.dncs.length - 1];
-                var dth = obj.dths[obj.dths.length - 1];
-                var dtr = obj.dtrs[obj.dtrs.length - 1];
-                var pvi = obj.pvis[obj.pvis.length - 1];
-                var crc = obj.crcs[obj.crcs.length - 1];
+                var cdt = obj.cdts[date_idx];
+                var crp = obj.crps[date_idx];
+                var crt = obj.crts[date_idx];
+                var ncc = obj.nccs[date_idx];
+                var dnc = obj.dncs[date_idx];
+                var dth = obj.dths[date_idx];
+                var dtr = obj.dtrs[date_idx];
+                var pvi = obj.pvis[date_idx];
+                var crc = obj.crcs[date_idx];
                 var crc_v = {R:2, Y:1, G:0}[crc];
                 var tcp = ncc / obj.pop;
 
@@ -1518,6 +1655,14 @@ var fig_crrw_stmap = {
             }
         }
 
+        return mydata;
+    },
+    
+    _create_plot_data: function() {
+        // create the data list
+        var mydata = this._create_mydata();
+
+        // generate the plot_data for plotly
         this.plot_data = [];
 
         this.plot_data.push({
@@ -1531,6 +1676,7 @@ var fig_crrw_stmap = {
 
             text: this.unpack(mydata, 'txt'),
             z: this.unpack(mydata, 'val'),
+
             hovertemplate: '%{text}',
 
             zmin: this.colorscale[this.current.attr].min,
