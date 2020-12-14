@@ -1778,8 +1778,8 @@ if (typeof(plots) == 'undefined') {
     plots[fig_crrw_stmap.plot_id] = fig_crrw_stmap;
 }
 var figmker_crrw_trend = {
-    version: '1.0.0',
-    
+    version: '1.2.0',
+
     make_fig: function(plot_id, data, state, fips) {
         if ($('#' + plot_id).length>0) {
             // have already there
@@ -1843,7 +1843,7 @@ var figmker_crrw_trend = {
         fig.cal_data = [];
         var base_zero = 50;
         fig.data_crps = datatmp.crps.map(function(v, i) {
-            return v + base_zero;
+            return v / 2 + base_zero;
         });
         fig.data_crts = datatmp.crts.map(function(v, i) {
             if (v>5) v = 5;
@@ -1899,14 +1899,17 @@ var figmker_crrw_trend = {
                     // console.log(params);
                     // if params
                     var tip = [params[0].axisValue + '<br>'];
-                    for (let i = 0; i < 3; i++) {
+                    for (var i = 0; i < 3; i++) {
                         var param = params[i];
                         var val = param.value;
                         if (i==0) {
-                            val = (val - 50).toFixed(2);
+                            // this is the Cr7d100k
+                            val = ((val - 50) * 2).toFixed(2);
                         } else if (i==1) {
+                            // this is the RW_Cr7d100k
                             val = (- (val - 50) / 10).toFixed(2);
                         } else {
+                            // this is the CrRW status
                             val = '<span class="crrw-day-badge crrw-day-'+val+'">'+val+'</span>';
                         }
                         tip.push(param.marker + ' ' + param.seriesName + ': ' + val + '<br>');
@@ -1935,9 +1938,11 @@ var figmker_crrw_trend = {
                 axisLabel: {
                     formatter: function (value, idx) {
                         if (value <= 50) {
+                            // this is RW_Cr7d100k
                             return (5 - Math.abs(value / 10)).toFixed(0);
                         } else {
-                            return (value - 50).toFixed(0);
+                            // this is Cr7d100k
+                            return ((value - 50) * 2).toFixed(0);
                         }
                     }
                 },
@@ -1948,10 +1953,11 @@ var figmker_crrw_trend = {
                 bottom: 20,
                 left: 40
             },
-            graphic: [{
+            graphic: [
+            {
                 type: 'group',
                 left: '45',
-                top: '35',
+                top: '55',
                 children: [{
                     type: 'rect',
                     z: 90,
@@ -1976,35 +1982,37 @@ var figmker_crrw_trend = {
                         font: '11px'
                     }
                 }]
-            }, {
-                type: 'group',
-                left: '45',
-                top: '55',
-                children: [{
-                    type: 'rect',
-                    z: 90,
-                    left: 'left',
-                    top: 'middle',
-                    shape: {
-                        width: 80,
-                        height: 14
-                    },
-                    style: {
-                        fill: '#fff',
-                        lineWidth: 0
-                    }
-                }, {
-                    type: 'text',
-                    z: 100,
-                    left: 'left',
-                    top: 'middle',
-                    style: {
-                        fill: 'rgba(255, 141, 4, 0.5)',
-                        text: 'Cr7d100k=15',
-                        font: '11px'
-                    }
-                }]
-            }, {
+            }, 
+            // {
+            //     type: 'group',
+            //     left: '45',
+            //     top: '55',
+            //     children: [{
+            //         type: 'rect',
+            //         z: 90,
+            //         left: 'left',
+            //         top: 'middle',
+            //         shape: {
+            //             width: 80,
+            //             height: 14
+            //         },
+            //         style: {
+            //             fill: '#fff',
+            //             lineWidth: 0
+            //         }
+            //     }, {
+            //         type: 'text',
+            //         z: 100,
+            //         left: 'left',
+            //         top: 'middle',
+            //         style: {
+            //             fill: 'rgba(255, 141, 4, 0.5)',
+            //             text: 'Cr7d100k=15',
+            //             font: '11px'
+            //         }
+            //     }]
+            // }, 
+            {
                 type: 'group',
                 left: '45',
                 top: '78',
@@ -2078,17 +2086,21 @@ var figmker_crrw_trend = {
                     lineStyle: {
                         color: 'orange'
                     },
-                    data: [{ 
-                        name: 'Cr7d100k=' + fig.crp_threshold_1, 
-                        yAxis: base_zero + fig.crp_threshold_1
-                    }, 
+                    data: [
+                    // { 
+                    //     // 15
+                    //     name: 'Cr7d100k=' + fig.crp_threshold_1, 
+                    //     yAxis: base_zero + fig.crp_threshold_1 / 2
+                    // }, 
                     { 
+                        // 30
                         name: 'Cr7d100k=' + fig.crp_threshold_2, 
-                        yAxis: base_zero + fig.crp_threshold_2
+                        yAxis: base_zero + fig.crp_threshold_2 / 2
                     },
                     { 
+                        // 10
                         name: 'Cr7d100k=' + fig.crp_threshold_3, 
-                        yAxis: base_zero + fig.crp_threshold_3
+                        yAxis: base_zero + fig.crp_threshold_3 / 2
                     }]
                 }
             },
@@ -2169,11 +2181,18 @@ var figmker_crrw_trend = {
 
         // bind click event
         fig.chart.on('click', function(params) {
+            if (params.componentType == "markLine") {
+                return;
+            }
             // console.log(params);
-            var date_Ymd = params.data[0];
-            var date_mdy = d3.timeFormat('%-m/%-d/%y')(d3.timeParse('%Y-%m-%d')(date_Ymd));
-            
-            console.log('* clicked ' + date_mdy);
+            var date_Ymd = params.name;
+            console.log('* clicked ' + date_Ymd);
+            // var date_mdy = d3.timeFormat('%-m/%-d/%y')(d3.timeParse('%Y-%m-%d')(date_Ymd));
+        
+            // update the maps by date
+            if (jarvis.hasOwnProperty('update_maps_by_date')) {
+                jarvis.update_maps_by_date(date_Ymd);
+            }
         });
 
         fig.chart.group = 'trends';
