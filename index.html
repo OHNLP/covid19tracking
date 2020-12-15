@@ -847,7 +847,7 @@ var fig_crrw_worldmap = {
                 } else if (this.current.attr == 'tcps') {
                     val = tcp;
                 } else {
-                    val = obj[this.current.attr][obj[this.current.attr].length - 1];
+                    val = obj[this.current.attr][date_idx];
                 }
                 var r = {
                     country: country,
@@ -1226,7 +1226,7 @@ var fig_crrw_usmap = {
                 } else if (this.current.attr == 'tcps') {
                     val = tcp;
                 } else {
-                    val = obj[this.current.attr][obj[this.current.attr].length - 1];
+                    val = obj[this.current.attr][date_idx];
                 }
 
                 var r = {
@@ -1661,7 +1661,7 @@ var fig_crrw_stmap = {
                 } else if (this.current.attr == 'tcps') {
                     val = tcp;
                 } else {
-                    val = obj[this.current.attr][obj[this.current.attr].length - 1];
+                    val = obj[this.current.attr][date_idx];
                 }
                 var r = {
                     fips: fips,
@@ -2678,6 +2678,9 @@ var jarvis = {
 
     play: function() {
         if (this.proc_play == null) {
+            if (this.date_idx == this.world_data.dates.length - 1) {
+                this.date_idx = -1;
+            }
             this.proc_play = setInterval('jarvis.auto_play();', this.frame_duration);
         } else {
     
