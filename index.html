@@ -75,7 +75,7 @@ p {
 }
 .fig-crrw-calendar .crrw-day-chart {
     width: calc(100% - 80px);
-    height: 95px;
+    height: 105px;
 }
 /* for the 1-d calendar chart */
 .fig-crrw-1dcal {
@@ -140,13 +140,16 @@ p {
     min-width: 600px;
     height: 150px;
 }
-.crrw-day-R {
+.crrw-day-R,
+.crrw-day-2 {
     background: red;
 }
-.crrw-day-G {
+.crrw-day-G,
+.crrw-day-0 {
     background: green;
 }
-.crrw-day-Y {
+.crrw-day-Y,
+.crrw-day-1 {
     background: gold;
 }
 .crrw-day-badge {
@@ -216,6 +219,31 @@ p {
                     <i class="fa fa-question-circle"></i>
                     About
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col d-flex flex-column">
+            <div class="d-flex flex-row">
+                <h5>
+                    <i class="far fa-calendar-alt"></i>
+                    CrRW Calendar for <span id="fig_crrw_calendars_region">&nbsp;</span>
+                </h5>
+                <div class="form-inline ml-3">
+                    <button type="button" class="btn btn-light btn-sm mr-2 "
+                        onclick="jarvis.play();">
+                        <i class="fa fa-play"></i>
+                        Play
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm mr-2 "
+                        onclick="jarvis.stop();">
+                        <i class="fa fa-stop"></i>
+                        Stop
+                    </button>
+                </div>
+            </div>
+            <div id="fig_crrw_calendars" class="box" style="width: 100%;">
             </div>
         </div>
     </div>
@@ -1601,14 +1629,14 @@ var fig_crrw_stmap = {
     show_detail: function(county_fips) {
         // console.log('* show detail: ' + county_fips);
         this.vpp.county.fips = county_fips;
-        this.vpp.county.data = this.data.data[county_fips];
+        this.vpp.county.data = this.data.county_data[county_fips];
         // this.vpp.$forceUpdate();
     },
 
     _create_mydata: function() {
         var date = this.current.date;
         var date_idx = this.data.dates.indexOf(date);
-        var rows = this.data.data;
+        var rows = this.data.county_data;
         var mydata = [];
 
         for (var fips in rows) {
@@ -1777,6 +1805,7 @@ if (typeof(plots) == 'undefined') {
 } else {
     plots[fig_crrw_stmap.plot_id] = fig_crrw_stmap;
 }
+
 var figmker_crrw_trend = {
     version: '1.2.0',
 
@@ -2181,10 +2210,10 @@ var figmker_crrw_trend = {
 
         // bind click event
         fig.chart.on('click', function(params) {
+            // console.log(params);
             if (params.componentType == "markLine") {
                 return;
             }
-            // console.log(params);
             var date_Ymd = params.name;
             console.log('* clicked ' + date_Ymd);
             // var date_mdy = d3.timeFormat('%-m/%-d/%y')(d3.timeParse('%Y-%m-%d')(date_Ymd));
@@ -2201,13 +2230,194 @@ var figmker_crrw_trend = {
         return fig;
     }
 }
+var figmker_crrw_calendar = {
+    dom_id: '#fig_crrw_calendars',
+
+    clear_and_make_fig: function(plot_id, data, country, state, fips, is_display_label) {
+        $(this.dom_id).html('');
+        $(this.dom_id + '_region').html(country);
+        return this.make_fig(plot_id, data, country, state, fips, is_display_label);
+    },
+
+    make_fig: function(plot_id, data, country, state, fips, is_display_label) {
+        if ($('#' + plot_id).length>0) {
+            // have already there
+            $( "#" + plot_id ).effect( 'pulsate', {}, 200, null );
+            return;
+        }
+        
+        if (typeof(is_display_label) == 'undefined') {
+            is_display_label = true;
+        }
+
+        var lv = null;
+        var cal_lbl = null;
+        var data_idx = null;
+        var _data = null;
+
+        if (country != null) {
+            lv = 'country';
+            cal_lbl = country;
+            data_idx = country;
+            _data = data.world_data;
+        } else if (fips != null) {
+            lv = 'county'
+            cal_lbl = fips;
+            data_idx = fips;
+            _data = data.county_data;
+        } else {
+            lv = 'state';
+            cal_lbl = state;
+            data_idx = state;
+            _data = data.state_data;
+        }
+        
+        var html = [
+            '<div id="'+plot_id+'" class="fig-crrw-calendar d-flex justify-content-start align-items-start">', 
+            is_display_label?'<div class="crrw-day-label">'+cal_lbl+'</div>' : '', 
+            '<div id="'+plot_id+'_chart" class="crrw-day-chart"></div>',
+            '</div>'
+        ].join('');
+
+        $(this.dom_id).append(html);
+
+        var fig = {
+            plot_id: plot_id,
+            color_range: [
+                'green',
+                'gold',
+                'red'
+            ],
+            country: country,
+            state: state,
+            fips: fips,
+            data: data,
+            date_idx: data.dates.length - 1
+        };
+
+        fig.cal_data = _data[data_idx].crcs.map(function(v, i) {
+            return [ data.dates[i], {R:2, Y:1, G:0}[v]];
+        });
+
+        fig.scatter_data = [{
+            value: fig.cal_data[fig.cal_data.length - 1],
+            visualMap: false
+        }];
+        
+        // put the calendar
+        fig.option = {
+            tooltip: {
+                formatter: function(params) {
+                    // console.log(params);
+                    // if params
+                    var val = params.value[1];
+                    return params.value[0] + "<br>" +
+                        'CrRW Status: ' + '<span class="crrw-day-badge crrw-day-'+val+'">'+{2:"R", 1:'Y', 0:'G'}[val]+'</span>';
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 2,
+                // right: 0,
+                // top: 0,
+                // itemHeight: 80,
+                // text: [this.num_max + ' days', '0'],
+                inRange: {
+                    color: fig.color_range
+                },
+                show: false
+            },
+            calendar: {
+                top: 18,
+                left: 50,
+                cellSize: 10,
+                range: ['2020-01-01', '2021-01-31'],
+                monthLabel: {
+                    show: true,
+                    fontSize: 10,
+                    formatter: function(param) {
+                        if (param.M == 1) {
+                            return param.yyyy + ' ' + param.nameMap;
+                        } else {
+                            return param.nameMap;
+                        }
+                    }
+                },
+                yearLabel: {
+                    fontSize: 12
+                },
+                itemStyle: {
+                    borderWidth: 1
+                }
+            },
+            series: [{
+                type: 'heatmap',
+                name: fig.plot_id + '-' + 'cal',
+                coordinateSystem: 'calendar',
+                data: fig.cal_data
+            }, 
+            {
+                type: 'scatter',
+                name: fig.plot_id + '-' + 'dot',
+                coordinateSystem: 'calendar',
+                data: fig.scatter_data,
+                symbolSize: 9,
+                itemStyle: {
+                    color: 'black'
+                }
+            }]
+        };
+        fig.chart = echarts.init(document.getElementById(fig.plot_id + '_chart'));
+        fig.chart.setOption(fig.option);
+
+        fig.update_by_date = function(date) {
+            this.date_idx = this.data.dates.indexOf(date);
+
+            // udpate the scatter
+            this.scatter_data = [{
+                value: this.cal_data[this.date_idx],
+                visualMap: false
+            }];
+            
+            // update the echart
+            this.option.series[1].data = this.scatter_data;
+            this.chart.setOption(this.option, true);
+        },
+
+        // bind click event
+        fig.chart.on('click', function(params) {
+            console.log(params);
+
+            // get the figure obj
+            var fig_plot_id = params.seriesName.split('-')[0];
+            var fig_obj = window[fig_plot_id];
+
+            // get date
+            var date_Ymd = params.value[0];
+            // var date_mdy = d3.timeFormat('%-m/%-d/%y')(d3.timeParse('%Y-%m-%d')(date_Ymd));
+            console.log('* clicked ' + date_Ymd);
+
+            // update the map
+            if (jarvis.hasOwnProperty('update_by_date')) {
+                jarvis.update_by_date(date_Ymd);
+            }
+        });
+
+        return fig;
+    }
+}
 
 var jarvis = {
     plots: {},
     us_data: {},
     state_data: {},
     world_data: {},
-    base_data_url: './covid_data/',
+    base_data_url: '/covid_data/',
+
+    // for the auto play
+    proc_play: null,
+    date_idx: 0,
+    frame_duration: 500,
 
     get_state_data_file_url: function (state) {
         return this.base_data_url + 'state/' + state + '-history.json';
@@ -2249,7 +2459,14 @@ var jarvis = {
             { ver: Math.random() },
             function(data) {
                 jarvis.world_data = data;
+                // update the date_idx
+                jarvis.date_idx = data.dates.length - 1;
+
+                // update the map
                 fig_crrw_worldmap.update(data);
+
+                // init the calendar by USA cases
+                jarvis.init_calendar('USA');
 
                 jarvis.ssmsg('Finished initialization.')
                 setTimeout('jarvis.ssclose();', 500);
@@ -2267,6 +2484,24 @@ var jarvis = {
                 jarvis.ssmsg('Finished initialization.')
                 setTimeout('jarvis.ssclose();', 500);
             }, 'json'
+        );
+    },
+
+    init_calendar: function(country) {
+        if (typeof(country) == 'undefined') {
+            country = 'USA';
+        }
+        // then make a figure
+        if (!window.hasOwnProperty('figmker_crrw_calendar')) {
+            return;
+        }
+        window.fig_crrw_calendar = figmker_crrw_calendar.clear_and_make_fig(
+            'fig_crrw_calendar',
+            jarvis.world_data,
+            country,
+            null,
+            null,
+            false
         );
     },
 
@@ -2350,6 +2585,16 @@ var jarvis = {
     _show_county_trend: function(state_abbr, fips) {
         var plot_id = '';
         var fig = null;
+
+        // plot_id = 'fig_crrw_calendar_' + fips;
+        // fig = figmker_crrw_calendar.make_fig(
+        //     plot_id, this.state_data, this.state_data.state, fips);
+        // this.plots[plot_id] = fig;
+
+        // plot_id = 'fig_crrw_calendar_' + fips;
+        // fig = figmker_crrw_1dcal.make_fig(
+        //     plot_id, this.state_data, this.state_data.state, fips);
+        // this.plots[plot_id] = fig;
         
         plot_id = 'fig_crrw_trend_' + fips;
         fig = figmker_crrw_trend.make_fig(
@@ -2390,6 +2635,55 @@ var jarvis = {
         $('#' + plot_id).remove();
     },
 
+    update_by_date: function(date) {
+        console.log('* jarvis update by date ' + date);
+
+        // update the index first
+        this.date_idx = this.world_data.dates.indexOf(date);
+
+        // then update the calendar
+        if (window.hasOwnProperty('fig_crrw_calendar')) {
+            window.fig_crrw_calendar.update_by_date(date);
+        }
+
+        // last, update the map
+        this.update_maps_by_date(date);
+    },
+
+    update_maps_by_date: function(date) {
+        fig_crrw_worldmap.update_by_date(date);
+        fig_crrw_usmap.update_by_date(date);
+        fig_crrw_stmap.update_by_date(date);
+    },
+
+    auto_play: function() {
+        if (this.date_idx >= this.world_data.dates.length - 1) {
+            this.date_idx = 0;
+            this.stop();
+        } else {
+            this.date_idx += 1;
+            var next_date = this.world_data.dates[this.date_idx];
+            this.update_by_date(next_date);
+        }
+    },
+
+    stop: function() {
+        if (this.proc_play == null) {
+    
+        } else {
+            clearInterval(this.proc_play);
+            this.proc_play = null;
+        }
+    },
+
+    play: function() {
+        if (this.proc_play == null) {
+            this.proc_play = setInterval('jarvis.auto_play();', this.frame_duration);
+        } else {
+    
+        } 
+    },
+
     reset_fig_crrw_trends: function() {
         $('#fig_crrw_trends').html('');
     },
@@ -2411,7 +2705,7 @@ var jarvis = {
         CA: { fips: '06', abbr: 'CA', name: 'California' }, 
         CO: { fips: '08', abbr: 'CO', name: 'Colorado' }, 
         CT: { fips: '09', abbr: 'CT', name: 'Connecticut' }, 
-        DE: { fips: '10', abbr: 'DE', name: 'Delaware' }, 
+        DE: { fips: '08', abbr: 'DE', name: 'Delaware' }, 
         FL: { fips: '12', abbr: 'FL', name: 'Florida' }, 
         GA: { fips: '13', abbr: 'GA', name: 'Georgia' }, 
         GU: { fips: '66', abbr: 'GU', name: 'Guam' },
@@ -2430,7 +2724,7 @@ var jarvis = {
         MN: { fips: '27', abbr: 'MN', name: 'Minnesota' }, 
         MS: { fips: '28', abbr: 'MS', name: 'Mississippi' }, 
         MO: { fips: '29', abbr: 'MO', name: 'Missouri' }, 
-        MT: { fips: '30', abbr: 'MT', name: 'Montana' }, 
+        MT: { fips: '39', abbr: 'MT', name: 'Montana' }, 
         NE: { fips: '31', abbr: 'NE', name: 'Nebraska' }, 
         NV: { fips: '32', abbr: 'NV', name: 'Nevada' }, 
         NH: { fips: '33', abbr: 'NH', name: 'New Hampshire' }, 
@@ -2455,7 +2749,7 @@ var jarvis = {
         VT: { fips: '50', abbr: 'VT', name: 'Vermont' }, 
         VA: { fips: '51', abbr: 'VA', name: 'Virginia' }, 
         WA: { fips: '53', abbr: 'WA', name: 'Washington' }, 
-        DC: { fips: '11', abbr: 'DC', name: 'Washington, D.C.' }, 
+        DC: { fips: '09', abbr: 'DC', name: 'Washington, D.C.' }, 
         WV: { fips: '54', abbr: 'WV', name: 'West Virginia' }, 
         WI: { fips: '55', abbr: 'WI', name: 'Wisconsin' }, 
         WY: { fips: '56', abbr: 'WY', name: 'Wyoming' }
