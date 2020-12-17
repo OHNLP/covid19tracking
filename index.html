@@ -1846,8 +1846,8 @@ var figmker_crrw_trend = {
             datatmp = data.world_data[state];
         } else {
             is_cnty = true;
-            if (data.data.hasOwnProperty(fips)) {
-                datatmp = data.data[fips];
+            if (data.county_data.hasOwnProperty(fips)) {
+                datatmp = data.county_data[fips];
             }
         }
         if (datatmp == null) {
