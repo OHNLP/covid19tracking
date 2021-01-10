@@ -602,7 +602,7 @@ var fig_crrw_worldmap = {
     vpp_id: '#fig_crrw_worldmap_vpp',
 
     data: null,
-    data_file: 'world-fc-history.json',
+    data_file: 'WORLD-history.json',
     colorscale: {
         cdts: {
             name: 'Case Doubling Time',
@@ -664,7 +664,7 @@ var fig_crrw_worldmap = {
 
     load: function() {
         $.get(
-            './covid_data/state/' + this.data_file,
+            './covid_data/v2/' + this.data_file,
             {ver: Math.random()},
             function(data) {
                 fig_crrw_worldmap.init(data);
@@ -1033,7 +1033,7 @@ var fig_crrw_usmap = {
 
     load: function() {
         $.get(
-            './covid_data/state/' + this.data_file,
+            './covid_data/v2/' + this.data_file,
             {ver: Math.random()},
             function(data) {
                 fig_crrw_usmap.init(data);
@@ -1839,7 +1839,7 @@ var figmker_crrw_trend = {
             datatmp = data.state_data[state];
         } else if (fips == 'mchrr') {
             is_cnty = false;
-            datatmp = data.mc_data[state];
+            datatmp = data.mchrr_data[state];
         } else if (fips == 'world') {
             // the state is country code
             is_cnty = false;
@@ -2412,7 +2412,7 @@ var jarvis = {
     us_data: {},
     state_data: {},
     world_data: {},
-    base_data_url: './covid_data/',
+    base_data_url: './covid_data/v2/',
 
     // for the auto play
     proc_play: null,
@@ -2420,7 +2420,7 @@ var jarvis = {
     frame_duration: 500,
 
     get_state_data_file_url: function (state) {
-        return this.base_data_url + 'state/' + state + '-history.json';
+        return this.base_data_url + state + '-history.json';
     },
 
     init: function() {
@@ -2455,7 +2455,7 @@ var jarvis = {
         fig_crrw_stmap.init();
 
         $.get(
-            this.base_data_url + 'world-fc-history.json',
+            this.base_data_url + 'WORLD-history.json',
             { ver: Math.random() },
             function(data) {
                 jarvis.world_data = data;
