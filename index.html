@@ -252,218 +252,227 @@ p {
         <div class="col d-flex flex-row">
 
             <div id="fig_crrw_worldmap_vpp" class="box" style="max-width: 600px;">
-                <h5>
-                    <i class="fa fa-globe-americas"></i>
-                    World Status for <span id="fig_crrw_worldmap_last_update">&nbsp;</span>
-                </h5>
-                <div>
-                    <div class="btn-group">
-                        <button id="fig_crrw_worldmap_select_colorscale"
-                            class="btn btn-light btn-sm dropdown-toggle" 
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Color: {{ attr_colorscales[current.attr].name }}
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" 
-                                href="javascript:void(0);"
-                                v-for="attr_colorscale, attr in attr_colorscales"
-                                v-on:click="update_color(attr)">
-                                <span class="attr-color-legend" 
-                                    v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
-                                    &nbsp;
-                                </span>
-                                {{ attr_colorscale.name }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div id="fig_crrw_worldmap" style="width: 560px; height: 300px;"></div>
-
-                <div class="region-detail-box" v-if="country.country == null"></div>
-                <div class="region-detail-box" v-else>
-                    <p>For {{ date }}, {{ country.data.name }}, (Population: {{ fmt_comma(country.data.pop) }}). </p>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Cr7d100k:</span>
-                        <span class="region-detail-value">{{ get_detail().crp }} cases per 100k</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">RW_Cr7d100k:</span>
-                        <span class="region-detail-value">{{ get_detail().crt }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">New cases:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total cases:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Case Doubling Time:</span>
-                        <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total death:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Death rate:</span>
-                        <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total Cases / Population:</span>
-                        <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
-                    </div>
-                </div>
+    <h5>
+        <i class="fa fa-globe-americas"></i>
+        World Status for <span id="fig_crrw_worldmap_last_update">&nbsp;</span>
+    </h5>
+    <div>
+        <div class="btn-group">
+            <button id="fig_crrw_worldmap_select_colorscale"
+                class="btn btn-light btn-sm dropdown-toggle" 
+                type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Color: {{ attr_colorscales[current.attr].name }}
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" 
+                    href="javascript:void(0);"
+                    v-for="attr_colorscale, attr in attr_colorscales"
+                    v-on:click="update_color(attr)">
+                    <span class="attr-color-legend" 
+                        v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
+                        &nbsp;
+                    </span>
+                    {{ attr_colorscale.name }}
+                </a>
             </div>
-            
+        </div>
+    </div>
+    <div id="fig_crrw_worldmap" style="width: 560px; height: 300px;"></div>
+
+    <div class="region-detail-box" v-if="country.country == null"></div>
+    <div class="region-detail-box" v-else>
+        <p>For {{ date }}, {{ country.data.name }}, (Population: {{ fmt_comma(country.data.pop) }}). </p>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Cr7d100k:</span>
+            <span class="region-detail-value">{{ get_detail().crp }} cases per 100k</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">RW_Cr7d100k:</span>
+            <span class="region-detail-value">{{ get_detail().crt }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">New cases:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total cases:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Case Doubling Time:</span>
+            <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total death:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Death rate:</span>
+            <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total Cases / Population:</span>
+            <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
+        </div>
+    </div>
+</div>
+                        
             <div id="fig_crrw_usmap_vpp" class="box" style="max-width: 500px;">
 
-                <h5>
-                    <i class="fa fa-globe-americas"></i>
-                    U.S. Status for <span id="fig_crrw_usmap_last_update">&nbsp;</span>
-                </h5>
-                <div>
-                    <div class="btn-group">
-                        <button id="fig_crrw_usmap_select_colorscale"
-                            class="btn btn-light btn-sm dropdown-toggle" 
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Color: {{ attr_colorscales[current.attr].name }}
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" 
-                                href="javascript:void(0);"
-                                v-for="attr_colorscale, attr in attr_colorscales"
-                                v-on:click="update_color(attr)">
-                                <span class="attr-color-legend" 
-                                    v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
-                                    &nbsp;
-                                </span>
-                                {{ attr_colorscale.name }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="fig_crrw_usmap" style="width: 460px; height: 300px;"></div>
-
-                <div class="region-detail-box" v-if="state.state == null"></div>
-                <div class="region-detail-box" v-else>
-                    <p>For {{ date }}, {{ state.data.name }}, (Population: {{ fmt_comma(state.data.pop) }}). </p>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Cr7d100k:</span>
-                        <span class="region-detail-value">{{ get_detail().crp }} cases per 100k</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">RW_Cr7d100k:</span>
-                        <span class="region-detail-value">{{ get_detail().crt }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Pandemic Vulnerability Index:</span>
-                        <span class="region-detail-value">{{ get_detail().pvi.toFixed(2) }} (Median)</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">New cases:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total cases:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Case Doubling Time:</span>
-                        <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total death:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Death rate:</span>
-                        <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total Cases / Population:</span>
-                        <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
-                    </div>
-                </div>
+    <h5>
+        <i class="fa fa-globe-americas"></i>
+        U.S. Status for <span id="fig_crrw_usmap_last_update">&nbsp;</span>
+    </h5>
+    <div>
+        <div class="btn-group">
+            <button id="fig_crrw_usmap_select_colorscale"
+                class="btn btn-light btn-sm dropdown-toggle" 
+                type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Color: {{ attr_colorscales[current.attr].name }}
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" 
+                    href="javascript:void(0);"
+                    v-for="attr_colorscale, attr in attr_colorscales"
+                    v-on:click="update_color(attr)">
+                    <span class="attr-color-legend" 
+                        v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
+                        &nbsp;
+                    </span>
+                    {{ attr_colorscale.name }}
+                </a>
             </div>
+        </div>
+    </div>
 
+    <div id="fig_crrw_usmap" style="width: 460px; height: 300px;"></div>
+
+    <div class="region-detail-box" v-if="state.state == null"></div>
+    <div class="region-detail-box" v-else>
+        <p>For {{ date }}, {{ state.data.name }}, (Population: {{ fmt_comma(state.data.pop) }}). </p>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Cr7d100k:</span>
+            <span class="region-detail-value">{{ get_detail().crp }} cases per 100k capita</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">RW_Cr7d100k:</span>
+            <span class="region-detail-value">{{ get_detail().crt }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Vaccinated 2nd Dose:</span>
+            <span class="region-detail-value">
+                {{ fmt_ind_val('fvps', get_detail().fvp) }}
+                ({{ fmt_ind_val('fvcs', get_detail().fvc) }} people)
+                <a style="color:#777777;" target="_blank" href="https://covid.cdc.gov/covid-data-tracker/#vaccinations" title="The latest vaccination data come from CDC COVID Data Tracker">
+                    <i class="far fa-question-circle"></i>
+                </a>
+            </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Pandemic Vulnerability Index:</span>
+            <span class="region-detail-value">{{ get_detail().pvi.toFixed(2) }} (Median)</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">New cases:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total cases:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Case Doubling Time:</span>
+            <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total death:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Death rate:</span>
+            <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total Cases / Population:</span>
+            <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
+        </div>
+    </div>
+</div>
 
             <div id="fig_crrw_stmap_vpp" class="box" style="max-width: 500px;">
-                <h5>
-                    <i class="fa fa-map"></i>
-                    <span id="fig_crrw_stmap_state_name">&nbsp;</span>
-                    State Status 
-                    for <span id="fig_crrw_stmap_last_update">&nbsp;</span>
-                </h5>
-                <div>
-                    <div class="btn-group">
-                        <button id="fig_crrw_stmap_select_colorscale"
-                            class="btn btn-light btn-sm dropdown-toggle" 
-                            type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Color: {{ attr_colorscales[current.attr].name }}
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" 
-                                href="javascript:void(0);"
-                                v-for="attr_colorscale, attr in attr_colorscales"
-                                v-on:click="update_color(attr)">
-                                <span class="attr-color-legend" 
-                                    v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
-                                    &nbsp;
-                                </span>
-                                {{ attr_colorscale.name }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div id="fig_crrw_stmap" style="width: 330px; height: 300px;"></div>
-
-                <div class="region-detail-box" v-if="county.fips == null"></div>
-                <div class="region-detail-box" v-else>
-                    <p>For {{ date }}, {{ county.data.name }}, {{ county.data.state }} (Population: {{ fmt_comma(county.data.pop) }}). </p>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Cr7d100k:</span>
-                        <span class="region-detail-value">{{ get_detail().crp }} cases per 100k</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">RW_Cr7d100k:</span>
-                        <span class="region-detail-value">{{ get_detail().crt }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Pandemic Vulnerability Index:</span>
-                        <span class="region-detail-value">{{ get_detail().pvi.toFixed(2) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">New cases:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total cases:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Case Doubling Time:</span>
-                        <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total death:</span>
-                        <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Death rate:</span>
-                        <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
-                    </div>
-                    <div class="region-detail-item" >
-                        <span class="region-detail-name">Total Cases / Population:</span>
-                        <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
-                    </div>
-                </div>
+    <h5>
+        <i class="fa fa-map"></i>
+        <span id="fig_crrw_stmap_state_name">&nbsp;</span>
+        State Status 
+        for <span id="fig_crrw_stmap_last_update">&nbsp;</span>
+    </h5>
+    <div>
+        <div class="btn-group">
+            <button id="fig_crrw_stmap_select_colorscale"
+                class="btn btn-light btn-sm dropdown-toggle" 
+                type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Color: {{ attr_colorscales[current.attr].name }}
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" 
+                    href="javascript:void(0);"
+                    v-for="attr_colorscale, attr in attr_colorscales"
+                    v-on:click="update_color(attr)">
+                    <span class="attr-color-legend" 
+                        v-bind:style="get_attr_colorscale_legend(attr_colorscale)">
+                        &nbsp;
+                    </span>
+                    {{ attr_colorscale.name }}
+                </a>
             </div>
+        </div>
+    </div>
+    <div id="fig_crrw_stmap" style="width: 330px; height: 300px;"></div>
+
+    <div class="region-detail-box" v-if="county.fips == null"></div>
+    <div class="region-detail-box" v-else>
+        <p>For {{ date }}, {{ county.data.name }}, {{ county.data.state }} (Population: {{ fmt_comma(county.data.pop) }}). </p>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Cr7d100k:</span>
+            <span class="region-detail-value">{{ get_detail().crp }} cases per 100k capita</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">RW_Cr7d100k:</span>
+            <span class="region-detail-value">{{ get_detail().crt }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Pandemic Vulnerability Index:</span>
+            <span class="region-detail-value">{{ get_detail().pvi.toFixed(2) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">New cases:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().dnc) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total cases:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().ncc) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Case Doubling Time:</span>
+            <span class="region-detail-value">{{ (get_detail().cdt).toFixed(1) }} days</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total death:</span>
+            <span class="region-detail-value">{{ fmt_comma(get_detail().dth) }} </span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Death rate:</span>
+            <span class="region-detail-value">{{ (get_detail().dtr*100).toFixed(2) }} %</span>
+        </div>
+        <div class="region-detail-item" >
+            <span class="region-detail-name">Total Cases / Population:</span>
+            <span class="region-detail-value">{{ (get_detail().tcp*100).toFixed(4) }} %</span>
+        </div>
+    </div>
+</div>
 
         </div>
 
@@ -990,9 +999,9 @@ var fig_crrw_usmap = {
             mid: 1,
             max: 2,
             schema: [
-                [0, 'green'],
+                [0,   'green'],
                 [0.5, 'gold'],
-                [1, 'red']
+                [1,   'red']
             ]
         },
         tcps: {
@@ -1003,7 +1012,7 @@ var fig_crrw_usmap = {
             schema: [
                 [0,   'rgba(254, 240, 206, 1)'],
                 [0.5, 'rgba(253, 164, 93, 1)'],
-                [1, 'rgba(255, 30, 2, 1)']
+                [1,   'rgba(255, 30, 2, 1)']
             ]
         },
         pvis: {
@@ -1014,7 +1023,18 @@ var fig_crrw_usmap = {
             schema: [
                 [0,   'rgba(253, 231, 228, 1)'],
                 [0.5, 'rgba(240, 90, 158, 1)'],
-                [1, 'rgba(71, 1, 103, 1)']
+                [1,   'rgba(71, 1, 103, 1)']
+            ]
+        },
+        fvps: {
+            name: 'Vaccinated 2nd Dose Percentage',
+            min: 0,
+            mid: 0.01,
+            max: 0.02,
+            schema: [
+                [0,   'rgba(255, 255, 255, 1)'],
+                [0.5, 'rgba(141, 199, 252, 1)'],
+                [1,   'rgba(0, 76, 145, 1)']
             ]
         }
     },
@@ -1087,12 +1107,18 @@ var fig_crrw_usmap = {
                         dtr: this.state.data.dtrs[date_idx],
                         crc: this.state.data.crcs[date_idx],
                         pvi: this.state.data.pvis[date_idx],
-                        tcp: this.state.data.nccs[date_idx] / this.state.data.pop
+                        tcp: this.state.data.nccs[date_idx] / this.state.data.pop,
+                        fvc: this.state.data.fvcs[date_idx],
+                        fvp: this.state.data.fvps[date_idx]
                     }
                 },
 
                 fmt_comma: function(v) {
-                    return fig_crrw_usmap.fmt_comma(v);
+                    return jarvis.fmt_comma(v);
+                },
+
+                fmt_ind_val: function(ind, val) {
+                    return jarvis.ind2txt(ind).fmt(val);
                 }
             }
         });
@@ -1221,29 +1247,41 @@ var fig_crrw_usmap = {
 
                 // decide show which value as default
                 var val = null;
+                var val_for_plotly = null;
                 if (this.current.attr == 'crcs') {
-                    val = crc_v;
+                    val_for_plotly = crc_v;
+                    val = crc;
                 } else if (this.current.attr == 'tcps') {
+                    val_for_plotly = tcp;
                     val = tcp;
                 } else {
+                    val_for_plotly = obj[this.current.attr][date_idx];
                     val = obj[this.current.attr][date_idx];
                 }
 
+                // decide the text
+                var txt = date + ', ' + 
+                    obj.name + '<br>' +
+                    jarvis.ind2txt(this.current.attr).name + ': ' + 
+                    jarvis.ind2txt(this.current.attr).fmt(val);
+
+                // var txt = obj.name + '<br>' +
+                // ' (Population: ' + this.fmt_comma(obj.pop) + ') <br>'+
+                // 'For ' + date + ' <br>' +
+                // 'Cr7d100k: <b>' + crp.toFixed(1) + ' cases per 100k </b><br>' +
+                // 'RW_Cr7d100k: <b>' + crt.toFixed(2) + ' </b><br>' +
+                // 'CDT: <b>' + cdt.toFixed(1) + ' days </b><br>' +
+                // 'New Cases: <b>' + this.fmt_comma(dnc) + '</b><br>' +
+                // 'Total Cases: <b>' + this.fmt_comma(ncc) + ' </b><br>' + 
+                // 'Total Cases/Population: <b>' + (tcp*100).toFixed(4) + '% </b><br>' + 
+                // 'Total Death: <b>' + this.fmt_comma(dth) + ' </b><br>' + 
+                // 'Death Rate: <b>' + (dtr*100).toFixed(2) + '%</b><br>' +
+                // '';
+
                 var r = {
                     state: state,
-                    val: val,
-                    txt: obj.name + '<br>' +
-                        // ' (Population: ' + this.fmt_comma(obj.pop) + ') <br>'+
-                        // 'For ' + date + ' <br>' +
-                        // 'Cr7d100k: <b>' + crp.toFixed(1) + ' cases per 100k </b><br>' +
-                        // 'RW_Cr7d100k: <b>' + crt.toFixed(2) + ' </b><br>' +
-                        // 'CDT: <b>' + cdt.toFixed(1) + ' days </b><br>' +
-                        // 'New Cases: <b>' + this.fmt_comma(dnc) + '</b><br>' +
-                        'Total Cases: <b>' + this.fmt_comma(ncc) + ' </b><br>' + 
-                        // 'Total Cases/Population: <b>' + (tcp*100).toFixed(4) + '% </b><br>' + 
-                        // 'Total Death: <b>' + this.fmt_comma(dth) + ' </b><br>' + 
-                        // 'Death Rate: <b>' + (dtr*100).toFixed(2) + '%</b><br>'
-                        ''
+                    val: val_for_plotly,
+                    txt: txt
                 };
                 mydata.push(r);
             }
@@ -2419,6 +2457,30 @@ var jarvis = {
     date_idx: 0,
     frame_duration: 500,
 
+    // all of the indicators
+    indicators: {
+        tcps: { name: 'Total Cases / Population', fmt: function(v) { return (v*100).toFixed(2) + '%'; } },
+        nccs: { name: 'Total Cases', fmt: function(v) { return v; } },
+        dncs: { name: 'Daily Cases', fmt: function(v) { return v; } },
+        d7vs: { name: '7-day Average Cases', fmt: function(v) { return v; } },
+        npps: { name: 'Total Cases per 100k', fmt: function(v) { return v; } },
+        dpps: { name: 'Daily Cases per 100k', fmt: function(v) { return v; } },
+        d7ps: { name: '7-day Average Cases per 100k', fmt: function(v) { return v; } },
+        tprs: { name: 'Test Positive Rate', fmt: function(v) { return v; } },
+        ttrs: { name: 'Total Tests', fmt: function(v) { return v; } },
+        tpts: { name: 'Total Positive Tests', fmt: function(v) { return v; } },
+        t7rs: { name: '7-day Average Test Positive Rate', fmt: function(v) { return v; } },
+        dths: { name: 'Deaths', fmt: function(v) { return v; } },
+        dtrs: { name: 'Death Rate', fmt: function(v) { return v; } },
+        cdts: { name: '4-day Smoothed Case Doubling Time', fmt: function(v) { return v.toFixed(0) + ' days'; } },
+        crps: { name: 'Cr7d100k Case Rate', fmt: function(v) { return v; } },
+        crts: { name: 'RW_Cr7d100k Case Ratio', fmt: function(v) { return v; } },
+        crcs: { name: 'CrRW Status', fmt: function(v) { return v; } },
+        pvis: { name: 'Pandemic Vulnerability Index', fmt: function(v) { return v; } },
+        fvcs: { name: 'Vaccinated 2nd Dose People', fmt: function(v) { return v==0? 'NA' : jarvis.fmt_comma(v); } },
+        fvps: { name: 'Vaccinated 2nd Dose Percentage', fmt: function(v) { return v==0? 'NA' : (v*100).toFixed(2) + '%'; } },
+    },
+
     get_state_data_file_url: function (state) {
         return this.base_data_url + state + '-history.json';
     },
@@ -2771,7 +2833,13 @@ var jarvis = {
         $('#modal-title').html(ti);
         $('#modal-body').html(ct);
         $('#modal').modal('show');
-    }
+    },
+
+    ind2txt: function(ind) {
+        return this.indicators[ind];
+    },
+
+    fmt_comma: d3.format(",")
 };
 
 $(document).ready(function(){
