@@ -170,6 +170,11 @@ p {
     width: 50px;
     height: 16px;
 }
+.attr-color-legend-large {
+    display: inline-block;
+    width: 120px;
+    height: 16px;
+}
 .region-detail-box {
     width: 100%;
     max-height: 150px;
@@ -190,6 +195,9 @@ p {
     margin-left: -3px;
     padding: 0 3px;
     border-bottom: 1px solid #ececec;
+}
+.text-sm {
+    font-size: 0.9em;
 }
 </style>
 </head>
@@ -256,7 +264,7 @@ p {
         <i class="fa fa-globe-americas"></i>
         World Status for <span id="fig_crrw_worldmap_last_update">&nbsp;</span>
     </h5>
-    <div>
+    <div class="d-flex flex-row justify-content-start">
         <div class="btn-group">
             <button id="fig_crrw_worldmap_select_colorscale"
                 class="btn btn-light btn-sm dropdown-toggle" 
@@ -274,9 +282,19 @@ p {
                         &nbsp;
                     </span>
                     {{ attr_colorscale.name }}
+                    {{ get_attr_colorscale_value_legend(attr_colorscale) }}
                 </a>
             </div>
         </div>
+
+        <div class="ml-3 pt-1">
+            <span class="attr-color-legend-large d-flex justify-content-between" 
+                v-bind:style="get_attr_colorscale_legend(attr_colorscales[current.attr])">
+                <span class="text-sm ml-1">{{ get_attr_colorscale_min_value_legend(attr_colorscales[current.attr]) }}</span>
+                <span class="text-sm mr-1 text-white">{{ get_attr_colorscale_max_value_legend(attr_colorscales[current.attr]) }}</span>
+            </span>
+        </div>
+
     </div>
     <div id="fig_crrw_worldmap" style="width: 560px; height: 300px;"></div>
 
@@ -324,7 +342,7 @@ p {
         <i class="fa fa-globe-americas"></i>
         U.S. Status for <span id="fig_crrw_usmap_last_update">&nbsp;</span>
     </h5>
-    <div>
+    <div class="d-flex flex-row justify-content-start">
         <div class="btn-group">
             <button id="fig_crrw_usmap_select_colorscale"
                 class="btn btn-light btn-sm dropdown-toggle" 
@@ -342,9 +360,19 @@ p {
                         &nbsp;
                     </span>
                     {{ attr_colorscale.name }}
+                    {{ get_attr_colorscale_value_legend(attr_colorscale) }}
                 </a>
             </div>
         </div>
+
+        <div class="ml-3 pt-1">
+            <span class="attr-color-legend-large d-flex justify-content-between" 
+                v-bind:style="get_attr_colorscale_legend(attr_colorscales[current.attr])">
+                <span class="text-sm ml-1">{{ get_attr_colorscale_min_value_legend(attr_colorscales[current.attr]) }}</span>
+                <span class="text-sm mr-1 text-white">{{ get_attr_colorscale_max_value_legend(attr_colorscales[current.attr]) }}</span>
+            </span>
+        </div>
+
     </div>
 
     <div id="fig_crrw_usmap" style="width: 460px; height: 300px;"></div>
@@ -408,7 +436,7 @@ p {
         State Status 
         for <span id="fig_crrw_stmap_last_update">&nbsp;</span>
     </h5>
-    <div>
+    <div class="d-flex flex-row justify-content-start">
         <div class="btn-group">
             <button id="fig_crrw_stmap_select_colorscale"
                 class="btn btn-light btn-sm dropdown-toggle" 
@@ -426,9 +454,19 @@ p {
                         &nbsp;
                     </span>
                     {{ attr_colorscale.name }}
+                    {{ get_attr_colorscale_value_legend(attr_colorscale) }}
                 </a>
             </div>
         </div>
+
+        <div class="ml-3 pt-1">
+            <span class="attr-color-legend-large d-flex justify-content-between" 
+                v-bind:style="get_attr_colorscale_legend(attr_colorscales[current.attr])">
+                <span class="text-sm ml-1">{{ get_attr_colorscale_min_value_legend(attr_colorscales[current.attr]) }}</span>
+                <span class="text-sm mr-1 text-white">{{ get_attr_colorscale_max_value_legend(attr_colorscales[current.attr]) }}</span>
+            </span>
+        </div>
+
     </div>
     <div id="fig_crrw_stmap" style="width: 330px; height: 300px;"></div>
 
@@ -615,6 +653,7 @@ var fig_crrw_worldmap = {
     colorscale: {
         cdts: {
             name: 'Case Doubling Time',
+            abbr: 'cdts',
             min: 0,
             mid: 50,
             max: 100,
@@ -626,37 +665,28 @@ var fig_crrw_worldmap = {
         },
         crcs: {
             name: 'CrRW Status',
+            abbr: 'crcs',
             min: 0,
             mid: 1,
             max: 2,
             schema: [
-                [0, 'green'],
+                [0,   'green'],
                 [0.5, 'gold'],
-                [1, 'red']
+                [1,   'red']
             ]
         },
         tcps: {
             name: 'Total Cases / Population',
+            abbr: 'tcps',
             min: 0,
-            mid: 0.05,
-            max: 0.10,
+            mid: 0.1,
+            max: 0.2,
             schema: [
                 [0,   'rgba(254, 240, 206, 1)'],
                 [0.5, 'rgba(253, 164, 93, 1)'],
-                [1, 'rgba(255, 30, 2, 1)']
+                [1,   'rgba(255, 30, 2, 1)']
             ]
-        },
-        // pvis: {
-        //     name: 'Pandemic Vulnerability Index',
-        //     min: 0,
-        //     mid: 0.5,
-        //     max: 1,
-        //     schema: [
-        //         [0,   'rgba(253, 231, 228, 1)'],
-        //         [0.5, 'rgba(240, 90, 158, 1)'],
-        //         [1, 'rgba(71, 1, 103, 1)']
-        //     ]
-        // }
+        }
     },
     fmt_comma: d3.format(","),
 
@@ -696,14 +726,62 @@ var fig_crrw_worldmap = {
                 }
             },
             methods: {
-                get_attr_colorscale_legend: function(attr_colorscale) {
-                    var style = "background: linear-gradient(90deg";
-                    for (var i = 0; i < attr_colorscale.schema.length; i++) {
-                        var schema_item = attr_colorscale.schema[i];
-                        style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
-                    } 
-                    style += ');'
+                get_attr_colorscale_legend: function(cs) {
+                    var style = '';
+                    if (cs.abbr == 'crcs') {
+                        style = "background: linear-gradient( to right, ";
+                        style += cs.schema[0][1] + ", ";
+                        style += cs.schema[0][1] + " 33%, ";
+                        style += cs.schema[1][1] + " 33%, ";
+                        style += cs.schema[1][1] + " 66%, ";
+                        style += cs.schema[2][1] + " 66%  ";
+                        style += ")";
+
+                    } else {
+                        style = "background: linear-gradient(90deg";
+                        for (var i = 0; i < cs.schema.length; i++) {
+                            var schema_item = cs.schema[i];
+                            style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
+                        } 
+                        style += ');'
+                    }
                     return style;
+                },
+                
+                get_attr_colorscale_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return '('+ 
+                            this.get_attr_colorscale_min_value_legend(cs) +
+                            ' - ' + 
+                            this.get_attr_colorscale_max_value_legend(cs) +
+                        ')';
+
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return '(Green, Yellow, Red)';
+
+                    } else {
+                        return '('+cs.min+' - '+cs.max+')';
+                    }
+                },
+
+                get_attr_colorscale_min_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return (cs.min*100).toFixed(1) +'%';
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return 'Green';
+                    } else {
+                        return cs.min;
+                    }
+                },
+
+                get_attr_colorscale_max_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return (cs.max*100).toFixed(1) +'%';
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return 'Red';
+                    } else {
+                        return cs.max;
+                    }
                 },
 
                 update_color: function(attr) {
@@ -984,6 +1062,7 @@ var fig_crrw_usmap = {
     colorscale: {
         cdts: {
             name: 'Case Doubling Time',
+            abbr: 'cdts',
             min: 0,
             mid: 50,
             max: 100,
@@ -995,6 +1074,7 @@ var fig_crrw_usmap = {
         },
         crcs: {
             name: 'CrRW Status',
+            abbr: 'crcs',
             min: 0,
             mid: 1,
             max: 2,
@@ -1006,9 +1086,10 @@ var fig_crrw_usmap = {
         },
         tcps: {
             name: 'Total Cases / Population',
+            abbr: 'tcps',
             min: 0,
-            mid: 0.05,
-            max: 0.1,
+            mid: 0.1,
+            max: 0.2,
             schema: [
                 [0,   'rgba(254, 240, 206, 1)'],
                 [0.5, 'rgba(253, 164, 93, 1)'],
@@ -1017,6 +1098,7 @@ var fig_crrw_usmap = {
         },
         pvis: {
             name: 'Pandemic Vulnerability Index',
+            abbr: 'pvis',
             min: 0.3,
             mid: 0.5,
             max: 0.7,
@@ -1028,9 +1110,10 @@ var fig_crrw_usmap = {
         },
         fvps: {
             name: 'Vaccinated 2nd Dose Percentage',
+            abbr: 'fvps',
             min: 0,
-            mid: 0.05,
-            max: 0.1,
+            mid: 0.1,
+            max: 0.2,
             schema: [
                 [0,   'rgba(255, 255, 255, 1)'],
                 [0.5, 'rgba(141, 199, 252, 1)'],
@@ -1076,14 +1159,62 @@ var fig_crrw_usmap = {
                 }
             },
             methods: {
-                get_attr_colorscale_legend: function(attr_colorscale) {
-                    var style = "background: linear-gradient(90deg";
-                    for (var i = 0; i < attr_colorscale.schema.length; i++) {
-                        var schema_item = attr_colorscale.schema[i];
-                        style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
-                    } 
-                    style += ');'
+                get_attr_colorscale_legend: function(cs) {
+                    var style = '';
+                    if (cs.abbr == 'crcs') {
+                        style = "background: linear-gradient( to right, ";
+                        style += cs.schema[0][1] + ", ";
+                        style += cs.schema[0][1] + " 33%, ";
+                        style += cs.schema[1][1] + " 33%, ";
+                        style += cs.schema[1][1] + " 66%, ";
+                        style += cs.schema[2][1] + " 66%  ";
+                        style += ")";
+
+                    } else {
+                        style = "background: linear-gradient(90deg";
+                        for (var i = 0; i < cs.schema.length; i++) {
+                            var schema_item = cs.schema[i];
+                            style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
+                        } 
+                        style += ');'
+                    }
                     return style;
+                },
+
+                get_attr_colorscale_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return '('+ 
+                            this.get_attr_colorscale_min_value_legend(cs) +
+                            ' - ' + 
+                            this.get_attr_colorscale_max_value_legend(cs) +
+                        ')';
+
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return '(Green, Yellow, Red)';
+
+                    } else {
+                        return '('+cs.min+' - '+cs.max+')';
+                    }
+                },
+
+                get_attr_colorscale_min_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return (cs.min*100).toFixed(1) +'%';
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return 'Green';
+                    } else {
+                        return cs.min;
+                    }
+                },
+
+                get_attr_colorscale_max_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return (cs.max*100).toFixed(1) +'%';
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return 'Red';
+                    } else {
+                        return cs.max;
+                    }
                 },
 
                 update_color: function(attr) {
@@ -1376,6 +1507,7 @@ var fig_crrw_stmap = {
     colorscale: {
         cdts: {
             name: 'Case Doubling Time',
+            abbr: 'cdts',
             min: 0,
             mid: 50,
             max: 100,
@@ -1387,35 +1519,38 @@ var fig_crrw_stmap = {
         },
         crcs: {
             name: 'CrRW Status',
+            abbr: 'crcs',
             min: 0,
             mid: 1,
             max: 2,
             schema: [
-                [0, 'green'],
+                [0,   'green'],
                 [0.5, 'gold'],
-                [1, 'red']
+                [1,   'red']
             ]
         },
         tcps: {
             name: 'Total Cases / Population',
+            abbr: 'tcps',
             min: 0,
-            mid: 0.05,
-            max: 0.1,
+            mid: 0.1,
+            max: 0.2,
             schema: [
                 [0,   'rgba(254, 240, 206, 1)'],
                 [0.5, 'rgba(253, 164, 93, 1)'],
-                [1, 'rgba(255, 30, 2, 1)']
+                [1,   'rgba(255, 30, 2, 1)']
             ]
         },
         pvis: {
             name: 'Pandemic Vulnerability Index',
+            abbr: 'pvis',
             min: 0.3,
             mid: 0.5,
             max: 0.7,
             schema: [
                 [0,   'rgba(253, 231, 228, 1)'],
                 [0.5, 'rgba(240, 90, 158, 1)'],
-                [1, 'rgba(71, 1, 103, 1)']
+                [1,   'rgba(71, 1, 103, 1)']
             ]
         }
     },
@@ -1523,14 +1658,62 @@ var fig_crrw_stmap = {
                 }
             },
             methods: {
-                get_attr_colorscale_legend: function(attr_colorscale) {
-                    var style = "background: linear-gradient(90deg";
-                    for (var i = 0; i < attr_colorscale.schema.length; i++) {
-                        var schema_item = attr_colorscale.schema[i];
-                        style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
-                    } 
-                    style += ');'
+                get_attr_colorscale_legend: function(cs) {
+                    var style = '';
+                    if (cs.abbr == 'crcs') {
+                        style = "background: linear-gradient( to right, ";
+                        style += cs.schema[0][1] + ", ";
+                        style += cs.schema[0][1] + " 33%, ";
+                        style += cs.schema[1][1] + " 33%, ";
+                        style += cs.schema[1][1] + " 66%, ";
+                        style += cs.schema[2][1] + " 66%  ";
+                        style += ")";
+
+                    } else {
+                        style = "background: linear-gradient(90deg";
+                        for (var i = 0; i < cs.schema.length; i++) {
+                            var schema_item = cs.schema[i];
+                            style += ', ' + schema_item[1] + ' ' + (schema_item[0] * 100) + '%'
+                        } 
+                        style += ');'
+                    }
                     return style;
+                },
+                
+                get_attr_colorscale_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return '('+ 
+                            this.get_attr_colorscale_min_value_legend(cs) +
+                            ' - ' + 
+                            this.get_attr_colorscale_max_value_legend(cs) +
+                        ')';
+
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return '(Green, Yellow, Red)';
+
+                    } else {
+                        return '('+cs.min+' - '+cs.max+')';
+                    }
+                },
+
+                get_attr_colorscale_min_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return (cs.min*100).toFixed(1) +'%';
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return 'Green';
+                    } else {
+                        return cs.min;
+                    }
+                },
+
+                get_attr_colorscale_max_value_legend: function(cs) {
+                    if (['tcps', 'fvps'].indexOf(cs.abbr)>=0) {
+                        return (cs.max*100).toFixed(1) +'%';
+                    } else if (['crcs'].indexOf(cs.abbr)>=0) {
+                        return 'Red';
+                    } else {
+                        return cs.max;
+                    }
                 },
 
                 update_color: function(attr) {
