@@ -226,6 +226,10 @@ p {
                     onclick="jarvis.modal('About CrRW and how to use this website',$('#about-text').html());">
                     <i class="fa fa-question-circle"></i>
                     About
+                </a> |
+                <a href="https://github.com/OHNLP/covid19tracking" target="_blank">
+                    <i class="fa fa-github"></i>
+                    Source Code
                 </a>
             </div>
         </div>
@@ -640,6 +644,7 @@ if (isIE) {
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@4.5.0/dist/echarts.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
 
 <script>
 
@@ -2525,6 +2530,13 @@ var figmker_crrw_calendar = {
             visualMap: false
         }];
         
+        // 2021-02-28: let the script decide the last date by itself
+        var dt_end = dayjs()
+            .set('month', (dayjs().month() + 2))
+            .set('date', 1)
+            .subtract(1, 'day')
+            .format('YYYY-MM-DD');
+
         // put the calendar
         fig.option = {
             tooltip: {
@@ -2552,7 +2564,7 @@ var figmker_crrw_calendar = {
                 top: 18,
                 left: 50,
                 cellSize: 10,
-                range: ['2020-01-01', '2021-02-28'],
+                range: ['2020-01-01', dt_end],
                 monthLabel: {
                     show: true,
                     fontSize: 10,
